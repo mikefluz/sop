@@ -352,7 +352,7 @@
                     <div class="row"><span class="lbl">Skillnad efter skattereduktion:</span><span class="diff-tag" id="diffPostTag">0 kr</span></div>
                     <div class="row" style="border:none; margin-top: 10px;">
                         <span class="lbl" style="font-weight:800; color:var(--text-main);">BESPARING PER ÅR (NETTO):</span>
-                        <span class="val" style="font-size: 18px; color: var(--accent);" id="diffYear">0 kr</span>
+                        <span class="val" style="font-size: 18px;" id="diffYear">0 kr</span>
                     </div>
                 </div>
                 <div id="winnerPill" class="winner-pill"></div>
@@ -489,7 +489,10 @@
             el('diffPostTag').textContent = `${nfmt(Math.abs(dPost))} kr (${dPost <= 0 ? 'billigare' : 'dyrare'})`;
             el('diffPostTag').className = `diff-tag ${dPost <= 0 ? 'tag-success' : 'tag-danger'}`;
             
+            // Fix: Ändrar färg på årsbesparing beroende på om det är billigare eller dyrare
             el('diffYear').textContent = `${nfmt(Math.abs(dPost*12))} kr ${dPost <= 0 ? 'billigare' : 'dyrare'}`;
+            el('diffYear').style.color = dPost <= 0 ? 'var(--accent)' : 'var(--danger)';
+            
             el('winnerPill').style.display = 'block';
             el('winnerPill').textContent = dPost <= 0 ? '✓ Billigast: Ditt upplägg' : '✗ Billigast: Konkurrent';
             el('winnerPill').style.background = dPost <= 0 ? 'var(--accent)' : 'var(--danger)';
