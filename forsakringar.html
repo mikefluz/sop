@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Sitt Säkert - Outlook Pro V11</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f9; margin: 0; padding: 30px; }
+        .wrapper { max-width: 1100px; margin: 0 auto; display: flex; gap: 30px; }
+        .settings { background: white; padding: 25px; border-radius: 10px; width: 380px; flex-shrink: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 1px solid #d1d9e0; }
+        .preview { flex-grow: 1; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 12px; color: #555; text-transform: uppercase; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .btn-copy { background: #002e52; color: white !important; border: none; padding: 15px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; margin-bottom: 15px; font-size: 16px; }
+        #copyMsg { display: none; background: #28a745; color: white; padding: 10px; border-radius: 5px; text-align: center; margin-bottom: 10px; }
+        .ins-box { background: #f9f9f9; padding: 12px; border-radius: 6px; margin-bottom: 10px; border: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="settings">
+        <h2 style="color:#002e52; margin-top:0;">📧 Erbjudandegenerator</h2>
+        <div class="form-group">
+            <label>Kundens Namn</label>
+            <input type="text" id="cName" placeholder="Namn" oninput="render()">
+        </div>
+        <div class="form-group">
+            <label>Ålder</label>
+            <select id="cAge" onchange="render()">
+                <option value="18-25">18-25 år</option><option value="26-30">26-30 år</option>
+                <option value="31-35" selected>31-35 år</option><option value="36-40">36-40 år</option>
+                <option value="41-45">41-45 år</option><option value="46-50">46-50 år</option>
+                <option value="51-55">51-55 år</option><option value="56-60">56-60 år</option>
+                <option value="61-65">61-65 år</option>
+            </select>
+        </div>
+        <div class="ins-box">
+            <label><input type="checkbox" id="cLiv" checked onchange="render()"> ❤️ Sitt Säkert Liv</label>
+            <select id="aLiv" onchange="render()" style="margin-top:5px">
+                <option value="1000000">1 000 000 kr</option><option value="2000000" selected>2 000 000 kr</option>
+                <option value="3000000">3 000 000 kr</option>
+            </select>
+        </div>
+        <div class="ins-box">
+            <label><input type="checkbox" id="cInk" checked onchange="render()"> 🛡️ Sitt Säkert Inkomst</label>
+            <select id="aInk" onchange="render()" style="margin-top:5px">
+                <option value="2000">2 000 kr/mån</option><option value="5000" selected>5 000 kr/mån</option>
+                <option value="8000">8 000 kr/mån</option>
+                <option value="11000">11 000 kr/mån</option>
+                <option value="14000">14 000 kr/mån</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="preview">
+        <div id="copyMsg">✓ Mejlet är kopierat! Klistra in i Outlook (Ctrl+V)</div>
+        <button class="btn-copy" onclick="copy()">📋 KOPIERA MEJL TILL OUTLOOK</button>
+        <div id="target" style="background: white; padding: 40px; border: 1px solid #ccc;">
+            <!-- Mail content -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const livP = { "18-25": {1000000: 51, 2000000: 102, 3000000: 153}, "26-30": {1000000: 55, 2000000: 110, 3000000: 165}, "31-35": {1000000: 65, 2000000: 130, 3000000: 195}, "36-40": {1000000: 75, 2000000: 149, 3000000: 224}, "41-45": {1000000: 117, 2000000: 235, 3000000: 352}, "46-50": {1000000: 165, 2000000: 329, 3000000: 494}, "51-55": {1000000: 311, 2000000: 623, 3000000: 934}, "56-60": {1000000: 566, 2000000: 1132, 3000000: 1698}, "61-65": {1000000: 1097, 2000000: 2193, 3000000: 3290} };
+    const inkP = { "18-25": {2000: 80, 5000: 200, 8000: 320, 11000: 439, 14000: 559}, "26-30": {2000: 80, 5000: 200, 8000: 320, 11000: 439, 14000: 559}, "31-35": {2000: 80, 5000: 200, 8000: 320, 11000: 439, 14000: 559}, "36-40": {2000: 80, 5000: 200, 8000: 320, 11000: 439, 14000: 559}, "41-45": {2000: 80, 5000: 200, 8000: 320, 11000: 439, 14000: 559}, "46-50": {2000: 80, 5000: 200, 8000: 320, 11000: 439, 14000: 559}, "51-55": {2000: 81, 5000: 203, 8000: 325, 11000: 447, 14000: 569}, "56-60": {2000: 92, 5000: 230, 8000: 368, 11000: 506, 14000: 643}, "61-65": {2000: 106, 5000: 265, 8000: 424, 11000: 583, 14000: 742} };
+
+    function f(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+
+    function render() {
+        const name = document.getElementById('cName').value.trim() || "Bästa kund";
+        const firstName = name.split(' ')[0];
+        const age = document.getElementById('cAge').value;
+        const incL = document.getElementById('cLiv').checked;
+        const incI = document.getElementById('cInk').checked;
+        
+        let pL = 0, aL = 0; if(incL) { aL = parseInt(document.getElementById('aLiv').value); pL = livP[age][aL]; }
+        let pI = 0, aI = 0; if(incI) { aI = parseInt(document.getElementById('aInk').value); pI = inkP[age][aI]; }
+
+        let url = (incL && aL > 1000000) ? 'https://soderberg.jaycom.se/sp_bolan_teckna_med_halsodeklaration' : 'https://soderberg.jaycom.se/sp_bolan_teckna_utan_halsodeklaration';
+
+        let html = `
+        <table align="left" border="0" cellpadding="0" cellspacing="0" width="580" style="width:580px; font-family: Arial, sans-serif; color: #333333; line-height: 1.5;">
+            <tr>
+                <td style="padding-bottom: 10px;">
+                    <p style="font-size: 16px; margin: 0 0 10px 0;">Hej ${firstName},</p>
+                    <p style="font-size: 15px; margin: 0 0 10px 0;">Tack för vårt samtal! Här kommer sammanställningen på din bolåneförsäkring Sitt Säkert. Förköpsinformation och prismatris finns bifogat.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 30px;">
+                    <table border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td align="center" bgcolor="#002e52" style="border-radius: 4px; padding: 14px 25px;">
+                                <a href="${url}" target="_blank" style="font-size: 15px; font-weight: bold; color: #ffffff !important; text-decoration: none; display: inline-block;">
+                                    <span style="color: #ffffff !important;">KLICKA HÄR FÖR ATT ANSÖKA OM FÖRSÄKRINGARNA &raquo;</span>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-top: 5px; border-top: 2px solid #002e52;">
+                    <h3 style="font-size: 18px; color: #002e52; margin: 15px 0;">Sammanfattning av förslaget:</h3>
+                </td>
+            </tr>
+        `;
+
+        if(incL) {
+            html += `
+            <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eeeeee;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td valign="top" style="font-size: 15px;">
+                                <strong style="color: #004b8d;">❤️ Sitt Säkert Liv</strong><br>
+                                <span style="font-size: 12px; color: #666;">Ekonomisk trygghet för dina närstående. Utbetalas vid dödsfall.</span>
+                            </td>
+                            <td align="right" valign="top" width="160" style="width:160px; font-size: 15px; white-space: nowrap;">
+                                <strong>${f(aL)} kr</strong><br>
+                                <span style="font-size: 12px; color: #666;">${pL} kr/mån</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            `;
+        }
+
+        if(incI) {
+            html += `
+            <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #eeeeee;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td valign="top" style="font-size: 15px;">
+                                <strong style="color: #004b8d;">🛡️ Sitt Säkert Inkomst</strong><br>
+                                <span style="font-size: 12px; color: #666;">Ersättning vid arbetsoförmåga och ofrivillig arbetslöshet.</span>
+                            </td>
+                            <td align="right" valign="top" width="160" style="width:160px; font-size: 15px; white-space: nowrap;">
+                                <strong>${f(aI)} kr/mån</strong><br>
+                                <span style="font-size: 12px; color: #666;">${pI} kr/mån</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            `;
+        }
+
+        html += `
+            <tr>
+                <td style="padding: 15px 0;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="10" bgcolor="#f4f7f9">
+                        <tr>
+                            <td style="font-size: 13px; font-weight: bold; color: #666;">TOTAL MÅNADSKOSTNAD:</td>
+                            <td align="right" width="160" style="width:160px; font-size: 20px; font-weight: bold; color: #002e52;">${pL + pI} kr/mån</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-top: 25px; border-top: 1px solid #eee;">
+                    <p style="margin: 0 0 10px;"><strong style="color: #004b8d; text-transform: uppercase; font-size: 12px;">Mer information</strong></p>
+                    <p style="margin: 0 0 5px; font-size: 13px;">Webbplats: <a href="https://www.soderbergpartners.se/bolan/forsakringar/" style="color: #007cba;">soderbergpartners.se/bolan/forsakringar</a></p>
+                    <p style="margin: 0 0 10px; font-size: 13px;">Kundservice: 08-466 80 40</p>
+                    
+                    <p style="margin: 0 0 20px; font-size: 13px; line-height: 1.4;">Försäkringarna gäller oberoende av bolånet och utbetalas oberoende av andra försäkringar. Ett beviljat bolån är en förutsättning för att kunna teckna försäkringarna. Försäkringarna har ingen bindningstid.</p>
+                    
+                    <p style="margin: 0 0 25px; font-style: italic; font-size: 11px; color: #777;">Detta erbjudande är baserat på uppgiven ålder och önskat försäkringsbelopp.</p>
+                    
+                    <p style="margin: 0; font-size: 14px;">Med vänlig hälsning,<br><strong style="font-size: 15px; color: #002e52;">Söderberg & Partners Bolån</strong></p>
+                </td>
+            </tr>
+        </table>
+        `;
+        document.getElementById('target').innerHTML = html;
+    }
+
+    function copy() {
+        const el = document.getElementById('target');
+        const range = document.createRange();
+        range.selectNode(el);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+        document.getElementById('copyMsg').style.display = 'block';
+        setTimeout(() => document.getElementById('copyMsg').style.display = 'none', 3000);
+    }
+    window.onload = render;
+</script>
+</body>
+</html>
