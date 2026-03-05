@@ -20,6 +20,31 @@
             --radius: 12px;
         }
 
+        /* Light Mode Overrides */
+        body.light-mode {
+            --bg: #f3f4f6;
+            --card: #ffffff;
+            --card-hover: #f9fafb;
+            --border: rgba(0, 0, 0, 0.1);
+            --text-main: #111827;
+            --text-soft: #4b5563;
+            --primary-glow: rgba(6, 182, 212, 0.1);
+            background-image: radial-gradient(circle at top right, #dbeafe, transparent);
+        }
+
+        body.light-mode .input-box {
+            background: #fff;
+            border: 1px solid #d1d5db;
+        }
+
+        body.light-mode input {
+            color: #111827;
+        }
+
+        body.light-mode .badge {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
         body {
@@ -30,6 +55,7 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
+            transition: background-color 0.3s ease;
         }
 
         .container {
@@ -132,7 +158,7 @@
         .part-head { display: flex; justify-content: space-between; margin-bottom: 12px; }
         .status-dot { font-size: 9px; font-weight: 800; background: var(--primary-glow); color: var(--primary); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--primary); }
 
-        /* PDF / Print */
+        /* PDF / Print / UI Buttons */
         .print-fab {
             position: fixed;
             bottom: 30px;
@@ -149,9 +175,25 @@
             z-index: 100;
         }
 
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 210px;
+            background: var(--card);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 8px;
+            z-index: 100;
+        }
+
         @media print {
+            .print-fab, .theme-toggle, .toggle-icon, .card-header::after { display: none !important; }
             body { background: #fff; color: #000; padding: 0; }
-            .print-fab, .toggle-icon, .card-header::after { display: none !important; }
             .container { grid-template-columns: 1fr; gap: 0; }
             .card { border: none; background: #fff; border-bottom: 1px solid #eee; border-radius: 0; box-shadow: none; }
             .card-content { display: block !important; }
@@ -163,6 +205,10 @@
     </style>
 </head>
 <body>
+
+<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+    <span>☀️</span> LIGHT MODE
+</button>
 
 <button class="print-fab" onclick="window.print()">
     <span>📄</span> GENERERA PDF
@@ -342,6 +388,12 @@
     const pfmt = v => v.toLocaleString('sv-SE', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %';
 
     function toggle(id) { el(id).classList.toggle('collapsed'); }
+
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        el('themeBtn').innerHTML = isLight ? '<span>🌙</span> DARK MODE' : '<span>☀️</span> LIGHT MODE';
+    }
 
     function init() {
         const n = parseInt(el('numParts').value) || 1;
