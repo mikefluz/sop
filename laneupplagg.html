@@ -300,7 +300,7 @@
                     </div>
                     <div class="field">
                         <label class="internal-only">Prod.pris HP/ÖBL <span class="internal-badge">Intern</span></label>
-                        <div class="input-box internal-only"><input type="number" id="bridgeProd" step="0.01" value=""><span class="unit">%</span></div>
+                        <div class="input-box internal-only" style="border-color: var(--danger);"><input type="number" id="bridgeProd" step="0.01" value=""><span class="unit">%</span></div>
                     </div>
                 </div>
             </div>
@@ -354,10 +354,14 @@
                     </div>
                 </div>
                 <div style="margin: 15px 0; border-top: 1px dashed var(--border);"></div>
+                <div class="row"><span class="lbl">Total bolånekostnad före skatt:</span><span class="val" id="detTotalPre">0 kr/mån</span></div>
+                <div class="sub-desc">Ränta + Amortering</div>
                 <div class="row"><span class="lbl" style="font-weight:700;">Total bolånekostnad efter skatt:</span><span class="val" id="detTotalPost" style="color: var(--accent); font-size: 15px;">0 kr/mån</span></div>
+                <div class="sub-desc">Ränta (efter skatt) + Amortering</div>
             </div>
         </div>
 
+        <!-- JÄMFÖRELSE SEKTION -->
         <div class="card" id="secComp" style="display:none;">
             <div class="card-header" onclick="toggle('secComp')">
                 <h2>Jämförelse med Konkurrent</h2>
@@ -368,11 +372,18 @@
                     <thead><tr><th>POST</th><th>DITT UPPLÄGG</th><th>KONKURRENT</th></tr></thead>
                     <tbody>
                         <tr><td>Viktad ränta</td><td id="cYourRate">0%</td><td id="cCompRate">0%</td></tr>
-                        <tr><td>Efter skatt (30%)</td><td id="cYourPost">0 kr</td><td id="cCompPost">0 kr</td></tr>
+                        <tr><td>Räntekostnad / mån</td><td id="cYourInt">0 kr</td><td id="cCompInt">0 kr</td></tr>
+                        <tr><td>Efter skatt (30%) / år</td><td id="cYourPostYear">0 kr</td><td id="cCompPostYear">0 kr</td></tr>
                     </tbody>
                 </table>
                 <div style="margin-top: 20px;">
-                    <div class="row"><span class="lbl">BESPARING PER ÅR (NETTO):</span><span class="val" style="font-size: 18px;" id="diffYear">0 kr</span></div>
+                    <div class="row"><span class="lbl">Skillnad före skatt / mån:</span><span class="diff-tag" id="diffPreTag">0 kr</span></div>
+                    <div class="row"><span class="lbl">Skillnad efter skatt / mån:</span><span class="diff-tag" id="diffPostTag">0 kr</span></div>
+                    <div style="margin: 15px 0; border-top: 1px dashed var(--border); opacity: 0.3;"></div>
+                    <div class="row" style="border:none;">
+                        <span class="lbl" style="font-weight:800; color:var(--text-main);">BESPARING PER ÅR (NETTO):</span>
+                        <span class="val" style="font-size: 18px;" id="diffYear">0 kr</span>
+                    </div>
                 </div>
                 <div id="winnerPill" class="winner-pill"></div>
             </div>
@@ -492,7 +503,7 @@
             const r = parseFloat(p.querySelector('.p-rate').value) || 0;
             const c = parseFloat(p.querySelector('.p-comp').value) || 0;
             const prInput = p.querySelector('.p-prod').value;
-            const pr = prInput === "" ? r : parseFloat(prInput); // Default till kundränta om tomt
+            const pr = prInput === "" ? r : parseFloat(prInput);
             if(a > 0) {
                 act++; sAmt += a; wSum += (a*r); wProdSum += (a*pr); mSum += (a * (r - pr));
                 if(c > 0) { cWSum += (a*c); hasC = true; }
@@ -517,24 +528,38 @@
         el('detBase').textContent = nfmt(sAmt) + ' kr';
         el('detInt').textContent = nfmt(mInt) + ' kr';
         el('detAm').textContent = nfmt(amort) + ' kr';
+        el('detTotalPre').textContent = nfmt(mInt + amort) + ' kr/mån';
         el('detTotalPost').textContent = nfmt(netInt + amort) + ' kr/mån';
 
         const diff = sAmt - totalLan;
         el('resDiff').textContent = nfmt(diff) + ' kr';
         el('resDiff').style.color = diff === 0 ? 'var(--accent)' : 'var(--danger)';
 
+        // Jämförelse
         if(hasC && sAmt > 0) {
             el('secComp').style.display = 'block';
             el('cYourRate').textContent = pfmt(wRate);
-            el('cYourPost').textContent = nfmt(netInt) + ' kr';
+            el('cYourInt').textContent = nfmt(mInt) + ' kr';
+            el('cYourPostYear').textContent = nfmt(netInt * 12) + ' kr';
+
             const cRate = cWSum/sAmt;
-            const netIntC = ((sAmt * (cRate/100)) / 12) * 0.7;
+            const mIntC = (sAmt * (cRate/100)) / 12;
+            const netIntC = mIntC * 0.7;
+
             el('cCompRate').textContent = pfmt(cRate);
-            el('cCompPost').textContent = nfmt(netIntC) + ' kr';
+            el('cCompInt').textContent = nfmt(mIntC) + ' kr';
+            el('cCompPostYear').textContent = nfmt(netIntC * 12) + ' kr';
+
+            const dPre = mInt - mIntC;
             const dPost = netInt - netIntC;
+
+            el('diffPreTag').textContent = `${nfmt(Math.abs(dPre))} kr (${dPre <= 0 ? 'lägre' : 'högre'})`;
+            el('diffPreTag').className = `diff-tag ${dPre <= 0 ? 'tag-success' : 'tag-danger'}`;
+            el('diffPostTag').textContent = `${nfmt(Math.abs(dPost))} kr (${dPost <= 0 ? 'lägre' : 'högre'})`;
+            el('diffPostTag').className = `diff-tag ${dPost <= 0 ? 'tag-success' : 'tag-danger'}`;
+            
             el('diffYear').textContent = `${nfmt(Math.abs(dPost*12))} kr ${dPost <= 0 ? 'billigare' : 'dyrare'}`;
             el('diffYear').style.color = dPost <= 0 ? 'var(--accent)' : 'var(--danger)';
-            el('winnerPill').style.display = 'block';
             el('winnerPill').textContent = dPost <= 0 ? '✓ Billigast: Ditt upplägg' : '✗ Billigast: Konkurrent';
             el('winnerPill').style.background = dPost <= 0 ? 'var(--accent)' : 'var(--danger)';
         } else { el('secComp').style.display = 'none'; }
@@ -555,27 +580,22 @@
         el('outOblInt').textContent = nfmt(oblI) + ' kr';
         el('outBridgeTotal').textContent = nfmt(hpI + oblI) + ' kr';
 
-        // MARGINAL RESULTAT
+        // MARGINAL
         const mLoanYear = mSum / 100;
         const mBolanBPS = wRate - wProdRate;
         el('margBolanBPS').textContent = pfmt(mBolanBPS);
         updateColor('margBolanBPS', mBolanBPS);
-
         el('margLoanMon').textContent = nfmt(mLoanYear / 12) + ' kr';
         updateColor('margLoanMon', mLoanYear);
-        
         el('margLoanYear').textContent = nfmt(mLoanYear) + ' kr';
         updateColor('margLoanYear', mLoanYear);
-        
         const currentBridgeRate = hpA > 0 ? hpR : oblR;
         const mBridgeBPS = brProdInput === "" ? 0 : currentBridgeRate - brProd;
         el('margBridgeBPS').textContent = pfmt(mBridgeBPS);
         updateColor('margBridgeBPS', mBridgeBPS);
-
         const mBridgeTot = hpM + oblM;
         el('margBridge').textContent = nfmt(mBridgeTot) + ' kr';
         updateColor('margBridge', mBridgeTot);
-
         const mGrandTotal = mLoanYear + mBridgeTot;
         el('margTotal').textContent = nfmt(mGrandTotal) + ' kr';
         updateColor('margTotal', mGrandTotal);
