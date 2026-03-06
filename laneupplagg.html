@@ -1,3 +1,5 @@
+--- START OF FILE laneupplagg.html ---
+
 <!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -123,6 +125,11 @@
             outline: none;
         }
 
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.5);
+            cursor: pointer;
+        }
+
         .unit { font-size: 10px; color: var(--text-soft); padding-right: 12px; font-weight: 600; }
         .helper { font-size: 10px; color: var(--text-soft); margin-top: 4px; line-height: 1.4; }
 
@@ -232,7 +239,7 @@
                 <div class="grid-2">
                     <div class="field">
                         <label>Total Lånebelopp</label>
-                        <div class="input-box"><input type="number" id="totalLan" value="1000000"><span class="unit">kr</span></div>
+                        <div class="input-box"><input type="text" id="totalLan" value="1 000 000" class="format-amt"><span class="unit">kr</span></div>
                         <div class="helper">Summan som fördelas över delarna.</div>
                     </div>
                     <div class="field">
@@ -266,6 +273,54 @@
                     <div class="input-box"><input type="number" id="numParts" value="1" min="1" max="5"><span class="unit">delar</span></div>
                 </div>
                 <div id="partsContainer"></div>
+            </div>
+        </div>
+
+        <!-- 03: TILLFÄLLIGA LÅN -->
+        <div class="card" id="secBridgeIn">
+            <div class="card-header" onclick="toggle('secBridgeIn')">
+                <h2>03. Handpenning & Överbryggning</h2>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="card-content">
+                <p style="font-size: 10px; color: var(--text-soft); margin-bottom: 15px; font-style: italic;">Beräknas enligt 360-dagarsmetoden utan skattereduktion.</p>
+                
+                <div class="grid-2">
+                    <div class="field">
+                        <label>Handpenningslån (HP)</label>
+                        <div class="input-box"><input type="text" id="hpAmt" value="0" class="format-amt"><span class="unit">kr</span></div>
+                    </div>
+                    <div class="field">
+                        <label>Ränta HP (%)</label>
+                        <div class="input-box"><input type="number" id="hpRate" step="0.01" value="5.50"><span class="unit">%</span></div>
+                    </div>
+                    <div class="field">
+                        <label>Utbetalningsdag HP</label>
+                        <div class="input-box"><input type="date" id="hpDate"></div>
+                    </div>
+                    <div class="field">
+                        <label>Tillträdesdag</label>
+                        <div class="input-box"><input type="date" id="moveInDate"></div>
+                        <div class="helper">HP-lån löses / ÖBL startar.</div>
+                    </div>
+
+                    <div style="grid-column: span 2; border-top: 1px dashed var(--border); margin: 10px 0;"></div>
+
+                    <div class="field">
+                        <label>Överbryggningslån (ÖBL)</label>
+                        <div class="input-box"><input type="text" id="oblAmt" value="0" class="format-amt"><span class="unit">kr</span></div>
+                        <div class="helper">Totalbelopp inkl. HP.</div>
+                    </div>
+                    <div class="field">
+                        <label>Ränta ÖBL (%)</label>
+                        <div class="input-box"><input type="number" id="oblRate" step="0.01" value="5.50"><span class="unit">%</span></div>
+                    </div>
+                    <div class="field" style="grid-column: span 2;">
+                        <label>Lösendag ÖBL</label>
+                        <div class="input-box"><input type="date" id="moveOutDate"></div>
+                        <div class="helper">Frånträdesdag.</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -359,6 +414,35 @@
             </div>
         </div>
 
+        <!-- RESULTAT TILLFÄLLIGA LÅN -->
+        <div class="card" id="secBridgeRes" style="border-left: 4px solid var(--primary);">
+            <div class="card-header" onclick="toggle('secBridgeRes')">
+                <h2 style="color: var(--primary);">Kostnad: HP & Överbryggning</h2>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <span class="lbl">Handpenning (HP) ränta:</span>
+                    <span class="val" id="outHpInt">0 kr</span>
+                </div>
+                <div class="sub-desc" id="outHpDays">0 dagar ränteperiod</div>
+                
+                <div class="row">
+                    <span class="lbl">Överbryggning (ÖBL) ränta:</span>
+                    <span class="val" id="outOblInt">0 kr</span>
+                </div>
+                <div class="sub-desc" id="outOblDays">0 dagar ränteperiod</div>
+
+                <div style="margin: 15px 0; border-top: 1px dashed var(--border);"></div>
+                
+                <div class="row" style="margin-top: 10px;">
+                    <span class="lbl" style="font-weight:800; color:var(--text-main);">TOTAL RÄNTEKOSTNAD:</span>
+                    <span class="val" style="font-size: 18px; color: var(--primary);" id="outBridgeTotal">0 kr</span>
+                </div>
+                <p class="sub-desc" style="margin-top: 5px;">* Ingen skattereduktion inräknad i denna sektion.</p>
+            </div>
+        </div>
+
         <!-- STATS & FÖRSÄKRING -->
         <div class="card" id="secStats">
             <div class="card-header" onclick="toggle('secStats')">
@@ -387,6 +471,37 @@
     const nfmt = v => Math.round(v).toLocaleString('sv-SE');
     const pfmt = v => v.toLocaleString('sv-SE', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %';
 
+    // Hjälpfunktion för att tvätta formaterade strängar till rena tal
+    const parseFormatted = val => {
+        if (typeof val === 'string') {
+            return parseFloat(val.replace(/\s/g, '').replace(',', '.')) || 0;
+        }
+        return parseFloat(val) || 0;
+    };
+
+    // Realtidsformatering av beloppsfält
+    function handleInputFormatting(e) {
+        let cursor = e.target.selectionStart;
+        let originalValue = e.target.value;
+        let digitsOnly = originalValue.replace(/\D/g, '');
+        
+        if (digitsOnly === "") {
+            e.target.value = "";
+            calculate();
+            return;
+        }
+
+        let formatted = parseInt(digitsOnly).toLocaleString('sv-SE').replace(/\xa0/g, ' ');
+        
+        // Justera markörens position baserat på tillagda mellanslag
+        let spacesBefore = (originalValue.substring(0, cursor).match(/\s/g) || []).length;
+        e.target.value = formatted;
+        let spacesAfter = (formatted.substring(0, cursor).match(/\s/g) || []).length;
+        e.target.setSelectionRange(cursor + (spacesAfter - spacesBefore), cursor + (spacesAfter - spacesBefore));
+
+        calculate();
+    }
+
     function toggle(id) { el(id).classList.toggle('collapsed'); }
 
     function toggleTheme() {
@@ -395,19 +510,28 @@
         el('themeBtn').innerHTML = isLight ? '<span>🌙</span> DARK MODE' : '<span>☀️</span> LIGHT MODE';
     }
 
+    function diffDays(d1, d2) {
+        if(!d1 || !d2) return 0;
+        const start = new Date(d1);
+        const end = new Date(d2);
+        const diff = (end - start) / (1000 * 60 * 60 * 24);
+        return diff > 0 ? Math.round(diff) : 0;
+    }
+
     function init() {
         const n = parseInt(el('numParts').value) || 1;
-        const total = parseFloat(el('totalLan').value) || 0;
+        const total = parseFormatted(el('totalLan').value);
         const container = el('partsContainer');
         container.innerHTML = '';
         
         for(let i=1; i<=n; i++) {
             const div = document.createElement('div');
             div.className = 'loan-part';
+            let partVal = Math.round(total/n).toLocaleString('sv-SE').replace(/\xa0/g, ' ');
             div.innerHTML = `
                 <div class="part-head"><span style="font-size:11px; font-weight:800;">DEL ${i}</span> <span class="status-dot">AKTIV</span></div>
                 <div class="grid-2">
-                    <div class="field"><label>Belopp</label><div class="input-box"><input type="number" class="p-amt" value="${Math.round(total/n)}"><span class="unit">kr</span></div></div>
+                    <div class="field"><label>Belopp</label><div class="input-box"><input type="text" class="p-amt format-amt" value="${partVal}"><span class="unit">kr</span></div></div>
                     <div class="field"><label>Din Ränta %</label><div class="input-box"><input type="number" class="p-rate" step="0.01" value="3.50"><span class="unit">%</span></div></div>
                     <div class="field" style="grid-column: span 2;"><label>Konkurrentränta %</label><div class="input-box"><input type="number" class="p-comp" step="0.01" value="4.20"><span class="unit">%</span></div></div>
                 </div>`;
@@ -418,7 +542,8 @@
     }
 
     function calculate() {
-        const totalLan = parseFloat(el('totalLan').value) || 0;
+        // --- BOLÅN LOGIK ---
+        const totalLan = parseFormatted(el('totalLan').value);
         const amort = parseFloat(el('amort').value) || 0;
         const sLiv = parseFloat(el('ssLiv').value) || 0;
         const sInk = parseFloat(el('ssInkomst').value) || 0;
@@ -427,7 +552,7 @@
         let sAmt = 0, wSum = 0, cWSum = 0, act = 0, hasC = false;
 
         document.querySelectorAll('.loan-part').forEach(p => {
-            const a = parseFloat(p.querySelector('.p-amt').value) || 0;
+            const a = parseFormatted(p.querySelector('.p-amt').value);
             const r = parseFloat(p.querySelector('.p-rate').value) || 0;
             const c = parseFloat(p.querySelector('.p-comp').value) || 0;
             if(a > 0) {
@@ -443,7 +568,6 @@
         const netInt = mInt * 0.7;
         const netIntC = mIntC * 0.7;
 
-        // UI Main
         el('resFore').innerHTML = `${nfmt(mInt + amort + sIns)} <span>kr/mån</span>`;
         el('resEfter').innerHTML = `${nfmt(netInt + amort + sIns)} <span>kr/mån</span>`;
         el('tagRFore').textContent = `Ränta: ${nfmt(mInt)} kr`;
@@ -453,7 +577,6 @@
         document.querySelectorAll('.vAmort').forEach(x => x.textContent = nfmt(amort));
         document.querySelectorAll('.vIns').forEach(x => x.textContent = nfmt(sIns));
 
-        // Details
         el('detWRate').textContent = pfmt(wRate);
         el('detBase').textContent = nfmt(sAmt) + ' kr';
         el('detInt').textContent = nfmt(mInt) + ' kr';
@@ -463,7 +586,6 @@
         el('detTotalPre').textContent = nfmt(mInt + amort) + ' kr/mån';
         el('detTotalPost').textContent = nfmt(netInt + amort) + ' kr/mån';
 
-        // Stats
         el('resAct').textContent = act + ' st';
         el('resSum').textContent = nfmt(sAmt) + ' kr';
         el('resDiff').textContent = nfmt(sAmt - totalLan) + ' kr';
@@ -471,7 +593,6 @@
         el('outInk').textContent = nfmt(sInk) + ' kr';
         el('outTIns').textContent = nfmt(sIns) + ' kr';
 
-        // Comp
         if(hasC && sAmt > 0) {
             el('secComp').style.display = 'block';
             el('cYourRate').textContent = pfmt(wRate);
@@ -480,31 +601,63 @@
             el('cCompRate').textContent = pfmt(cRate);
             el('cCompInt').textContent = nfmt(mIntC) + ' kr';
             el('cCompPost').textContent = nfmt(netIntC) + ' kr';
-
             const dPre = mInt - mIntC;
             const dPost = netInt - netIntC;
-
             el('diffPreTag').textContent = `${nfmt(Math.abs(dPre))} kr (${dPre <= 0 ? 'billigare' : 'dyrare'})`;
             el('diffPreTag').className = `diff-tag ${dPre <= 0 ? 'tag-success' : 'tag-danger'}`;
             el('diffPostTag').textContent = `${nfmt(Math.abs(dPost))} kr (${dPost <= 0 ? 'billigare' : 'dyrare'})`;
             el('diffPostTag').className = `diff-tag ${dPost <= 0 ? 'tag-success' : 'tag-danger'}`;
-            
-            // Fix: Ändrar färg på årsbesparing beroende på om det är billigare eller dyrare
             el('diffYear').textContent = `${nfmt(Math.abs(dPost*12))} kr ${dPost <= 0 ? 'billigare' : 'dyrare'}`;
             el('diffYear').style.color = dPost <= 0 ? 'var(--accent)' : 'var(--danger)';
-            
             el('winnerPill').style.display = 'block';
             el('winnerPill').textContent = dPost <= 0 ? '✓ Billigast: Ditt upplägg' : '✗ Billigast: Konkurrent';
             el('winnerPill').style.background = dPost <= 0 ? 'var(--accent)' : 'var(--danger)';
         } else { el('secComp').style.display = 'none'; }
+
+        // --- TILLFÄLLIGA LÅN LOGIK (HP & ÖBL) ---
+        const hpAmt = parseFormatted(el('hpAmt').value);
+        const hpRate = parseFloat(el('hpRate').value) || 0;
+        const hpDate = el('hpDate').value;
+        const moveIn = el('moveInDate').value;
+        
+        const oblAmt = parseFormatted(el('oblAmt').value);
+        const oblRate = parseFloat(el('oblRate').value) || 0;
+        const moveOut = el('moveOutDate').value;
+
+        const daysHp = diffDays(hpDate, moveIn);
+        const daysObl = diffDays(moveIn, moveOut);
+
+        const hpInterest = (hpAmt * (hpRate/100) * daysHp) / 360;
+        const oblInterest = (oblAmt * (oblRate/100) * daysObl) / 360;
+        const bridgeTotal = hpInterest + oblInterest;
+
+        el('outHpInt').textContent = nfmt(hpInterest) + ' kr';
+        el('outHpDays').textContent = daysHp + ' dagars ränteperiod';
+        el('outOblInt').textContent = nfmt(oblInterest) + ' kr';
+        el('outOblDays').textContent = daysObl + ' dagars ränteperiod';
+        el('outBridgeTotal').textContent = nfmt(bridgeTotal) + ' kr';
     }
 
     function attach() {
-        document.querySelectorAll('input').forEach(i => i.addEventListener('input', calculate));
+        document.querySelectorAll('input:not(.format-amt)').forEach(i => {
+            i.removeEventListener('input', calculate);
+            i.addEventListener('input', calculate);
+        });
+        
+        document.querySelectorAll('.format-amt').forEach(i => {
+            i.removeEventListener('input', handleInputFormatting);
+            i.addEventListener('input', handleInputFormatting);
+        });
     }
 
     el('numParts').addEventListener('change', init);
-    el('totalLan').addEventListener('input', init);
+    el('totalLan').addEventListener('input', (e) => {
+        if (e.target.id === 'totalLan') {
+            handleInputFormatting(e);
+            init(); // Re-init delar baserat på nytt totalbelopp
+        }
+    });
+
     init();
 </script>
 
