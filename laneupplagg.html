@@ -395,8 +395,8 @@
                 <div class="toggle-icon">▼</div>
             </div>
             <div class="card-content">
-                <div class="row"><span class="lbl">HP ränta:</span><span class="val" id="outHpInt">0 kr</span></div>
-                <div class="row"><span class="lbl">ÖBL ränta:</span><span class="val" id="outOblInt">0 kr</span></div>
+                <div class="row"><span class="lbl" id="lblHpDays">HP ränta:</span><span class="val" id="outHpInt">0 kr</span></div>
+                <div class="row"><span class="lbl" id="lblOblDays">ÖBL ränta:</span><span class="val" id="outOblInt">0 kr</span></div>
                 <div class="row" style="margin-top: 10px;"><span class="lbl" style="font-weight:800;">TOTAL RÄNTEKOSTNAD:</span><span class="val" style="font-size: 18px; color: var(--primary);" id="outBridgeTotal">0 kr</span></div>
             </div>
         </div>
@@ -576,6 +576,8 @@
         const hpM = brProdInput === "" ? 0 : (hpA * ((hpR - brProd)/100) * dHp) / 360;
         const oblM = brProdInput === "" ? 0 : (oblA * ((oblR - brProd)/100) * dObl) / 360;
 
+        el('lblHpDays').textContent = `HP ränta (${dHp} dagar):`;
+        el('lblOblDays').textContent = `ÖBL ränta (${dObl} dagar):`;
         el('outHpInt').textContent = nfmt(hpI) + ' kr';
         el('outOblInt').textContent = nfmt(oblI) + ' kr';
         el('outBridgeTotal').textContent = nfmt(hpI + oblI) + ' kr';
