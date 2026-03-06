@@ -2,81 +2,238 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bolånehjälpen Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LåneLabbet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #06b6d4; --bg: #030712; --sidebar: #111827; --text: #f9fafb; --text-soft: #9ca3af; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg); color: var(--text); overflow: hidden; height: 100vh; }
+        :root {
+            --primary: #06b6d4;
+            --bg: #020617;
+            --sidebar: #0f172a;
+            --border: rgba(255, 255, 255, 0.1);
+        }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: #fff; height: 100vh; overflow: hidden; }
+
+        /* --- MINIMAL LOADER --- */
+        #loader-container {
+            position: fixed; inset: 0; z-index: 10000;
+            background: #000; display: none;
+            flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease;
+        }
+
+        #data-canvas {
+            position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.15;
+        }
+
+        .telemetry {
+            position: absolute; font-family: 'JetBrains Mono', monospace;
+            font-size: 10px; color: var(--primary); opacity: 0.4; pointer-events: none;
+        }
+        .tel-tl { top: 20px; left: 20px; }
+        .tel-br { bottom: 20px; right: 20px; text-align: right; }
+
+        .loader-box {
+            position: relative; width: 300px; text-align: center; z-index: 10;
+        }
+
+        .loader-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 12px;
+            letter-spacing: 3px; color: var(--primary); margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .progress-wrapper { 
+            width: 100%; height: 1px; background: rgba(255,255,255,0.05); 
+            position: relative; overflow: hidden;
+        }
+        #progress-bar { 
+            width: 0%; height: 100%; background: var(--primary); 
+            box-shadow: 0 0 15px var(--primary); transition: width 0.3s cubic-bezier(0.1, 0.5, 0.5, 1); 
+        }
+
+        #perc-display {
+            font-family: 'JetBrains Mono', monospace; font-size: 10px;
+            color: var(--primary); margin-top: 10px; opacity: 0.8;
+        }
+
+        /* --- LOGIN OVERLAY --- */
         #login-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center;
-            background-image: radial-gradient(circle at center, #1e1b4b 0%, #030712 100%);
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--bg);
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+            background-image: radial-gradient(circle at center, #0f172a 0%, #020617 100%),
+                              linear-gradient(var(--border) 1px, transparent 1px), 
+                              linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
         }
         .login-card {
-            background: rgba(17, 24, 39, 0.95); padding: 50px; border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.1); width: 100%; max-width: 400px;
-            text-align: center; backdrop-filter: blur(15px);
+            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px);
+            padding: 50px 40px; border-radius: 30px; border: 1px solid var(--border);
+            width: 100%; max-width: 400px; text-align: center;
         }
-        .login-logo { width: 65px; height: 65px; background: var(--primary); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; font-size: 34px; font-weight: 900; color: #000; }
-        input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: white; outline: none; text-align: center; font-size: 16px; margin-bottom: 20px; }
-        .btn { background: var(--primary); color: #000; border: none; padding: 16px 30px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; font-size: 16px; }
+        input {
+            width: 100%; padding: 16px; border-radius: 12px; border: 1px solid var(--border);
+            background: rgba(0,0,0,0.4); color: white; outline: none; text-align: center;
+            font-size: 16px; font-family: 'JetBrains Mono', monospace; margin-top: 20px;
+        }
+        .btn-login {
+            background: var(--primary); color: #000; border: none; padding: 16px;
+            border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%;
+            font-size: 14px; margin-top: 20px; letter-spacing: 1px;
+        }
 
-        #app-shell { display: none; grid-template-columns: 280px 1fr; height: 100vh; }
-        .sidebar { background: var(--sidebar); border-right: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; padding: 35px 20px; }
-        .nav-item { padding: 15px 18px; border-radius: 12px; cursor: pointer; margin-bottom: 12px; color: var(--text-soft); display: flex; align-items: center; gap: 14px; font-weight: 600; transition: 0.2s; }
-        .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
-        .nav-item.active { background: rgba(6, 182, 212, 0.15); color: var(--primary); }
-        iframe { width: 100%; height: 100%; border: none; display: none; background: #fff; }
+        /* --- APP SHELL --- */
+        #app-shell { display: none; height: 100vh; grid-template-columns: 280px 1fr; transition: filter 1s ease; }
+        #app-shell.blurred { filter: blur(30px); display: grid; }
+        
+        .sidebar { background: var(--sidebar); border-right: 1px solid var(--border); padding: 32px 20px; display: flex; flex-direction: column; }
+        .nav-item { padding: 14px 16px; border-radius: 12px; cursor: pointer; color: var(--text-soft); font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+        .nav-item.active { background: var(--primary); color: #000; }
+        .main-view { background: #fff; margin: 10px; border-radius: 20px; overflow: hidden; }
+        
+        iframe { width: 100%; height: 100%; border: none; display: none; }
         iframe.active { display: block; }
-        #err-msg { color: #ef4444; font-size: 14px; margin-top: 15px; display: none; }
+
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
-    <div id="login-overlay">
-        <div class="login-card">
-            <div class="login-logo">B</div>
-            <h1>Bolånehjälpen</h1>
-            <input type="password" id="pass-input" placeholder="Lösenord">
-            <button class="btn" onclick="check()">LOGGA IN</button>
-            <p id="err-msg">Fel lösenord</p>
+    <!-- Minimal Loader -->
+    <div id="loader-container">
+        <canvas id="data-canvas"></canvas>
+        
+        <div class="telemetry tel-tl">CORE_LINK: ACTIVE</div>
+        <div class="telemetry tel-br" id="tel-status">STATUS: LOADING</div>
+
+        <div class="loader-box">
+            <div class="loader-label">Laddar systemet</div>
+            <div class="progress-wrapper">
+                <div id="progress-bar"></div>
+            </div>
+            <div id="perc-display">0%</div>
         </div>
     </div>
 
+    <!-- Login Overlay -->
+    <div id="login-overlay">
+        <form class="login-card" onsubmit="handleLogin(event)">
+            <div style="width:50px; height:50px; background:var(--primary); border-radius:12px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; color:#000; font-weight:900; font-size:24px;">L</div>
+            <h1 style="font-size:24px; letter-spacing:-1px;">LåneLabbet</h1>
+            <input type="password" id="pass-input" placeholder="PASSCODE" autofocus autocomplete="off">
+            <button type="submit" class="btn-login">LOGGA IN</button>
+        </form>
+    </div>
+
+    <!-- App Content -->
     <div id="app-shell">
-        <div class="sidebar">
-            <div style="font-weight: 800; font-size: 18px; margin-bottom: 40px; display: flex; align-items: center; gap: 10px;">
-                <div style="width:30px; height:30px; background:var(--primary); border-radius:6px; color:#000; text-align:center; line-height:30px;">B</div> Bolånehjälpen
-            </div>
-            <!-- Här har vi uppdaterat namnen på knapparna -->
-            <div class="nav-item active" id="btn0" onclick="tab(0)">📊 Låneupplägg</div>
-            <div class="nav-item" id="btn1" onclick="tab(1)">🛡️ Försäkringserbjudande</div>
-        </div>
-        <div style="flex-grow:1; background:#fff;">
-            <!-- Här har vi kopplat in dina filer i iframes -->
-            <iframe id="app0" src="laneupplagg.html" class="active"></iframe>
-            <iframe id="app1" src="forsakringar.html"></iframe>
-        </div>
+        <aside class="sidebar">
+            <div style="font-weight:800; font-size:20px; letter-spacing:-1px; margin-bottom:40px; padding:0 10px;">LåneLabbet</div>
+            <div class="nav-item active" id="nav0" onclick="switchTab(0)">📊 Låneupplägg</div>
+            <div class="nav-item" id="nav1" onclick="switchTab(1)">🛡️ Försäkringar</div>
+            <div style="flex-grow:1"></div>
+            <div class="nav-item" style="color:#f43f5e; opacity:0.8; font-size:12px;" onclick="logout()">Logga ut</div>
+        </aside>
+        <main class="main-view">
+            <iframe id="frame0" src="laneupplagg.html" class="active"></iframe>
+            <iframe id="frame1" src="forsakringar.html"></iframe>
+        </main>
     </div>
 
     <script>
-        function check() {
-            // Lösenordet är fortfarande 'Bolan2024' som i ditt original
-            if(document.getElementById('pass-input').value === 'Bolan2024') {
+        function handleLogin(e) {
+            e.preventDefault();
+            if(document.getElementById('pass-input').value === "Bolan2024") {
+                sessionStorage.setItem('lab_auth', 'true');
+                startLoading();
+            } else {
+                const card = document.querySelector('.login-card');
+                card.classList.add('shake');
+                setTimeout(() => card.classList.remove('shake'), 400);
+            }
+        }
+
+        async function startLoading() {
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('loader-container').style.display = 'flex';
+            
+            const app = document.getElementById('app-shell');
+            app.classList.add('blurred');
+            
+            initHexStream();
+            
+            const bar = document.getElementById('progress-bar');
+            const percText = document.getElementById('perc-display');
+            
+            // Simulerar laddning med slumpmässiga hopp
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 15);
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    completeLoading();
+                }
+                bar.style.width = progress + "%";
+                percText.textContent = progress + "%";
+            }, 250);
+        }
+
+        function completeLoading() {
+            setTimeout(() => {
+                document.getElementById('loader-container').style.opacity = '0';
+                document.getElementById('app-shell').style.filter = 'blur(0px)';
+                setTimeout(() => {
+                    document.getElementById('loader-container').style.display = 'none';
+                }, 800);
+            }, 400);
+        }
+
+        function initHexStream() {
+            const canvas = document.getElementById('data-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const hex = "0123456789ABCDEF";
+            const fontSize = 10;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+
+            function draw() {
+                ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "#06b6d4";
+                ctx.font = fontSize + "px monospace";
+                for (let i = 0; i < drops.length; i++) {
+                    const text = hex[Math.floor(Math.random() * hex.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) drops[i] = 0;
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 30);
+        }
+
+        function switchTab(idx) {
+            document.querySelectorAll('iframe').forEach((f, i) => f.classList.toggle('active', i === idx));
+            document.querySelectorAll('.nav-item').forEach((b, i) => { if(i<2) b.classList.toggle('active', i === idx); });
+            localStorage.setItem('lastTab', idx);
+        }
+
+        function logout() { sessionStorage.removeItem('lab_auth'); location.reload(); }
+
+        window.onload = () => {
+            if(sessionStorage.getItem('lab_auth') === 'true') {
                 document.getElementById('login-overlay').style.display = 'none';
                 document.getElementById('app-shell').style.display = 'grid';
-                sessionStorage.setItem('auth', 'true');
-            } else { document.getElementById('err-msg').style.display = 'block'; }
-        }
-        function tab(i) {
-            document.querySelectorAll('iframe').forEach((f, idx) => { f.classList.toggle('active', idx === i); });
-            document.querySelectorAll('.nav-item').forEach((b, idx) => { b.classList.toggle('active', idx === i); });
-        }
-        // Hindra högerklick och F12 för en mer "låst" känsla
-        document.addEventListener('keydown', e => { if(e.keyCode==123 || (e.ctrlKey && e.shiftKey && e.keyCode==73) || (e.ctrlKey && e.keyCode==85)) e.preventDefault(); });
+            }
+            const lastTab = localStorage.getItem('lastTab');
+            if (lastTab) switchTab(parseInt(lastTab));
+        };
     </script>
 </body>
 </html>
