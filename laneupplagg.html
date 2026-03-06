@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitt Säkert – Professionellt Beslutsunderlag</title>
+    <title>Professionellt Beslutsunderlag</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -20,7 +20,6 @@
             --radius: 12px;
         }
 
-        /* Light Mode Overrides */
         body.light-mode {
             --bg: #f3f4f6;
             --card: #ffffff;
@@ -32,18 +31,9 @@
             background-image: radial-gradient(circle at top right, #dbeafe, transparent);
         }
 
-        body.light-mode .input-box {
-            background: #fff;
-            border: 1px solid #d1d5db;
-        }
-
-        body.light-mode input {
-            color: #111827;
-        }
-
-        body.light-mode .badge {
-            background: rgba(0, 0, 0, 0.03);
-        }
+        body.light-mode .input-box { background: #fff; border: 1px solid #d1d5db; }
+        body.light-mode input { color: #111827; }
+        body.light-mode .badge { background: rgba(0, 0, 0, 0.03); }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
@@ -70,7 +60,6 @@
 
         .panel { display: flex; flex-direction: column; gap: 20px; }
 
-        /* Card System */
         .card {
             background: var(--card);
             border: 1px solid var(--border);
@@ -90,17 +79,15 @@
         }
 
         .card-header:hover { background: var(--card-hover); }
-
         .card-header h2 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-soft); }
-
         .card-content { padding: 20px; border-top: 1px solid var(--border); }
-
         .collapsed .card-content { display: none; }
         .toggle-icon { font-size: 10px; transition: transform 0.3s ease; color: var(--text-soft); }
         .collapsed .toggle-icon { transform: rotate(-90deg); }
 
-        /* Form / Inputs */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        
         .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
         .field label { font-size: 10px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; }
 
@@ -123,15 +110,10 @@
             outline: none;
         }
 
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(0.5);
-            cursor: pointer;
-        }
-
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cursor: pointer; }
         .unit { font-size: 10px; color: var(--text-soft); padding-right: 12px; font-weight: 600; }
         .helper { font-size: 10px; color: var(--text-soft); margin-top: 4px; line-height: 1.4; }
 
-        /* KPI / Results */
         .hero-value { text-align: center; padding: 10px 0; }
         .hero-label { font-size: 11px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; margin-bottom: 4px; }
         .hero-num { font-size: 38px; font-weight: 800; letter-spacing: -0.02em; }
@@ -140,14 +122,12 @@
         .badge-row { display: flex; justify-content: center; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
         .badge { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 4px 10px; border-radius: 6px; font-size: 10px; color: var(--text-soft); }
 
-        /* Detail Rows */
         .row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); }
         .row:last-child { border: none; }
         .row .lbl { color: var(--text-soft); }
         .row .val { font-weight: 600; }
         .sub-desc { font-size: 10px; color: var(--text-soft); margin-top: -6px; margin-bottom: 10px; font-style: italic; }
 
-        /* Jämförelse */
         .comp-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         .comp-table th { font-size: 9px; text-align: left; color: var(--primary); padding-bottom: 8px; border-bottom: 1px solid var(--border); }
         .comp-table td { padding: 10px 0; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); }
@@ -158,12 +138,10 @@
 
         .winner-pill { background: var(--accent); color: #000; text-align: center; padding: 10px; border-radius: 8px; font-weight: 800; font-size: 13px; margin-top: 20px; }
 
-        /* Lånedelar */
         .loan-part { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-top: 12px; }
         .part-head { display: flex; justify-content: space-between; margin-bottom: 12px; }
         .status-dot { font-size: 9px; font-weight: 800; background: var(--primary-glow); color: var(--primary); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--primary); }
 
-        /* PDF / Print / UI Buttons */
         .print-fab {
             position: fixed;
             bottom: 30px;
@@ -196,16 +174,24 @@
             z-index: 100;
         }
 
+        .internal-badge {
+            font-size: 9px;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--danger);
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-left: 4px;
+        }
+
         @media print {
-            .print-fab, .theme-toggle, .toggle-icon, .card-header::after { display: none !important; }
+            .print-fab, .theme-toggle, .toggle-icon, .card-header::after, .internal-only { display: none !important; }
             body { background: #fff; color: #000; padding: 0; }
-            .container { grid-template-columns: 1fr; gap: 0; }
-            .card { border: none; background: #fff; border-bottom: 1px solid #eee; border-radius: 0; box-shadow: none; }
-            .card-content { display: block !important; }
+            .card { border: none; background: #fff; border-bottom: 1px solid #eee; border-radius: 0; }
             .input-box { border: none; background: transparent; }
             input { color: #000; font-weight: 700; text-align: right; }
-            .hero-num, .lbl, .val, .hero-label { color: #000 !important; }
-            .winner-pill { border: 2px solid #000; background: transparent; }
         }
     </style>
 </head>
@@ -220,14 +206,13 @@
 </button>
 
 <div class="container">
-    <!-- VÄNSTER PANEL -->
     <div class="panel">
         <div style="margin-bottom: 10px; padding-left: 5px;">
-            <h1 style="font-size: 26px; font-weight: 800; letter-spacing: -0.02em;">Låneupplägg</h1>
+            <h1 style="font-size: 26px; font-weight: 800; letter-spacing: -0.02em;">Låneuppläggsverktyg</h1>
             <p style="color: var(--text-soft); font-size: 13px;">Strategisk genomgång av bolån & försäkringsskydd.</p>
         </div>
 
-        <!-- GRUNDUPPGIFTER -->
+        <!-- 01. GRUNDDATA -->
         <div class="card" id="secGrund">
             <div class="card-header" onclick="toggle('secGrund')">
                 <h2>01. Låneuppgifter & Grunddata</h2>
@@ -238,51 +223,51 @@
                     <div class="field">
                         <label>Total Lånebelopp</label>
                         <div class="input-box"><input type="text" id="totalLan" value="1 000 000" class="format-amt"><span class="unit">kr</span></div>
-                        <div class="helper">Summan som fördelas över delarna.</div>
                     </div>
                     <div class="field">
-                        <label>Sitt Säkert Inkomst</label>
+                        <label>Inkomstförsäkring</label>
                         <div class="input-box"><input type="number" id="ssInkomst" value="0"><span class="unit">kr</span></div>
-                        <div class="helper">Månadspremie för inkomstförsäkring.</div>
                     </div>
                     <div class="field">
                         <label>Amortering / Mån</label>
                         <div class="input-box"><input type="number" id="amort" value="0"><span class="unit">kr</span></div>
-                        <div class="helper">Faktisk amortering per månad.</div>
                     </div>
                     <div class="field">
-                        <label>Sitt Säkert Liv</label>
+                        <label>Livförsäkring</label>
                         <div class="input-box"><input type="number" id="ssLiv" value="0"><span class="unit">kr</span></div>
-                        <div class="helper">Månadspremie för livförsäkring.</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- DELAR -->
+        <!-- 02. KONFIGURERA DELAR -->
         <div class="card" id="secDelar">
             <div class="card-header" onclick="toggle('secDelar')">
                 <h2>02. Konfigurera Lånedelar</h2>
                 <div class="toggle-icon">▼</div>
             </div>
             <div class="card-content">
-                <div class="field" style="max-width: 160px; margin-bottom: 20px;">
-                    <label>Antal Lånedelar</label>
-                    <div class="input-box"><input type="number" id="numParts" value="1" min="1" max="5"><span class="unit">delar</span></div>
+                <div class="grid-2">
+                    <div class="field">
+                        <label>Antal Lånedelar</label>
+                        <div class="input-box"><input type="number" id="numParts" value="1" min="1" max="5"><span class="unit">delar</span></div>
+                    </div>
+                    <div class="field">
+                        <label>Diff mot total skuld</label>
+                        <div style="padding: 10px 0; font-weight: 800; font-size: 14px;" id="resDiff">0 kr</div>
+                    </div>
                 </div>
                 <div id="partsContainer"></div>
             </div>
         </div>
 
-        <!-- 03: TILLFÄLLIGA LÅN -->
+        <!-- 03. HP & ÖBL -->
         <div class="card" id="secBridgeIn">
             <div class="card-header" onclick="toggle('secBridgeIn')">
                 <h2>03. Handpenning & Överbryggning</h2>
                 <div class="toggle-icon">▼</div>
             </div>
             <div class="card-content">
-                <p style="font-size: 10px; color: var(--text-soft); margin-bottom: 15px; font-style: italic;">Beräknas enligt 360-dagarsmetoden utan skattereduktion.</p>
-                
                 <div class="grid-2">
                     <div class="field">
                         <label>Handpenningslån (HP)</label>
@@ -299,24 +284,23 @@
                     <div class="field">
                         <label>Tillträdesdag</label>
                         <div class="input-box"><input type="date" id="moveInDate"></div>
-                        <div class="helper">HP-lån löses / ÖBL startar.</div>
                     </div>
-
                     <div style="grid-column: span 2; border-top: 1px dashed var(--border); margin: 10px 0;"></div>
-
                     <div class="field">
                         <label>Överbryggningslån (ÖBL)</label>
                         <div class="input-box"><input type="text" id="oblAmt" value="0" class="format-amt"><span class="unit">kr</span></div>
-                        <div class="helper">Totalbelopp inkl. HP.</div>
                     </div>
                     <div class="field">
                         <label>Ränta ÖBL (%)</label>
                         <div class="input-box"><input type="number" id="oblRate" step="0.01" value="5.50"><span class="unit">%</span></div>
                     </div>
-                    <div class="field" style="grid-column: span 2;">
+                    <div class="field">
                         <label>Lösendag ÖBL</label>
                         <div class="input-box"><input type="date" id="moveOutDate"></div>
-                        <div class="helper">Frånträdesdag.</div>
+                    </div>
+                    <div class="field">
+                        <label class="internal-only">Prod.pris HP/ÖBL <span class="internal-badge">Intern</span></label>
+                        <div class="input-box internal-only"><input type="number" id="bridgeProd" step="0.01" value=""><span class="unit">%</span></div>
                     </div>
                 </div>
             </div>
@@ -325,7 +309,6 @@
 
     <!-- HÖGER PANEL -->
     <div class="panel">
-        <!-- KPI 1 -->
         <div class="card">
             <div class="card-content">
                 <div class="hero-value">
@@ -340,7 +323,6 @@
             </div>
         </div>
 
-        <!-- KPI 2 -->
         <div class="card" style="border-color: var(--primary);">
             <div class="card-content">
                 <div class="hero-value">
@@ -355,7 +337,6 @@
             </div>
         </div>
 
-        <!-- DETALJERAD UPPDELNING -->
         <div class="card highlight-card" id="secDetail">
             <div class="card-header" onclick="toggle('secDetail')">
                 <h2 style="color: var(--primary);">Detaljerad Uppdelning</h2>
@@ -373,17 +354,10 @@
                     </div>
                 </div>
                 <div style="margin: 15px 0; border-top: 1px dashed var(--border);"></div>
-                <div class="row"><span class="lbl">Ränta före skattereduktion:</span><span class="val" id="detPre">0 kr/mån</span></div>
-                <div class="row"><span class="lbl">Ränta efter skattereduktion (30%):</span><span class="val" id="detPost">0 kr/mån</span></div>
-                <div style="height: 15px;"></div>
-                <div class="row"><span class="lbl">Total bolånekostnad före skatt:</span><span class="val" id="detTotalPre">0 kr/mån</span></div>
-                <div class="sub-desc">Ränta + Amortering</div>
                 <div class="row"><span class="lbl" style="font-weight:700;">Total bolånekostnad efter skatt:</span><span class="val" id="detTotalPost" style="color: var(--accent); font-size: 15px;">0 kr/mån</span></div>
-                <div class="sub-desc">Ränta (efter skatt) + Amortering</div>
             </div>
         </div>
 
-        <!-- JÄMFÖRELSE -->
         <div class="card" id="secComp" style="display:none;">
             <div class="card-header" onclick="toggle('secComp')">
                 <h2>Jämförelse med Konkurrent</h2>
@@ -391,76 +365,51 @@
             </div>
             <div class="card-content">
                 <table class="comp-table">
-                    <thead>
-                        <tr><th>POST</th><th>DITT UPPLÄGG</th><th>KONKURRENT</th></tr>
-                    </thead>
+                    <thead><tr><th>POST</th><th>DITT UPPLÄGG</th><th>KONKURRENT</th></tr></thead>
                     <tbody>
                         <tr><td>Viktad ränta</td><td id="cYourRate">0%</td><td id="cCompRate">0%</td></tr>
-                        <tr><td>Räntekostnad/mån</td><td id="cYourInt">0 kr</td><td id="cCompInt">0 kr</td></tr>
                         <tr><td>Efter skatt (30%)</td><td id="cYourPost">0 kr</td><td id="cCompPost">0 kr</td></tr>
                     </tbody>
                 </table>
                 <div style="margin-top: 20px;">
-                    <div class="row"><span class="lbl">Skillnad före skattereduktion:</span><span class="diff-tag" id="diffPreTag">0 kr</span></div>
-                    <div class="row"><span class="lbl">Skillnad efter skattereduktion:</span><span class="diff-tag" id="diffPostTag">0 kr</span></div>
-                    <div class="row" style="border:none; margin-top: 10px;">
-                        <span class="lbl" style="font-weight:800; color:var(--text-main);">BESPARING PER ÅR (NETTO):</span>
-                        <span class="val" style="font-size: 18px;" id="diffYear">0 kr</span>
-                    </div>
+                    <div class="row"><span class="lbl">BESPARING PER ÅR (NETTO):</span><span class="val" style="font-size: 18px;" id="diffYear">0 kr</span></div>
                 </div>
                 <div id="winnerPill" class="winner-pill"></div>
             </div>
         </div>
 
-        <!-- RESULTAT TILLFÄLLIGA LÅN -->
         <div class="card" id="secBridgeRes" style="border-left: 4px solid var(--primary);">
             <div class="card-header" onclick="toggle('secBridgeRes')">
                 <h2 style="color: var(--primary);">Kostnad: HP & Överbryggning</h2>
                 <div class="toggle-icon">▼</div>
             </div>
             <div class="card-content">
-                <div class="row">
-                    <span class="lbl">Handpenning (HP) ränta:</span>
-                    <span class="val" id="outHpInt">0 kr</span>
-                </div>
-                <div class="sub-desc" id="outHpDays">0 dagar ränteperiod</div>
-                
-                <div class="row">
-                    <span class="lbl">Överbryggning (ÖBL) ränta:</span>
-                    <span class="val" id="outOblInt">0 kr</span>
-                </div>
-                <div class="sub-desc" id="outOblDays">0 dagar ränteperiod</div>
-
-                <div style="margin: 15px 0; border-top: 1px dashed var(--border);"></div>
-                
-                <div class="row" style="margin-top: 10px;">
-                    <span class="lbl" style="font-weight:800; color:var(--text-main);">TOTAL RÄNTEKOSTNAD:</span>
-                    <span class="val" style="font-size: 18px; color: var(--primary);" id="outBridgeTotal">0 kr</span>
-                </div>
-                <p class="sub-desc" style="margin-top: 5px;">* Ingen skattereduktion inräknad i denna sektion.</p>
+                <div class="row"><span class="lbl">HP ränta:</span><span class="val" id="outHpInt">0 kr</span></div>
+                <div class="row"><span class="lbl">ÖBL ränta:</span><span class="val" id="outOblInt">0 kr</span></div>
+                <div class="row" style="margin-top: 10px;"><span class="lbl" style="font-weight:800;">TOTAL RÄNTEKOSTNAD:</span><span class="val" style="font-size: 18px; color: var(--primary);" id="outBridgeTotal">0 kr</span></div>
             </div>
         </div>
 
-        <!-- STATS & FÖRSÄKRING -->
-        <div class="card" id="secStats">
-            <div class="card-header" onclick="toggle('secStats')">
-                <h2>Summering & Försäkringar</h2>
+        <!-- MARGINAL SEKTION (INTERN & HOPFÄLLBAR) -->
+        <div class="card internal-only" id="secMarginal" style="border: 1px solid var(--danger);">
+            <div class="card-header" onclick="toggle('secMarginal')" style="background: rgba(239, 68, 68, 0.05);">
+                <h2 style="color: var(--danger);">Marginal & Lönsamhet <span class="internal-badge">Internt</span></h2>
                 <div class="toggle-icon">▼</div>
             </div>
             <div class="card-content">
-                <div class="row"><span class="lbl">Antal aktiva delar:</span><span class="val" id="resAct">0 st</span></div>
-                <div class="row"><span class="lbl">Summa delbelopp:</span><span class="val" id="resSum">0 kr</span></div>
-                <div class="row"><span class="lbl">Diff mot total låneskuld:</span><span class="val" id="resDiff">0 kr</span></div>
-                <div style="height: 15px;"></div>
-                <div class="row"><span class="lbl">Sitt Säkert Liv:</span><span class="val" id="outLiv">0 kr</span></div>
-                <div class="row"><span class="lbl">Sitt Säkert Inkomst:</span><span class="val" id="outInk">0 kr</span></div>
-                <div class="row" style="color: var(--accent);"><span class="lbl" style="color: var(--accent);">Totalt Försäkringar:</span><span class="val" id="outTIns">0 kr</span></div>
+                <div class="row"><span class="lbl">Marginal Bolån (BPS):</span><span class="val" id="margBolanBPS">0,00 %</span></div>
+                <div class="row"><span class="lbl">Marginal Bolån (Mån):</span><span class="val" id="margLoanMon">0 kr</span></div>
+                <div class="row"><span class="lbl">Marginal Bolån (År):</span><span class="val" id="margLoanYear">0 kr</span></div>
+                <div style="margin: 10px 0; border-top: 1px dashed var(--border); opacity: 0.3;"></div>
+                <div class="row"><span class="lbl">Marginal HP/ÖBL (BPS):</span><span class="val" id="margBridgeBPS">0,00 %</span></div>
+                <div class="row"><span class="lbl">Marginal HP/ÖBL (Totalt):</span><span class="val" id="margBridge">0 kr</span></div>
+                <div style="margin: 15px 0; border-top: 1px dashed var(--border);"></div>
+                <div class="row"><span class="lbl" style="font-weight:800; color: var(--text-main);">TOTAL INTÄKT (12 MÅN):</span><span class="val" style="font-size: 16px;" id="margTotal">0 kr</span></div>
+                <p style="font-size: 9px; opacity: 0.6; margin-top: 10px;">Beräknat som (Kundränta - Prod.pris) * Belopp.</p>
             </div>
         </div>
 
-        <p class="obs" style="text-align: center; font-size: 10px; opacity: 0.6;">
-            Obs! Detta är en förenklad kalkyl med rak ränta. Inga hänsyn tas till effektivränta eller amorteringskrav.
-        </p>
+        <p class="obs" style="text-align: center; font-size: 10px; opacity: 0.6;">Obs! Förenklad kalkyl med rak ränta.</p>
     </div>
 </div>
 
@@ -468,51 +417,30 @@
     const el = id => document.getElementById(id);
     const nfmt = v => Math.round(v).toLocaleString('sv-SE');
     const pfmt = v => v.toLocaleString('sv-SE', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %';
+    const parseFormatted = val => typeof val === 'string' ? parseFloat(val.replace(/\s/g, '').replace(',', '.')) || 0 : parseFloat(val) || 0;
 
-    // Hjälpfunktion för att tvätta formaterade strängar till rena tal
-    const parseFormatted = val => {
-        if (typeof val === 'string') {
-            return parseFloat(val.replace(/\s/g, '').replace(',', '.')) || 0;
-        }
-        return parseFloat(val) || 0;
-    };
-
-    // Realtidsformatering av beloppsfält
     function handleInputFormatting(e) {
         let cursor = e.target.selectionStart;
         let originalValue = e.target.value;
         let digitsOnly = originalValue.replace(/\D/g, '');
-        
-        if (digitsOnly === "") {
-            e.target.value = "";
-            calculate();
-            return;
-        }
-
+        if (digitsOnly === "") { e.target.value = ""; calculate(); return; }
         let formatted = parseInt(digitsOnly).toLocaleString('sv-SE').replace(/\xa0/g, ' ');
-        
-        // Justera markörens position baserat på tillagda mellanslag
         let spacesBefore = (originalValue.substring(0, cursor).match(/\s/g) || []).length;
         e.target.value = formatted;
         let spacesAfter = (formatted.substring(0, cursor).match(/\s/g) || []).length;
         e.target.setSelectionRange(cursor + (spacesAfter - spacesBefore), cursor + (spacesAfter - spacesBefore));
-
         calculate();
     }
 
     function toggle(id) { el(id).classList.toggle('collapsed'); }
-
     function toggleTheme() {
         document.body.classList.toggle('light-mode');
-        const isLight = document.body.classList.contains('light-mode');
-        el('themeBtn').innerHTML = isLight ? '<span>🌙</span> DARK MODE' : '<span>☀️</span> LIGHT MODE';
+        el('themeBtn').innerHTML = document.body.classList.contains('light-mode') ? '<span>🌙</span> DARK MODE' : '<span>☀️</span> LIGHT MODE';
     }
 
     function diffDays(d1, d2) {
         if(!d1 || !d2) return 0;
-        const start = new Date(d1);
-        const end = new Date(d2);
-        const diff = (end - start) / (1000 * 60 * 60 * 24);
+        const diff = (new Date(d2) - new Date(d1)) / (1000 * 60 * 60 * 24);
         return diff > 0 ? Math.round(diff) : 0;
     }
 
@@ -521,50 +449,60 @@
         const total = parseFormatted(el('totalLan').value);
         const container = el('partsContainer');
         container.innerHTML = '';
-        
         for(let i=1; i<=n; i++) {
             const div = document.createElement('div');
             div.className = 'loan-part';
             let partVal = Math.round(total/n).toLocaleString('sv-SE').replace(/\xa0/g, ' ');
             div.innerHTML = `
                 <div class="part-head"><span style="font-size:11px; font-weight:800;">DEL ${i}</span> <span class="status-dot">AKTIV</span></div>
-                <div class="grid-2">
+                <div class="grid-3">
                     <div class="field"><label>Belopp</label><div class="input-box"><input type="text" class="p-amt format-amt" value="${partVal}"><span class="unit">kr</span></div></div>
-                    <div class="field"><label>Din Ränta %</label><div class="input-box"><input type="number" class="p-rate" step="0.01" value="3.50"><span class="unit">%</span></div></div>
-                    <div class="field" style="grid-column: span 2;"><label>Konkurrentränta %</label><div class="input-box"><input type="number" class="p-comp" step="0.01" value="4.20"><span class="unit">%</span></div></div>
-                </div>`;
+                    <div class="field"><label>Ränta %</label><div class="input-box"><input type="number" class="p-rate" step="0.01" value="3.50"><span class="unit">%</span></div></div>
+                    <div class="field">
+                        <label class="internal-only">Prod % <span class="internal-badge">Intern</span></label>
+                        <div class="input-box internal-only" style="border-color: var(--danger);">
+                            <input type="number" class="p-prod" step="0.01" value="">
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="field"><label>Konkurrentränta %</label><div class="input-box"><input type="number" class="p-comp" step="0.01" value="4.20"><span class="unit">%</span></div></div>`;
             container.appendChild(div);
         }
         attach();
         calculate();
     }
 
+    function updateColor(id, val) {
+        const target = el(id);
+        if (val > 0) target.style.color = 'var(--accent)';
+        else if (val < 0) target.style.color = 'var(--danger)';
+        else target.style.color = '';
+    }
+
     function calculate() {
-        // --- BOLÅN LOGIK ---
         const totalLan = parseFormatted(el('totalLan').value);
         const amort = parseFloat(el('amort').value) || 0;
-        const sLiv = parseFloat(el('ssLiv').value) || 0;
-        const sInk = parseFloat(el('ssInkomst').value) || 0;
-        const sIns = sLiv + sInk;
+        const sIns = (parseFloat(el('ssLiv').value) || 0) + (parseFloat(el('ssInkomst').value) || 0);
 
-        let sAmt = 0, wSum = 0, cWSum = 0, act = 0, hasC = false;
+        let sAmt = 0, wSum = 0, cWSum = 0, act = 0, hasC = false, mSum = 0, wProdSum = 0;
 
         document.querySelectorAll('.loan-part').forEach(p => {
             const a = parseFormatted(p.querySelector('.p-amt').value);
             const r = parseFloat(p.querySelector('.p-rate').value) || 0;
             const c = parseFloat(p.querySelector('.p-comp').value) || 0;
+            const prInput = p.querySelector('.p-prod').value;
+            const pr = prInput === "" ? r : parseFloat(prInput); // Default till kundränta om tomt
             if(a > 0) {
-                act++; sAmt += a; wSum += (a*r);
+                act++; sAmt += a; wSum += (a*r); wProdSum += (a*pr); mSum += (a * (r - pr));
                 if(c > 0) { cWSum += (a*c); hasC = true; }
             }
         });
 
         const wRate = sAmt > 0 ? (wSum/sAmt) : 0;
-        const cRate = sAmt > 0 ? (cWSum/sAmt) : 0;
+        const wProdRate = sAmt > 0 ? (wProdSum/sAmt) : 0;
         const mInt = (sAmt * (wRate/100)) / 12;
-        const mIntC = (sAmt * (cRate/100)) / 12;
         const netInt = mInt * 0.7;
-        const netIntC = mIntC * 0.7;
 
         el('resFore').innerHTML = `${nfmt(mInt + amort + sIns)} <span>kr/mån</span>`;
         el('resEfter').innerHTML = `${nfmt(netInt + amort + sIns)} <span>kr/mån</span>`;
@@ -579,32 +517,21 @@
         el('detBase').textContent = nfmt(sAmt) + ' kr';
         el('detInt').textContent = nfmt(mInt) + ' kr';
         el('detAm').textContent = nfmt(amort) + ' kr';
-        el('detPre').textContent = nfmt(mInt) + ' kr/mån';
-        el('detPost').textContent = nfmt(netInt) + ' kr/mån';
-        el('detTotalPre').textContent = nfmt(mInt + amort) + ' kr/mån';
         el('detTotalPost').textContent = nfmt(netInt + amort) + ' kr/mån';
 
-        el('resAct').textContent = act + ' st';
-        el('resSum').textContent = nfmt(sAmt) + ' kr';
-        el('resDiff').textContent = nfmt(sAmt - totalLan) + ' kr';
-        el('outLiv').textContent = nfmt(sLiv) + ' kr';
-        el('outInk').textContent = nfmt(sInk) + ' kr';
-        el('outTIns').textContent = nfmt(sIns) + ' kr';
+        const diff = sAmt - totalLan;
+        el('resDiff').textContent = nfmt(diff) + ' kr';
+        el('resDiff').style.color = diff === 0 ? 'var(--accent)' : 'var(--danger)';
 
         if(hasC && sAmt > 0) {
             el('secComp').style.display = 'block';
             el('cYourRate').textContent = pfmt(wRate);
-            el('cYourInt').textContent = nfmt(mInt) + ' kr';
             el('cYourPost').textContent = nfmt(netInt) + ' kr';
+            const cRate = cWSum/sAmt;
+            const netIntC = ((sAmt * (cRate/100)) / 12) * 0.7;
             el('cCompRate').textContent = pfmt(cRate);
-            el('cCompInt').textContent = nfmt(mIntC) + ' kr';
             el('cCompPost').textContent = nfmt(netIntC) + ' kr';
-            const dPre = mInt - mIntC;
             const dPost = netInt - netIntC;
-            el('diffPreTag').textContent = `${nfmt(Math.abs(dPre))} kr (${dPre <= 0 ? 'billigare' : 'dyrare'})`;
-            el('diffPreTag').className = `diff-tag ${dPre <= 0 ? 'tag-success' : 'tag-danger'}`;
-            el('diffPostTag').textContent = `${nfmt(Math.abs(dPost))} kr (${dPost <= 0 ? 'billigare' : 'dyrare'})`;
-            el('diffPostTag').className = `diff-tag ${dPost <= 0 ? 'tag-success' : 'tag-danger'}`;
             el('diffYear').textContent = `${nfmt(Math.abs(dPost*12))} kr ${dPost <= 0 ? 'billigare' : 'dyrare'}`;
             el('diffYear').style.color = dPost <= 0 ? 'var(--accent)' : 'var(--danger)';
             el('winnerPill').style.display = 'block';
@@ -612,50 +539,55 @@
             el('winnerPill').style.background = dPost <= 0 ? 'var(--accent)' : 'var(--danger)';
         } else { el('secComp').style.display = 'none'; }
 
-        // --- TILLFÄLLIGA LÅN LOGIK (HP & ÖBL) ---
-        const hpAmt = parseFormatted(el('hpAmt').value);
-        const hpRate = parseFloat(el('hpRate').value) || 0;
-        const hpDate = el('hpDate').value;
-        const moveIn = el('moveInDate').value;
+        // HP & ÖBL
+        const hpA = parseFormatted(el('hpAmt').value), hpR = parseFloat(el('hpRate').value) || 0;
+        const oblA = parseFormatted(el('oblAmt').value), oblR = parseFloat(el('oblRate').value) || 0;
+        const brProdInput = el('bridgeProd').value;
+        const brProd = brProdInput === "" ? 0 : parseFloat(brProdInput);
+        const dHp = diffDays(el('hpDate').value, el('moveInDate').value);
+        const dObl = diffDays(el('moveInDate').value, el('moveOutDate').value);
+
+        const hpI = (hpA * (hpR/100) * dHp) / 360, oblI = (oblA * (oblR/100) * dObl) / 360;
+        const hpM = brProdInput === "" ? 0 : (hpA * ((hpR - brProd)/100) * dHp) / 360;
+        const oblM = brProdInput === "" ? 0 : (oblA * ((oblR - brProd)/100) * dObl) / 360;
+
+        el('outHpInt').textContent = nfmt(hpI) + ' kr';
+        el('outOblInt').textContent = nfmt(oblI) + ' kr';
+        el('outBridgeTotal').textContent = nfmt(hpI + oblI) + ' kr';
+
+        // MARGINAL RESULTAT
+        const mLoanYear = mSum / 100;
+        const mBolanBPS = wRate - wProdRate;
+        el('margBolanBPS').textContent = pfmt(mBolanBPS);
+        updateColor('margBolanBPS', mBolanBPS);
+
+        el('margLoanMon').textContent = nfmt(mLoanYear / 12) + ' kr';
+        updateColor('margLoanMon', mLoanYear);
         
-        const oblAmt = parseFormatted(el('oblAmt').value);
-        const oblRate = parseFloat(el('oblRate').value) || 0;
-        const moveOut = el('moveOutDate').value;
+        el('margLoanYear').textContent = nfmt(mLoanYear) + ' kr';
+        updateColor('margLoanYear', mLoanYear);
+        
+        const currentBridgeRate = hpA > 0 ? hpR : oblR;
+        const mBridgeBPS = brProdInput === "" ? 0 : currentBridgeRate - brProd;
+        el('margBridgeBPS').textContent = pfmt(mBridgeBPS);
+        updateColor('margBridgeBPS', mBridgeBPS);
 
-        const daysHp = diffDays(hpDate, moveIn);
-        const daysObl = diffDays(moveIn, moveOut);
+        const mBridgeTot = hpM + oblM;
+        el('margBridge').textContent = nfmt(mBridgeTot) + ' kr';
+        updateColor('margBridge', mBridgeTot);
 
-        const hpInterest = (hpAmt * (hpRate/100) * daysHp) / 360;
-        const oblInterest = (oblAmt * (oblRate/100) * daysObl) / 360;
-        const bridgeTotal = hpInterest + oblInterest;
-
-        el('outHpInt').textContent = nfmt(hpInterest) + ' kr';
-        el('outHpDays').textContent = daysHp + ' dagars ränteperiod';
-        el('outOblInt').textContent = nfmt(oblInterest) + ' kr';
-        el('outOblDays').textContent = daysObl + ' dagars ränteperiod';
-        el('outBridgeTotal').textContent = nfmt(bridgeTotal) + ' kr';
+        const mGrandTotal = mLoanYear + mBridgeTot;
+        el('margTotal').textContent = nfmt(mGrandTotal) + ' kr';
+        updateColor('margTotal', mGrandTotal);
     }
 
     function attach() {
-        document.querySelectorAll('input:not(.format-amt)').forEach(i => {
-            i.removeEventListener('input', calculate);
-            i.addEventListener('input', calculate);
-        });
-        
-        document.querySelectorAll('.format-amt').forEach(i => {
-            i.removeEventListener('input', handleInputFormatting);
-            i.addEventListener('input', handleInputFormatting);
-        });
+        document.querySelectorAll('input:not(.format-amt)').forEach(i => i.addEventListener('input', calculate));
+        document.querySelectorAll('.format-amt').forEach(i => i.addEventListener('input', handleInputFormatting));
     }
 
     el('numParts').addEventListener('change', init);
-    el('totalLan').addEventListener('input', (e) => {
-        if (e.target.id === 'totalLan') {
-            handleInputFormatting(e);
-            init(); // Re-init delar baserat på nytt totalbelopp
-        }
-    });
-
+    el('totalLan').addEventListener('input', (e) => { handleInputFormatting(e); init(); });
     init();
 </script>
 
