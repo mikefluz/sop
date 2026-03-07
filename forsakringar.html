@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitt Säkert - Din Trygghet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030712;
+            --card: #111827;
+            --primary: #06b6d4;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #facc15;
+            --text-main: #f9fafb;
+            --text-soft: #9ca3af;
+            --radius: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(circle at top right, #1e1b4b, transparent); }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+        /* HERO */
+        .hero { text-align: center; padding: 60px 0; }
+        .hero h1 { font-size: 48px; font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; }
+        .hero p { font-size: 18px; color: var(--text-soft); max-width: 700px; margin: 0 auto; }
+        .highlight { color: var(--primary); }
+
+        /* GRID USPs */
+        .usp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 50px; }
+        .usp-card { background: var(--card); padding: 30px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.08); transition: transform 0.3s ease; position: relative; overflow: hidden; }
+        .usp-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .usp-icon { font-size: 32px; margin-bottom: 15px; display: block; }
+        .usp-card h3 { font-size: 20px; margin-bottom: 12px; color: var(--text-main); }
+        .usp-card p { font-size: 14px; color: var(--text-soft); }
+
+        /* THE GAP SECTION */
+        .gap-section { background: rgba(6, 182, 212, 0.05); border: 1px dashed var(--primary); border-radius: var(--radius); padding: 40px; margin: 60px 0; position: relative; overflow: hidden; }
+        .gap-section h2 { font-size: 24px; margin-bottom: 20px; text-align: center; }
+        .gap-visual { display: flex; height: 40px; border-radius: 20px; overflow: hidden; margin: 30px 0; border: 2px solid var(--bg); }
+        .gap-part-akassa { background: var(--primary); width: 70%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #000; text-align: center; padding: 0 5px; }
+        .gap-part-missing { background: var(--danger); width: 30%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; animation: pulse 2s infinite; text-align: center; padding: 0 5px; }
+        
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .gap-info { text-align: center; font-size: 14px; color: var(--text-soft); }
+
+        /* Q&A SECTION */
+        .qa-section { margin-top: 60px; }
+        .qa-section h2 { text-align: center; margin-bottom: 40px; font-size: 28px; }
+        .qa-item { background: var(--card); margin-bottom: 15px; border-radius: 12px; padding: 20px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
+        .qa-item:hover { border-color: rgba(255,255,255,0.2); }
+        .qa-item h4 { font-size: 16px; display: flex; justify-content: space-between; align-items: center; padding-right: 10px; font-weight: 600; }
+        .qa-item h4::after { content: '+'; color: var(--primary); font-size: 20px; font-weight: 400; }
+        .qa-answer { display: none; margin-top: 15px; font-size: 14px; color: var(--text-soft); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
+        .qa-item.active { border-color: var(--primary); }
+        .qa-item.active .qa-answer { display: block; }
+        .qa-item.active h4::after { content: '−'; }
+
+        /* PITCH BOX */
+        .pitch-box { background: var(--accent); color: #000; padding: 40px; border-radius: var(--radius); text-align: center; margin-top: 60px; }
+        .pitch-box h2 { font-size: 32px; font-weight: 900; margin-bottom: 10px; }
+        .pitch-box p { font-weight: 600; margin-bottom: 20px; opacity: 0.9; }
+        .no-brainer-tag { display: inline-block; background: #000; color: var(--accent); padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; }
+
+        footer { text-align: center; margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-soft); font-size: 12px; }
+
+        .important-badge { background: var(--danger); color: white; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
+
+        @media (max-width: 768px) { 
+            .usp-grid { grid-template-columns: 1fr; } 
+            .hero h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <div class="no-brainer-tag">Erbjudande till dig som bolånekund</div>
+        <h1>Sitt Säkert i din <span class="highlight">nya bostad</span></h1>
+        <p>Ett bolån är livets största affär. Vi hjälper dig att täcka de ekonomiska hål som uppstår vid sjukskrivning, arbetslöshet eller dödsfall – så att tryggheten aldrig hänger på en skör tråd.</p>
+    </div>
+
+    <div class="usp-grid">
+        <div class="usp-card">
+            <span class="usp-icon">💰</span>
+            <h3>Dubbel ersättning</h3>
+            <p>Vår ersättning betalas ut <b>oberoende</b> av A-kassan eller facket. Du får alltså pengar från båda hållen för att täcka boendekostnaden.</p>
+        </div>
+        <div class="usp-card">
+            <span class="usp-icon">🏠</span>
+            <h3>Anpassat efter lånet</h3>
+            <p>Välj ett belopp (2 000 – 14 000 kr/mån) som matchar din räntekostnad och amortering. Inget krångel med lönenivåer.</p>
+        </div>
+        <div class="usp-card">
+            <span class="usp-icon">🕊️</span>
+            <h3>Säkra familjens framtid</h3>
+            <p>Vid dödsfall betalas ett engångsbelopp ut direkt till familjen. Det ger dem tid, andrum och möjlighet att bo kvar.</p>
+        </div>
+        <div class="usp-card">
+            <span class="usp-icon">🛡️</span>
+            <h3>Livslång flexibilitet</h3>
+            <p>Försäkringen är din. Den fortsätter gälla även om du flyttar lånet till en annan bank eller amorterar av det helt.</p>
+        </div>
+    </div>
+
+    <div class="gap-section">
+        <h2>Det kritiska inkomstgapet</h2>
+        <div class="gap-visual">
+            <div class="gap-part-akassa">A-KASSA / FACK (MAX 80% AV LÖN)</div>
+            <div class="gap-part-missing">DITT INKOMSTGAP</div>
+        </div>
+        <div class="gap-info">
+            <p>När 20% av lönen försvinner vid arbetslöshet, samtidigt som räntekostnaderna ligger fast, uppstår en ekonomisk kris. <b>Sitt Säkert är bryggan som täcker gapet.</b></p>
+        </div>
+    </div>
+
+    <div class="qa-section">
+        <h2>Vanliga frågor från kunder</h2>
+        
+        <div class="qa-item" onclick="toggleQA(this)">
+            <h4>Vilka krav ställs på min anställning för inkomstskyddet? <span class="important-badge">Viktigt</span></h4>
+            <div class="qa-answer">
+                För att teckna Sitt Säkert Inkomst behöver du uppfylla något av följande:<br><br>
+                • <b>Tillsvidareanställd:</b> Sedan minst 6 sammanhängande månader i sträck.<br>
+                • <b>Visstids- eller projektanställd:</b> Med ett anställningsavtal som gäller minst 20 timmar/vecka och sträcker sig minst 12 månader framåt.<br>
+                • <b>Egenföretagare:</b> Du behöver vara ansluten till en erkänd arbetslöshetskassa.<br><br>
+                <i>Gemensamt för alla är att du arbetar minst 20 timmar per vecka och är fullt arbetsför vid teckningstillfället.</i>
+            </div>
+        </div>
+
+        <div class="qa-item" onclick="toggleQA(this)">
+            <h4>Hur fungerar kvalificeringstid och karenstid? <span class="important-badge">Viktigt</span></h4>
+            <div class="qa-answer">
+                <b>Kvalificeringstid:</b> Detta är tiden du måste ha haft försäkringen innan ett försäkringsfall inträffar.<br>
+                • Vid hel arbetsoförmåga (sjukdom): 30 dagar.<br>
+                • Vid ofrivillig arbetslöshet: <b>180 dagar (6 månader).</b><br><br>
+                <b>Karenstid:</b> Den tid du behöver vara sjuk/arbetslös innan utbetalningen börjar.<br>
+                • För både sjukdom och arbetslöshet gäller 30 dagars karenstid.
+            </div>
+        </div>
+
+        <div class="qa-item" onclick="toggleQA(this)">
+            <h4>"Jag har precis bytt jobb, kan jag teckna inkomstskyddet?"</h4>
+            <div class="qa-answer">
+                Du kan teckna Sitt Säkert <b>Liv</b> (dödsfallsskydd) direkt oavsett hur länge du jobbat. För <b>Inkomstskyddet</b> behöver du dock ha arbetat i din nuvarande tillsvidareanställning i 6 månader. Det är en perfekt anledning för oss att boka in en uppföljning så snart du uppfyller tidskravet!
+            </div>
+        </div>
+
+        <div class="qa-item" onclick="toggleQA(this)">
+            <h4>Vem kan teckna försäkringen i övrigt?</h4>
+            <div class="qa-answer">
+                För att kunna ansöka behöver du:<br>
+                • Vara mellan 18 och 63 år.<br>
+                • Ha beviljats ett bolån via Söderberg & Partners Bolån.<br>
+                • Vara bosatt och folkbokförd i Sverige samt inskriven i svensk försäkringskassa.<br>
+                • Vara fullt arbetsför.
+            </div>
+        </div>
+
+        <div class="qa-item" onclick="toggleQA(this)">
+            <h4>"Är det inte dyrt?"</h4>
+            <div class="qa-answer">
+                Det kostar inte skjortan, men det är en helt avgörande investering för din ekonomiska trygghet. Premien baseras på din ålder och belopp. För de flesta kunder motsvarar kostnaden ungefär vad man lägger på sina streamingtjänster eller en trevlig middag ute i månaden – en liten summa för att veta att du kan bo kvar även om det värsta händer.
+            </div>
+        </div>
+
+        <div class="qa-item" onclick="toggleQA(this)">
+            <h4>"Jag har redan inkomstförsäkring via facket?"</h4>
+            <div class="qa-answer">
+                Facket täcker en del av din lön (ofta upp till 80%), men tar inte hänsyn till de specifika merkostnader som ett bolån innebär. Eftersom Sitt Säkert betalas ut <b>utöver</b> fackets ersättning, får du en extra buffert som säkerställer att du kan täcka räntekostnader och amortering utan att tömma sparkontot.
+            </div>
+        </div>
+
+        <div class="qa-item" onclick="toggleQA(this)">
+            <h4>Vad innebär "Symtomklausulen"?</h4>
+            <div class="qa-answer">
+                Det innebär att försäkringen inte lämnar ersättning för sjukdomar eller skador som visat symtom eller behandlats under de senaste 12 månaderna innan du tecknade försäkringen. Det är därför det är bäst att teckna skyddet nu medan du är frisk och arbetsför.
+            </div>
+        </div>
+
+        <div class="qa-item" onclick="toggleQA(this)">
+            <h4>Vad händer om jag byter bank eller flyttar lånet?</h4>
+            <div class="qa-answer">
+                Tryggheten följer med dig, inte banken. Försäkringen är fristående och fortsätter att gälla även om du flyttar ditt bolån till en annan bank eller väljer att betala av lånet helt. Du behåller ditt skydd så länge du själv önskar (upp till 66 års ålder).
+            </div>
+        </div>
+    </div>
+
+    <div class="pitch-box">
+        <div class="no-brainer-tag">Gör som majoriteten av våra kunder</div>
+        <h2>Säkra ditt lån idag.</h2>
+        <p>En trygghet som inte kostar skjortan – men som är helt avgörande om det värsta händer. <br>Låt inte slumpen avgöra om du och din familj kan bo kvar.</p>
+        <div style="font-size: 13px; font-weight: 700; text-decoration: underline; margin-top: 10px; cursor: pointer;">Be din bolånespecialist aktivera trygghetspaketet i din kalkyl nu.</div>
+    </div>
+
+    <footer>
+        <p>Söderberg & Partners Bolån AB | Försäkringsgivare: Knif Trygghet Forsikring A/S</p>
+        <p style="margin-top:10px; opacity:0.5;">Detta är en förenklad sammanställning. Vid skada eller ansökan är det alltid de fullständiga försäkringsvillkoren (SBAF 25:07) som gäller.</p>
+    </footer>
+</div>
+
+<script>
+    function toggleQA(element) {
+        const items = document.querySelectorAll('.qa-item');
+        items.forEach(item => {
+            if (item !== element) item.classList.remove('active');
+        });
+        element.classList.toggle('active');
+    }
+</script>
+
+</body>
+</html>
