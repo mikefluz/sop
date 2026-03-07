@@ -17,7 +17,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* --- LOADER (Samma som innan) --- */
+        /* --- LOADER --- */
         #loader-container {
             position: fixed; inset: 0; z-index: 10000; background: #000; 
             display: none; flex-direction: column; align-items: center; justify-content: center;
@@ -32,52 +32,39 @@
         #login-overlay {
             position: fixed; inset: 0; z-index: 9999; background: var(--bg);
             display: flex; align-items: center; justify-content: center; padding: 20px;
+            background-image: radial-gradient(circle at center, #0f172a 0%, #020617 100%),
+                              linear-gradient(var(--border) 1px, transparent 1px), 
+                              linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
         }
         .login-card {
             background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px);
-            padding: 40px 30px; border-radius: 24px; border: 1px solid var(--border);
-            width: 100%; max-width: 380px; text-align: center;
+            padding: 50px 40px; border-radius: 30px; border: 1px solid var(--border);
+            width: 100%; max-width: 400px; text-align: center;
         }
         input {
-            width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--border);
+            width: 100%; padding: 16px; border-radius: 12px; border: 1px solid var(--border);
             background: rgba(0,0,0,0.4); color: white; outline: none; text-align: center;
-            font-size: 16px; margin-top: 20px;
+            font-size: 16px; font-family: 'JetBrains Mono', monospace; margin-top: 20px;
         }
         .btn-login {
-            background: var(--primary); color: #000; border: none; padding: 14px;
+            background: var(--primary); color: #000; border: none; padding: 16px;
             border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%;
-            font-size: 14px; margin-top: 15px;
+            font-size: 14px; margin-top: 20px; letter-spacing: 1px;
         }
 
         /* --- APP LAYOUT --- */
-        #app-shell { 
-            display: none; 
-            flex: 1;
-            height: 100%;
-        }
+        #app-shell { display: none; flex: 1; height: 100%; transition: filter 1s ease; }
+        #app-shell.blurred { filter: blur(30px); display: grid; }
 
-        /* Top Bar (Endast Mobil) */
         .mobile-header {
-            display: none;
-            height: 60px;
-            background: var(--sidebar);
-            border-bottom: 1px solid var(--border);
-            padding: 0 20px;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 1001;
+            display: none; height: 60px; background: var(--sidebar); border-bottom: 1px solid var(--border);
+            padding: 0 20px; align-items: center; justify-content: space-between; z-index: 1001;
         }
 
-        /* Sidebar (Desktop & Mobil-drawer) */
         .sidebar { 
-            background: var(--sidebar); 
-            border-right: 1px solid var(--border); 
-            padding: 32px 20px; 
-            display: flex; 
-            flex-direction: column;
-            width: 280px;
-            height: 100%;
-            transition: transform 0.3s ease;
+            background: var(--sidebar); border-right: 1px solid var(--border); padding: 32px 20px; 
+            display: flex; flex-direction: column; width: 280px; height: 100%; transition: transform 0.3s ease;
         }
 
         .nav-item { 
@@ -86,19 +73,11 @@
         }
         .nav-item.active { background: var(--primary); color: #000; }
 
-        .main-view { 
-            flex: 1;
-            background: #fff; 
-            margin: 10px; 
-            border-radius: 20px; 
-            overflow: hidden;
-            position: relative;
-        }
+        .main-view { flex: 1; background: #fff; margin: 10px; border-radius: 20px; overflow: hidden; position: relative; }
         
         iframe { width: 100%; height: 100%; border: none; display: none; }
         iframe.active { display: block; }
 
-        /* --- RESPONSIVITET --- */
         @media (min-width: 901px) {
             #app-shell { display: grid; grid-template-columns: 280px 1fr; }
         }
@@ -106,25 +85,12 @@
         @media (max-width: 900px) {
             #app-shell { display: flex; flex-direction: column; }
             .mobile-header { display: flex; }
-            
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 60px;
-                bottom: 0;
-                transform: translateX(-100%); /* Dold som standard */
-                z-index: 1000;
-                width: 100%; /* Tar hela bredden på mobil för att vara tydlig */
-            }
+            .sidebar { position: fixed; left: 0; top: 60px; bottom: 0; transform: translateX(-100%); z-index: 1000; width: 100%; }
             .sidebar.open { transform: translateX(0); }
-            
             .main-view { margin: 0; border-radius: 0; }
         }
 
-        .hamburger {
-            cursor: pointer; font-size: 24px; color: var(--primary);
-        }
-
+        .hamburger { cursor: pointer; font-size: 24px; color: var(--primary); }
         .shake { animation: shake 0.4s ease-in-out; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
     </style>
@@ -160,16 +126,18 @@
     <!-- App Content -->
     <div id="app-shell">
         <aside class="sidebar" id="sidebar">
-            <div style="font-weight:800; font-size:20px; letter-spacing:-1px; margin-bottom:40px; padding:0 10px;" class="hide-mobile">LåneLabbet</div>
+            <div style="font-weight:800; font-size:20px; letter-spacing:-1px; margin-bottom:40px; padding:0 10px;">LåneLabbet</div>
             <div class="nav-item active" id="nav0" onclick="switchTab(0)">📊 Låneupplägg</div>
-            <div class="nav-item" id="nav1" onclick="switchTab(1)">🛡️ Försäkringar</div>
+            <div class="nav-item" id="nav1" onclick="switchTab(1)">📈 Bolånekalkyl</div>
+            <div class="nav-item" id="nav2" onclick="switchTab(2)">🛡️ Försäkringar</div>
             <div style="flex-grow:1"></div>
             <div class="nav-item" style="color:#f43f5e; opacity:0.8; font-size:12px;" onclick="logout()">Logga ut</div>
         </aside>
 
         <main class="main-view">
             <iframe id="frame0" src="laneupplagg.html" class="active"></iframe>
-            <iframe id="frame1" src="forsakringar.html"></iframe>
+            <iframe id="frame1" src="bolanekalkyl.html"></iframe>
+            <iframe id="frame2" src="forsakringar.html"></iframe>
         </main>
     </div>
 
@@ -177,7 +145,6 @@
         function toggleMenu() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
-            // Byt ikon mellan meny och stäng
             document.querySelector('.hamburger').textContent = sidebar.classList.contains('open') ? '✕' : '☰';
         }
 
@@ -198,6 +165,9 @@
             document.getElementById('loader-container').style.display = 'flex';
             initHexStream();
             
+            const app = document.getElementById('app-shell');
+            app.classList.add('blurred');
+
             let progress = 0;
             const bar = document.getElementById('progress-bar');
             const percText = document.getElementById('perc-display');
@@ -217,20 +187,18 @@
         function completeLoading() {
             setTimeout(() => {
                 document.getElementById('loader-container').style.opacity = '0';
-                document.getElementById('app-shell').style.display = window.innerWidth > 900 ? 'grid' : 'flex';
+                const app = document.getElementById('app-shell');
+                app.style.display = window.innerWidth > 900 ? 'grid' : 'flex';
+                app.style.filter = 'blur(0px)';
                 setTimeout(() => { document.getElementById('loader-container').style.display = 'none'; }, 800);
             }, 400);
         }
 
         function switchTab(idx) {
             document.querySelectorAll('iframe').forEach((f, i) => f.classList.toggle('active', i === idx));
-            document.querySelectorAll('.nav-item').forEach((b, i) => { if(i<2) b.classList.toggle('active', i === idx); });
+            document.querySelectorAll('.nav-item').forEach((b, i) => { if(i < 3) b.classList.toggle('active', i === idx); });
             localStorage.setItem('lastTab', idx);
-            
-            // Om vi är på mobil, stäng menyn efter val
-            if (window.innerWidth <= 900) {
-                toggleMenu();
-            }
+            if (window.innerWidth <= 900) toggleMenu();
         }
 
         function initHexStream() {
@@ -240,7 +208,7 @@
             canvas.height = window.innerHeight;
             const hex = "0123456789ABCDEF";
             const drops = Array(Math.floor(canvas.width / 10)).fill(1);
-            setInterval(() => {
+            const interval = setInterval(() => {
                 ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "#06b6d4";
@@ -252,6 +220,7 @@
                     drops[i]++;
                 });
             }, 30);
+            setTimeout(() => clearInterval(interval), 5000);
         }
 
         function logout() { sessionStorage.removeItem('lab_auth'); location.reload(); }
@@ -259,7 +228,8 @@
         window.onload = () => {
             if(sessionStorage.getItem('lab_auth') === 'true') {
                 document.getElementById('login-overlay').style.display = 'none';
-                document.getElementById('app-shell').style.display = window.innerWidth > 900 ? 'grid' : 'flex';
+                const app = document.getElementById('app-shell');
+                app.style.display = window.innerWidth > 900 ? 'grid' : 'flex';
             }
             const lastTab = localStorage.getItem('lastTab');
             if (lastTab) switchTab(parseInt(lastTab));
