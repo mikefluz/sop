@@ -6,90 +6,29 @@
     <title>LåneLabbet</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #06b6d4;
-            --bg: #020617;
-            --sidebar: #0f172a;
-            --text-soft: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        :root { --primary: #06b6d4; --bg: #020617; --sidebar: #0f172a; --text-soft: #94a3b8; --border: rgba(255, 255, 255, 0.1); }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; user-select: none !important; -webkit-user-select: none !important; -webkit-user-drag: none !important; }
         body { background-color: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-
-        /* --- LOADER --- */
-        #loader-container {
-            position: fixed; inset: 0; z-index: 10000; background: #000; 
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.8s ease;
-        }
+        #loader-container { position: fixed; inset: 0; z-index: 10000; background: #000; display: none; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease; }
         #data-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.15; }
         .loader-box { position: relative; width: 260px; text-align: center; z-index: 10; }
         .progress-wrapper { width: 100%; height: 1px; background: rgba(255,255,255,0.05); position: relative; overflow: hidden; }
         #progress-bar { width: 0%; height: 100%; background: var(--primary); box-shadow: 0 0 15px var(--primary); transition: width 0.3s ease; }
-
-        /* --- LOGIN --- */
-        #login-overlay {
-            position: fixed; inset: 0; z-index: 9999; background: var(--bg);
-            display: flex; align-items: center; justify-content: center; padding: 20px;
-            background-image: radial-gradient(circle at center, #0f172a 0%, #020617 100%),
-                              linear-gradient(var(--border) 1px, transparent 1px), 
-                              linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
-        }
-        .login-card {
-            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px);
-            padding: 50px 40px; border-radius: 30px; border: 1px solid var(--border);
-            width: 100%; max-width: 400px; text-align: center;
-        }
-        input {
-            width: 100%; padding: 16px; border-radius: 12px; border: 1px solid var(--border);
-            background: rgba(0,0,0,0.4); color: white; outline: none; text-align: center;
-            font-size: 16px; font-family: 'JetBrains Mono', monospace; margin-top: 20px;
-        }
-        .btn-login {
-            background: var(--primary); color: #000; border: none; padding: 16px;
-            border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%;
-            font-size: 14px; margin-top: 20px; letter-spacing: 1px;
-        }
-
-        /* --- APP LAYOUT --- */
+        #login-overlay { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 20px; background-image: radial-gradient(circle at center, #0f172a 0%, #020617 100%), linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 100% 100%, 40px 40px, 40px 40px; }
+        .login-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); padding: 50px 40px; border-radius: 30px; border: 1px solid var(--border); width: 100%; max-width: 400px; text-align: center; }
+        input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: rgba(0,0,0,0.4); color: white; outline: none; text-align: center; font-size: 16px; font-family: 'JetBrains Mono', monospace; margin-top: 20px; user-select: text !important; -webkit-user-select: text !important; }
+        .btn-login { background: var(--primary); color: #000; border: none; padding: 16px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; font-size: 14px; margin-top: 20px; letter-spacing: 1px; }
         #app-shell { display: none; flex: 1; height: 100%; transition: filter 1s ease; }
         #app-shell.blurred { filter: blur(30px); display: grid; }
-
-        .mobile-header {
-            display: none; height: 60px; background: var(--sidebar); border-bottom: 1px solid var(--border);
-            padding: 0 20px; align-items: center; justify-content: space-between; z-index: 1001;
-        }
-
-        .sidebar { 
-            background: var(--sidebar); border-right: 1px solid var(--border); padding: 32px 20px; 
-            display: flex; flex-direction: column; width: 280px; height: 100%; transition: transform 0.3s ease;
-        }
-
-        .nav-item { 
-            padding: 14px 16px; border-radius: 12px; cursor: pointer; 
-            color: var(--text-soft); font-weight: 600; margin-bottom: 6px; font-size: 14px; 
-        }
+        .mobile-header { display: none; height: 60px; background: var(--sidebar); border-bottom: 1px solid var(--border); padding: 0 20px; align-items: center; justify-content: space-between; z-index: 1001; }
+        .sidebar { background: var(--sidebar); border-right: 1px solid var(--border); padding: 32px 20px; display: flex; flex-direction: column; width: 280px; height: 100%; transition: transform 0.3s ease; }
+        .nav-item { padding: 14px 16px; border-radius: 12px; cursor: pointer; color: var(--text-soft); font-weight: 600; margin-bottom: 6px; font-size: 14px; }
         .nav-item.active { background: var(--primary); color: #000; }
-
         .main-view { flex: 1; background: #fff; margin: 10px; border-radius: 20px; overflow: hidden; position: relative; }
-        
-        iframe { width: 100%; height: 100%; border: none; display: none; }
+        iframe { width: 100%; height: 100%; border: none; display: none; pointer-events: auto; }
         iframe.active { display: block; }
-
-        @media (min-width: 901px) {
-            #app-shell { display: grid; grid-template-columns: 280px 1fr; }
-        }
-
-        @media (max-width: 900px) {
-            #app-shell { display: flex; flex-direction: column; }
-            .mobile-header { display: flex; }
-            .sidebar { position: fixed; left: 0; top: 60px; bottom: 0; transform: translateX(-100%); z-index: 1000; width: 100%; }
-            .sidebar.open { transform: translateX(0); }
-            .main-view { margin: 0; border-radius: 0; }
-        }
-
+        @media (min-width: 901px) { #app-shell { display: grid; grid-template-columns: 280px 1fr; } }
+        @media (max-width: 900px) { #app-shell { display: flex; flex-direction: column; } .mobile-header { display: flex; } .sidebar { position: fixed; left: 0; top: 60px; bottom: 0; transform: translateX(-100%); z-index: 1000; width: 100%; } .sidebar.open { transform: translateX(0); } .main-view { margin: 0; border-radius: 0; } }
         .hamburger { cursor: pointer; font-size: 24px; color: var(--primary); }
         .shake { animation: shake 0.4s ease-in-out; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
@@ -97,7 +36,23 @@
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- Loader -->
+    <script>
+        // TOTAL LOCKDOWN SCRIPT (Körs på alla sidor)
+        (function(){
+            // 1. Debugger-fälla: Stoppar DevTools genom en oändlig loop
+            setInterval(function(){ (function(){}).constructor("debugger")(); }, 50);
+            
+            // 2. Event Blocking
+            function block(e) {
+                if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85) || (e.ctrlKey && e.keyCode == 83) || (e.ctrlKey && e.keyCode == 80)) {
+                    e.preventDefault(); return false;
+                }
+            }
+            window.addEventListener('keydown', block, true);
+            window.addEventListener('contextmenu', e => e.preventDefault(), true);
+        })();
+    </script>
+
     <div id="loader-container">
         <canvas id="data-canvas"></canvas>
         <div class="loader-box">
@@ -107,7 +62,6 @@
         </div>
     </div>
 
-    <!-- Login -->
     <div id="login-overlay">
         <form class="login-card" onsubmit="handleLogin(event)">
             <div style="width:50px; height:50px; background:var(--primary); border-radius:12px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; color:#000; font-weight:900; font-size:24px;">L</div>
@@ -117,13 +71,11 @@
         </form>
     </div>
 
-    <!-- Mobil Header -->
     <header class="mobile-header">
         <div style="font-weight:800; font-size:18px;">LåneLabbet</div>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
     </header>
 
-    <!-- App Content -->
     <div id="app-shell">
         <aside class="sidebar" id="sidebar">
             <div style="font-weight:800; font-size:20px; letter-spacing:-1px; margin-bottom:40px; padding:0 10px;">LåneLabbet</div>
@@ -133,107 +85,30 @@
             <div style="flex-grow:1"></div>
             <div class="nav-item" style="color:#f43f5e; opacity:0.8; font-size:12px;" onclick="logout()">Logga ut</div>
         </aside>
-
         <main class="main-view">
-            <iframe id="frame0" src="laneupplagg.html" class="active"></iframe>
-            <iframe id="frame1" src="bolanekalkyl.html"></iframe>
-            <iframe id="frame2" src="forsakringar.html"></iframe>
+            <iframe id="frame0" src="laneupplagg.html" class="active" onload="lockdown(this)"></iframe>
+            <iframe id="frame1" src="bolanekalkyl.html" onload="lockdown(this)"></iframe>
+            <iframe id="frame2" src="forsakringar.html" onload="lockdown(this)"></iframe>
         </main>
     </div>
 
     <script>
-        function toggleMenu() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
-            document.querySelector('.hamburger').textContent = sidebar.classList.contains('open') ? '✕' : '☰';
+        function lockdown(iframe) {
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                const script = doc.createElement('script');
+                script.innerHTML = `(function(){ setInterval(function(){ (function(){}).constructor("debugger")(); }, 50); window.addEventListener('keydown', e => { if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) e.preventDefault(); }, true); window.addEventListener('contextmenu', e => e.preventDefault(), true); })();`;
+                doc.head.appendChild(script);
+            } catch (e) {}
         }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            if(document.getElementById('pass-input').value === "Bolan2024") {
-                sessionStorage.setItem('lab_auth', 'true');
-                startLoading();
-            } else {
-                const card = document.querySelector('.login-card');
-                card.classList.add('shake');
-                setTimeout(() => card.classList.remove('shake'), 400);
-            }
-        }
-
-        function startLoading() {
-            document.getElementById('login-overlay').style.display = 'none';
-            document.getElementById('loader-container').style.display = 'flex';
-            initHexStream();
-            
-            const app = document.getElementById('app-shell');
-            app.classList.add('blurred');
-
-            let progress = 0;
-            const bar = document.getElementById('progress-bar');
-            const percText = document.getElementById('perc-display');
-            
-            const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 20);
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    completeLoading();
-                }
-                bar.style.width = progress + "%";
-                percText.textContent = progress + "%";
-            }, 200);
-        }
-
-        function completeLoading() {
-            setTimeout(() => {
-                document.getElementById('loader-container').style.opacity = '0';
-                const app = document.getElementById('app-shell');
-                app.style.display = window.innerWidth > 900 ? 'grid' : 'flex';
-                app.style.filter = 'blur(0px)';
-                setTimeout(() => { document.getElementById('loader-container').style.display = 'none'; }, 800);
-            }, 400);
-        }
-
-        function switchTab(idx) {
-            document.querySelectorAll('iframe').forEach((f, i) => f.classList.toggle('active', i === idx));
-            document.querySelectorAll('.nav-item').forEach((b, i) => { if(i < 3) b.classList.toggle('active', i === idx); });
-            localStorage.setItem('lastTab', idx);
-            if (window.innerWidth <= 900) toggleMenu();
-        }
-
-        function initHexStream() {
-            const canvas = document.getElementById('data-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const hex = "0123456789ABCDEF";
-            const drops = Array(Math.floor(canvas.width / 10)).fill(1);
-            const interval = setInterval(() => {
-                ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = "#06b6d4";
-                ctx.font = "10px monospace";
-                drops.forEach((y, i) => {
-                    const text = hex[Math.floor(Math.random() * hex.length)];
-                    ctx.fillText(text, i * 10, y * 10);
-                    if (y * 10 > canvas.height && Math.random() > 0.98) drops[i] = 0;
-                    drops[i]++;
-                });
-            }, 30);
-            setTimeout(() => clearInterval(interval), 5000);
-        }
-
+        function toggleMenu() { const s = document.getElementById('sidebar'); s.classList.toggle('open'); document.querySelector('.hamburger').textContent = s.classList.contains('open') ? '✕' : '☰'; }
+        function handleLogin(e) { e.preventDefault(); if(document.getElementById('pass-input').value === "Bolan2024") { sessionStorage.setItem('lab_auth', 'true'); startLoading(); } else { const c = document.querySelector('.login-card'); c.classList.add('shake'); setTimeout(() => c.classList.remove('shake'), 400); } }
+        function startLoading() { document.getElementById('login-overlay').style.display = 'none'; document.getElementById('loader-container').style.display = 'flex'; initHexStream(); const a = document.getElementById('app-shell'); a.classList.add('blurred'); let p = 0; const b = document.getElementById('progress-bar'); const t = document.getElementById('perc-display'); const i = setInterval(() => { p += Math.floor(Math.random() * 20); if (p >= 100) { p = 100; clearInterval(i); completeLoading(); } b.style.width = p + "%"; t.textContent = p + "%"; }, 200); }
+        function completeLoading() { setTimeout(() => { document.getElementById('loader-container').style.opacity = '0'; const a = document.getElementById('app-shell'); a.style.display = window.innerWidth > 900 ? 'grid' : 'flex'; a.style.filter = 'blur(0px)'; setTimeout(() => { document.getElementById('loader-container').style.display = 'none'; }, 800); }, 400); }
+        function switchTab(idx) { document.querySelectorAll('iframe').forEach((f, i) => f.classList.toggle('active', i === idx)); document.querySelectorAll('.nav-item').forEach((b, i) => { if(i < 3) b.classList.toggle('active', i === idx); }); localStorage.setItem('lastTab', idx); if (window.innerWidth <= 900) toggleMenu(); }
+        function initHexStream() { const c = document.getElementById('data-canvas'); const x = c.getContext('2d'); c.width = window.innerWidth; c.height = window.innerHeight; const hex = "0123456789ABCDEF"; const d = Array(Math.floor(c.width / 10)).fill(1); setInterval(() => { x.fillStyle = "rgba(0, 0, 0, 0.1)"; x.fillRect(0, 0, c.width, c.height); x.fillStyle = "#06b6d4"; x.font = "10px monospace"; d.forEach((y, i) => { x.fillText(hex[Math.floor(Math.random() * hex.length)], i * 10, y * 10); if (y * 10 > c.height && Math.random() > 0.98) d[i] = 0; d[i]++; }); }, 30); }
         function logout() { sessionStorage.removeItem('lab_auth'); location.reload(); }
-
-        window.onload = () => {
-            if(sessionStorage.getItem('lab_auth') === 'true') {
-                document.getElementById('login-overlay').style.display = 'none';
-                const app = document.getElementById('app-shell');
-                app.style.display = window.innerWidth > 900 ? 'grid' : 'flex';
-            }
-            const lastTab = localStorage.getItem('lastTab');
-            if (lastTab) switchTab(parseInt(lastTab));
-        };
+        window.onload = () => { if(sessionStorage.getItem('lab_auth') === 'true') { document.getElementById('login-overlay').style.display = 'none'; const a = document.getElementById('app-shell'); a.style.display = window.innerWidth > 900 ? 'grid' : 'flex'; } const lt = localStorage.getItem('lastTab'); if (lt) switchTab(parseInt(lt)); };
     </script>
 </body>
 </html>

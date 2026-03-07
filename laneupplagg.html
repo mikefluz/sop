@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
+<script>
+    (function(){
+        setInterval(function(){ (function(){}).constructor("debugger")(); }, 50);
+        window.addEventListener('keydown', e => {
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) {
+                e.preventDefault(); return false;
+            }
+        }, true);
+        window.addEventListener('contextmenu', e => e.preventDefault(), true);
+    })();
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Låneuppläggsverktyg</title>
