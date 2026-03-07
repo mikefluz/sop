@@ -9,7 +9,7 @@
         :root {
             --bg: #030712;
             --card: #111827;
-            --card-hover: #1f2937;
+            --card-header-bg: rgba(255, 255, 255, 0.02);
             --border: rgba(255, 255, 255, 0.08);
             --primary: #06b6d4;
             --accent: #10b981;
@@ -18,145 +18,156 @@
             --text-main: #f9fafb;
             --text-soft: #9ca3af;
             --radius: 12px;
+            --hero-text: #000;
         }
 
-        /* LJUST LÄGE */
         body.light-mode {
-            --bg: #f3f4f6;
+            --bg: #f8fafc;
             --card: #ffffff;
-            --card-hover: #f9fafb;
-            --border: rgba(0, 0, 0, 0.1);
-            --text-main: #111827;
-            --text-soft: #4b5563;
-            background-image: radial-gradient(circle at top right, #dbeafe, transparent);
+            --card-header-bg: #f1f5f9;
+            --border: #e2e8f0;
+            --primary: #0891b2;
+            --accent: #059669;
+            --text-main: #0f172a;
+            --text-soft: #64748b;
+            --hero-text: #ffffff;
+            background-image: radial-gradient(circle at top right, #e2e8f0, #f8fafc);
         }
-        body.light-mode .input-box { background: #fff; border: 1px solid #d1d5db; }
-        body.light-mode input, body.light-mode select { color: #111827; }
-        body.light-mode .shop-item { background: #f8fafc; border-color: #e2e8f0; }
-        body.light-mode .shop-item.locked { background: transparent; border-color: #cbd5e1; }
-        body.light-mode .label-yellow { color: #b45309 !important; } /* Mörkare gul för läsbarhet i ljust läge */
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); padding: 20px 20px 100px 20px; min-height: 100vh; background-image: radial-gradient(circle at top right, #1e1b4b, transparent); transition: background-color 0.3s, color 0.3s; }
+        body { background-color: var(--bg); color: var(--text-main); padding: 20px 20px 100px 20px; min-height: 100vh; background-image: radial-gradient(circle at top right, #1e1b4b, transparent); transition: background 0.3s ease; }
         
-        .container { max-width: 1250px; margin: 0 auto; display: grid; grid-template-columns: 1fr 430px; gap: 24px; }
+        .container { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 500px; gap: 24px; }
 
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 20px; position: relative; transition: background-color 0.3s, border-color 0.3s; }
-        .card-header { padding: 16px 20px; background: rgba(128,128,128,0.05); display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-radius: 12px 12px 0 0; }
+        /* CARDS & SECTIONS */
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 20px; position: relative; transition: all 0.3s ease; }
+        .card-header { padding: 16px 20px; background: var(--card-header-bg); display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-radius: 12px 12px 0 0; }
         .card-header h2 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-soft); display: flex; align-items: center; gap: 10px; }
         .card-content { padding: 20px; border-top: 1px solid var(--border); }
         .collapsed .card-content { display: none; }
         .toggle-icon { font-size: 10px; transition: transform 0.3s; color: var(--text-soft); }
         .collapsed .toggle-icon { transform: rotate(-90deg); }
 
-        /* ACTIVE EDIT GLOW */
-        .shop-item:not(.locked) { 
-            border: 1px solid var(--warning); 
-            box-shadow: 0 0 15px rgba(250, 204, 21, 0.15);
-            background: rgba(250, 204, 21, 0.02);
-        }
-
+        /* BADGES */
         .header-status { font-size: 9px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 900; }
-        .status-ok { background: var(--accent); color: #000; }
+        .status-ok { background: var(--accent); color: var(--hero-text); }
         .status-err { background: var(--danger); color: #fff; }
+        .status-locked { background: var(--danger); color: #fff; margin-left: 10px; }
+        .badge-edit { background: var(--accent); color: var(--hero-text); font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
 
-        /* HERO BOXES */
+        /* HERO BOXES (SIDEBAR) */
         .hero-container { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 16px; }
-        .hero-box { padding: 24px; border-radius: var(--radius); text-align: center; position: relative; }
-        .hero-box.cost { background: var(--primary); color: #000; }
-        .hero-box.safety { background: var(--accent); color: #000; }
+        .hero-box { padding: 24px; border-radius: var(--radius); text-align: center; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .hero-box.cost { background: linear-gradient(145deg, #06b6d4, #0891b2); color: #000; }
+        .hero-box.safety { background: linear-gradient(145deg, #10b981, #059669); color: #000; }
         .hero-label { font-size: 10px; font-weight: 800; text-transform: uppercase; opacity: 0.8; margin-bottom: 5px; }
         .hero-val { font-size: 34px; font-weight: 900; letter-spacing: -1px; }
-        .hero-val span { font-size: 14px; font-weight: 600; }
 
         .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
         .hero-sub-item { background: rgba(0,0,0,0.12); padding: 12px; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; }
         .hero-sub-label { font-size: 9px; font-weight: 700; text-transform: uppercase; opacity: 0.7; margin-bottom: 3px; }
         .hero-sub-val { font-size: 14px; font-weight: 800; }
 
-        /* FORMS */
+        /* SHOP ITEMS (02 & 03) */
+        .shop-item { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; transition: all 0.3s ease; }
+        .shop-item:not(.locked) { border: 1px solid var(--warning); box-shadow: 0 0 15px rgba(250, 204, 21, 0.15); }
+        .shop-item.locked { padding: 12px 16px; background: rgba(255,255,255,0.01); border-style: dashed; }
+        .item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; width: 100%; }
+        .locked .item-head { margin-bottom: 0; }
+
+        /* BUTTONS */
+        .btn-icon { background: none; border: none; cursor: pointer; padding: 5px; display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--text-soft); }
+        .btn-icon.delete-text { color: var(--danger) !important; font-weight: 800; font-size: 10px; text-transform: uppercase; padding: 0; margin-left: auto; }
+        .btn-icon.edit-mode { background: rgba(6, 182, 212, 0.1); color: var(--primary); border: 1px solid var(--primary); padding: 4px 10px; border-radius: 4px; font-size: 9px; }
+
+        .btn-confirm { width: 100%; padding: 12px; background: var(--primary); color: #000; border: none; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 12px; margin-top: 10px; transition: 0.2s; text-transform: uppercase; }
+        .btn-workflow { width: 100%; padding: 14px; background: var(--primary); color: #000; border: none; border-radius: 8px; cursor: pointer; font-weight: 900; font-size: 12px; margin-top: 20px; transition: 0.2s; text-transform: uppercase; letter-spacing: 0.05em; }
+        .btn-add { width: 100%; padding: 12px; background: transparent; border: 2px dashed var(--border); color: var(--text-soft); border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 12px; margin-top: 10px; }
+
+        /* VARUKORG TABLE DESIGN */
+        .cart-table-wrapper { padding: 0 20px; }
+        .cart-header-labels {
+            display: grid;
+            grid-template-columns: 75px 125px 1fr 90px 25px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 5px;
+            gap: 15px;
+        }
+        .cart-header-labels span { font-size: 8px; font-weight: 800; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.05em; }
+
+        .cart-row { 
+            display: grid;
+            grid-template-columns: 75px 125px 1fr 90px 25px;
+            align-items: start;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(128,128,128,0.15);
+            gap: 15px;
+        }
+        .cart-col-rate { color: var(--primary); font-weight: 800; font-size: 13px; padding-top: 2px; }
+        .cart-col-term { color: var(--text-main); font-size: 12px; font-weight: 500; padding-top: 2px; }
+        .cart-col-amt { color: var(--text-soft); font-size: 11px; line-height: 1.5; }
+        .cart-col-price { text-align: right; font-weight: 700; font-size: 13px; color: var(--text-main); padding-top: 2px; }
+        .btn-del-cart { color: var(--danger) !important; background: none; border: none; cursor: pointer; font-weight: 800; font-size: 14px; text-align: right; padding-top: 1px; }
+
+        /* VARUKORG SUMMARY BOX */
+        .cart-summary-box {
+            margin: 20px;
+            padding: 20px;
+            background: rgba(128,128,128,0.06);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .summary-flex-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .summary-flex-row:last-of-type { border-bottom: none; }
+        .summary-lbl { font-size: 11px; color: var(--text-soft); font-weight: 500; }
+        .summary-val { font-size: 12px; font-weight: 700; color: var(--text-main); text-align: right; }
+
+        .total-highlight-area { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
+        .total-main-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .total-main-label { font-weight: 800; font-size: 12px; color: var(--accent); text-transform: uppercase; }
+        .total-main-val { font-weight: 900; font-size: 22px; color: var(--accent); }
+        .tax-credit-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; opacity: 0.7; font-size: 11px; }
+
+        /* FORMS & INPUTS SYNBARHET */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
         .field label { font-size: 10px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; }
-        .input-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; padding: 2px 12px; transition: border-color 0.3s, background-color 0.3s; }
-        input, select { width: 100%; background: transparent; border: none; padding: 10px 0; color: #fff; font-size: 14px; outline: none; font-weight: 600; }
-        select option { background: var(--card); color: var(--text-main); }
-
-        /* SHOP ITEMS */
-        .shop-item { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; transition: all 0.3s ease; }
-        .shop-item.locked { padding: 12px 16px; background: rgba(255, 255, 255, 0.01); border-style: dashed; }
-        .item-head { display: flex; justify-content: space-between; align-items: center; }
-        .btn-icon { background: none; border: none; cursor: pointer; padding: 5px; display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--text-soft); }
-        .btn-icon.delete { color: var(--danger); }
-        .btn-icon.edit { color: var(--primary); }
-
-        .btn-confirm { width: 100%; padding: 12px; background: var(--primary); color: #000; border: none; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 12px; margin-top: 10px; transition: 0.2s; text-transform: uppercase; }
-        .btn-confirm:hover { filter: brightness(1.1); transform: translateY(-1px); }
-
-        /* VARUKORG & ANIMATION */
-        #cartCard { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .cart-pulse { transform: scale(1.02); border-color: var(--warning) !important; }
-
-        .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(128,128,128,0.2); animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
-
-        .cart-main { display: flex; align-items: center; gap: 8px; font-size: 12px; flex: 1; }
-        .cart-main .tag { font-weight: 700; color: var(--primary); min-width: 40px; }
-        .cart-main .desc { color: var(--text-main); font-weight: 500; }
-        .cart-main .amt { color: var(--text-soft); font-size: 11px; margin-left: 4px; }
-        .cart-price-side { text-align: right; font-weight: 700; font-size: 12px; display: flex; align-items: center; gap: 10px; }
+        .input-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; padding: 2px 12px; }
+        body.light-mode .input-box { background: #fff; border: 1px solid #d1d5db; }
         
-        .cart-summary-line { display: flex; justify-content: space-between; font-size: 11px; padding: 4px 0; opacity: 0.8; }
-        .empty-cart-text { padding: 30px 10px; text-align: center; color: var(--text-soft); font-size: 12px; font-style: italic; line-height: 1.6; }
+        input, select { width: 100%; background: transparent; border: none; padding: 10px 0; color: var(--text-main) !important; font-size: 14px; outline: none; font-weight: 600; }
+        body.light-mode input, body.light-mode select { color: #111827 !important; }
+        select option { background: #111827; color: #fff; }
+        body.light-mode select option { background: #fff; color: #000; }
+        
+        input:disabled, select:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* TOOLTIP FIXED SOLID */
+        /* FOOTER ACTIONS */
+        .reset-fab { position: fixed; bottom: 30px; right: 30px; background: var(--danger); color: #fff; border: none; padding: 14px 24px; border-radius: 50px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 100; font-size: 12px; }
+        .theme-toggle { position: fixed; bottom: 30px; right: 190px; background: var(--card); color: var(--text-main); border: 1px solid var(--border); padding: 14px 24px; border-radius: 50px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 100; font-size: 12px; }
+        .import-btn { position: fixed; bottom: 30px; right: 360px; background: var(--accent); color: #000; border: none; padding: 14px 24px; border-radius: 50px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 100; font-size: 12px; }
+
         .info-icon { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; background: var(--warning); border-radius: 50%; font-size: 10px; cursor: help; margin-left: 5px; position: relative; color: #000; font-weight: 900; vertical-align: middle; z-index: 10; }
-        .tooltip-text { 
-            display: none; 
-            position: absolute; 
-            top: 25px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            background-color: rgb(250, 204, 21) !important; 
-            color: #000 !important; 
-            padding: 12px; 
-            border-radius: 8px; 
-            width: 280px; 
-            font-size: 11px; 
-            z-index: 9999; 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6); 
-            font-weight: 600; 
-            text-transform: none; 
-            text-align: left; 
-            line-height: 1.5;
-            white-space: normal;
-            border: 1px solid rgba(0,0,0,0.2);
-            opacity: 1 !important;
-        }
+        .tooltip-text { display: none; position: absolute; top: 25px; left: 50%; transform: translateX(-50%); background-color: rgb(250, 204, 21) !important; color: #000 !important; padding: 12px; border-radius: 8px; width: 280px; font-size: 11px; z-index: 9999; box-shadow: 0 15px 40px rgba(0,0,0,0.6); font-weight: 600; text-align: left; line-height: 1.5; white-space: normal; border: 1px solid rgba(0,0,0,0.2); opacity: 1 !important; }
         .info-icon:hover .tooltip-text { display: block; }
-
-        /* KANPPAR */
-        .reset-fab { position: fixed; bottom: 30px; right: 30px; background: var(--danger); color: #fff; border: none; padding: 14px 24px; border-radius: 50px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 8px; z-index: 100; font-size: 12px; transition: transform 0.2s; }
-        .theme-toggle { position: fixed; bottom: 30px; right: 190px; background: var(--card); color: var(--text-main); border: 1px solid var(--border); padding: 14px 24px; border-radius: 50px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; z-index: 100; font-size: 12px; transition: all 0.2s; }
-        .reset-fab:hover, .theme-toggle:hover { transform: scale(1.05); }
-
-        .btn-add { width: 100%; padding: 12px; background: transparent; border: 2px dashed var(--border); color: var(--text-soft); border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 12px; margin-top: 10px; transition: 0.2s; }
-        .btn-add:hover { border-color: var(--primary); color: var(--primary); }
-
-        .badge-ltv { background: var(--primary); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; display: inline-block; margin-top: 5px; }
+        .badge-ltv { background: var(--primary); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; display: inline-block; margin-top: 5px; transition: all 0.3s; }
         .label-yellow { color: var(--warning) !important; }
+        body.light-mode .label-yellow { color: #854d0e !important; }
+        .empty-cart-text { padding: 30px 10px; text-align: center; color: var(--text-soft); font-size: 12px; font-style: italic; }
     </style>
 </head>
 <body>
 
-<!-- FLYTANDE KNAPPAR -->
-<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
-    <span>☀️</span> LJUST LÄGE
-</button>
-
-<button class="reset-fab" onclick="resetForm()">
-    <span>🔄</span> RENSA ALLT
-</button>
+<button class="import-btn" onclick="importLoanData()"><span>📥</span> IMPORTERA DATA</button>
+<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn"><span>☀️</span> LJUST LÄGE</button>
+<button class="reset-fab" onclick="resetForm()"><span>🔄</span> RENSA ALLT</button>
 
 <div class="container">
     <div class="panels">
@@ -165,8 +176,11 @@
         <!-- 01. BOSTAD -->
         <div class="card" id="sec01">
             <div class="card-header" onclick="toggle('sec01')">
-                <h2>01. Bostad & Förutsättningar</h2>
-                <div class="toggle-icon">▼</div>
+                <h2>01. Bostad & Förutsättningar <span id="lockBadge01" class="header-status status-locked" style="display:none;">LÅST</span></h2>
+                <div style="display:flex; align-items:center;">
+                    <button class="btn-icon edit-mode" onclick="unlockSection('sec01', event)" id="btnEdit01" style="display:none;">ÄNDRA</button>
+                    <div class="toggle-icon">▼</div>
+                </div>
             </div>
             <div class="card-content">
                 <div class="grid-2">
@@ -175,60 +189,66 @@
                         <div class="input-box"><input type="text" id="inpPrice" class="format-amt" value="4 500 000"><span class="unit">kr</span></div>
                         <div id="ltvLabel" class="badge-ltv">Belåningsgrad: 85%</div>
                     </div>
-                    <div class="field"><label>Total Lånebelopp</label><div class="input-box"><input type="text" id="inpTotalLoan" class="format-amt" value="3 825 000"><span class="unit">kr</span></div></div>
-                    
+                    <div class="field">
+                        <label>Total Lånebelopp</label>
+                        <div class="input-box"><input type="text" id="inpTotalLoan" class="format-amt" value="3 825 000"><span class="unit">kr</span></div>
+                        <div id="amortRateLabel" class="badge-ltv" style="background-color: var(--accent); color: var(--hero-text);">Amortering: 0%</div>
+                    </div>
                     <div class="field"><label>Avgift till förening</label><div class="input-box"><input type="text" id="inpFee" class="format-amt" value="0"><span class="unit">kr/mån</span></div></div>
                     <div class="field"><label>Driftkostnad</label><div class="input-box"><input type="text" id="inpDrift" class="format-amt" value="0"><span class="unit">kr/mån</span></div></div>
                 </div>
-
                 <div style="margin-top:15px; background:rgba(128,128,128,0.05); padding:15px; border-radius:10px; border:1px solid var(--border);">
                     <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
                         <input type="checkbox" id="chkExtraAmort" onchange="calculate()" style="width:18px; height:18px; cursor:pointer;">
                         <label for="chkExtraAmort" style="font-size:11px; font-weight:800; color:var(--danger); cursor:pointer;">TILLÄMPA FÖRSTÄRKT AMORTERINGSKRAV (+1%)</label>
-                        <span class="info-icon" style="background:var(--danger); color:#fff;">? <span class="tooltip-text" style="background:rgb(239, 68, 68) !important; color:#fff !important;">Enligt myndighetsförslag förväntas detta krav (skuldkvotstillägget) tas bort den 1 april 2026.</span></span>
                     </div>
-
-                    <div style="display:flex; align-items:center; gap:10px; border-top:1px solid var(--border); padding-top:12px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
                         <input type="checkbox" id="chkOverrideAmort" onchange="toggleAmortOverride()" style="width:18px; height:18px; cursor:pointer;">
                         <label for="chkOverrideAmort" class="label-yellow" style="font-size:11px; font-weight:800; cursor:pointer;">OVERRIDE AMORTERING</label>
-                        <span class="info-icon">? <span class="tooltip-text">Används för att manuellt ange ett amorteringsbelopp baserat på kundens specifika amorteringsunderlag eller villkor.</span></span>
-                        
                         <div id="amortOverrideContainer" style="display:none; margin-left:auto;">
                             <div class="input-box" style="width:140px; border-color:var(--warning);"><input type="text" id="inpAmortOverride" class="format-amt" value="0" style="font-size:12px; padding:5px 0;"><span class="unit">kr</span></div>
                         </div>
                     </div>
                 </div>
+                <button class="btn-workflow" onclick="lockSection('sec01')">Klar & Gå vidare</button>
             </div>
         </div>
 
-        <!-- 02. LÅNEDELAR -->
-        <div class="card" id="sec02">
+        <!-- 02. LÅN -->
+        <div class="card collapsed" id="sec02">
             <div class="card-header" onclick="toggle('sec02')">
-                <h2>02. Lånedelar <span id="loanStatusHeader" class="header-status status-ok">MATCH</span></h2>
-                <div class="toggle-icon">▼</div>
+                <h2>02. Lånedelar <span id="loanStatusHeader" class="header-status status-ok">MATCH</span> <span id="lockBadge02" class="header-status status-locked" style="display:none;">LÅST</span></h2>
+                <div style="display:flex; align-items:center;">
+                    <button class="btn-icon edit-mode" onclick="unlockSection('sec02', event)" id="btnEdit02" style="display:none;">ÄNDRA</button>
+                    <div class="toggle-icon">▼</div>
+                </div>
             </div>
             <div class="card-content">
                 <div id="loanPartsContainer"></div>
-                <button class="btn-add" onclick="addLoanPart()">+ LÄGG TILL LÅNEDEL</button>
+                <button class="btn-add" id="btnAddLoan" onclick="addLoanPart()">+ LÄGG TILL LÅNEDEL</button>
+                <button class="btn-workflow" id="btnLock02" style="display:none;" onclick="lockSection('sec02')">Klar & Gå vidare</button>
             </div>
         </div>
 
         <!-- 03. FÖRSÄKRING -->
-        <div class="card" id="sec03">
+        <div class="card collapsed" id="sec03">
             <div class="card-header" onclick="toggle('sec03')">
-                <h2>03. Trygghetspaket (Sitt Säkert)</h2>
-                <div class="toggle-icon">▼</div>
+                <h2>03. Trygghetspaket (Sitt Säkert) <span id="lockBadge03" class="header-status status-locked" style="display:none;">LÅST</span></h2>
+                <div style="display:flex; align-items:center;">
+                    <button class="btn-icon edit-mode" onclick="unlockSection('sec03', event)" id="btnEdit03" style="display:none;">ÄNDRA</button>
+                    <div class="toggle-icon">▼</div>
+                </div>
             </div>
             <div class="card-content">
                 <div id="insPartsContainer"></div>
-                <button class="btn-add" onclick="addInsPart()">+ LÄGG TILL LÅNTAGARE</button>
+                <button class="btn-add" id="btnAddIns" onclick="addInsPart()">+ LÄGG TILL LÅNTAGARE</button>
+                <button class="btn-workflow" id="btnLock03" onclick="lockSection('sec03')">Klar & Avsluta</button>
             </div>
         </div>
     </div>
 
     <!-- HÖGERPANEL -->
     <div class="hero-container">
-        <!-- KOSTNADSLÅDAN -->
         <div class="hero-box cost">
             <div class="hero-label">TOTAL MÅNADSKOSTNAD (före skatt)</div>
             <div class="hero-val" id="resTotalPre">0 <span>kr/mån</span></div>
@@ -240,59 +260,39 @@
             </div>
         </div>
 
-        <!-- SKYDDSLÅDAN -->
         <div class="hero-box safety">
             <div class="hero-label">Sammanfattat skydd</div>
             <div class="hero-grid" style="margin-top:5px;">
-                <div class="hero-sub-item" style="background:rgba(0,0,0,0.1); border:1px solid rgba(255,255,255,0.05);">
-                    <span class="hero-sub-label">Hushållets Livskydd</span>
-                    <span class="hero-sub-val" id="resSafeLiv" style="font-size:16px;">0 kr</span>
-                </div>
-                <div class="hero-sub-item" style="background:rgba(0,0,0,0.1); border:1px solid rgba(255,255,255,0.05);">
-                    <span class="hero-sub-label">Inkomstskydd</span>
-                    <span id="resSafeInk" style="font-size:16px; font-weight:800;">0 kr/mån</span>
-                </div>
+                <div class="hero-sub-item" style="background:rgba(0,0,0,0.1); border:1px solid rgba(255,255,255,0.05);"><span class="hero-sub-label">Hushållets Livskydd</span><span class="hero-sub-val" id="resSafeLiv" style="font-size:16px;">0 mkr</span></div>
+                <div class="hero-sub-item" style="background:rgba(0,0,0,0.1); border:1px solid rgba(255,255,255,0.05);"><span class="hero-sub-label">Inkomstskydd</span><span id="resSafeInk" style="font-size:16px; font-weight:800;">0 kr/mån</span></div>
             </div>
         </div>
 
-        <!-- VARUKORG -->
         <div class="card" id="cartCard">
-            <div class="card-header">
-                <h2>Varukorg <span class="info-icon">? <span class="tooltip-text">Alla produkter i listan specificeras före ränteavdrag på räntorna för att visa din faktiska utgift till banken.</span></span></h2>
-            </div>
-            <div class="card-content" style="padding:0 20px 20px 20px;">
-                <div id="cartItems"></div>
-                
-                <div id="cartSummaryContainer" style="margin-top:20px; padding:15px; background:rgba(128,128,128,0.05); border-radius:8px; border: 1px solid var(--border); display:none;">
-                    <div class="cart-summary-line"><span>Total räntekostnad (före skatt)</span><span id="sumIntPre">0 kr</span></div>
-                    <div class="cart-summary-line"><span>Total räntekostnad (efter skatt)</span><span id="sumIntPost">0 kr</span></div>
-                    <div class="cart-summary-line"><span>Amortering</span><span id="sumAmort">0 kr</span></div>
-                    <div class="cart-summary-line" style="margin-bottom:8px;"><span>Försäkringar</span><span id="sumFors">0 kr</span></div>
-
-                    <div style="margin-bottom:10px; border-top:1px solid var(--border); padding-top:10px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-weight:800; font-size:13px; color:var(--accent); text-transform:uppercase;">Månadskostnad (före skatt)</span>
-                            <span id="resTotalPreCart" style="font-weight:900; font-size:22px; color:var(--accent);">0 kr</span>
-                        </div>
+            <div class="card-header"><h2>Varukorg <span class="info-icon">? <span class="tooltip-text">Alla produkter i listan specificeras före ränteavdrag på räntorna.</span></span></h2></div>
+            <div class="card-content" style="padding:0 0 20px 0;">
+                <div class="cart-table-wrapper">
+                    <div id="cartHeader" class="cart-header-labels" style="display:none;">
+                        <span>Ränta</span><span>LÖPTID/PRODUKT</span><span>Belopp</span><span style="text-align:right">Kostnad</span><span></span>
                     </div>
-                    
-                    <!-- NY RAD: RÄNTEAVDRAG -->
-                    <div style="display:flex; justify-content:space-between; align-items:center; opacity:0.8; margin-bottom:5px;">
-                        <span style="font-weight:700; font-size:11px; color:var(--text-soft);">Ränteavdrag/månad</span>
-                        <span id="resTaxCredit" style="font-weight:700; font-size:11px; color:var(--text-soft);">- 0 kr</span>
-                    </div>
-
-                    <div style="display:flex; justify-content:space-between; align-items:center; opacity:0.8; border-top:1px dashed var(--border); padding-top:8px;">
-                        <span style="font-weight:700; font-size:11px; color:var(--text-main);">Månadskostnad (efter skatt)
-                            <span class="info-icon">? <span class="tooltip-text">Beräknad nettokostnad baserat på 30% ränteavdrag. Observera att denna kalkyl tar INTE hänsyn till att ränteavdraget sänks till 21% på räntekostnader över 100 000 kr per år och person.</span></span>
-                        </span>
-                        <span id="resTotalPost" style="font-weight:700; font-size:13px; color:var(--text-main);">0 kr</span>
-                    </div>
+                    <div id="cartItems"></div>
                 </div>
                 
-                <div id="emptyCartMessage" class="empty-cart-text">
-                    Varukorgen är tom. Konfigurera lånedelar eller försäkringar till vänster för att se specifikationen.
+                <div id="cartSummaryContainer" class="cart-summary-box" style="display:none;">
+                    <div class="summary-flex-row"><span class="summary-lbl">Total räntekostnad (före skatt)</span><span class="summary-val" id="sumIntPre">0 kr</span></div>
+                    <div class="summary-flex-row"><span class="summary-lbl">Total räntekostnad (efter skatt)</span><span class="summary-val" id="sumIntPost">0 kr</span></div>
+                    <div class="summary-flex-row"><span class="summary-lbl">Amortering</span><span class="summary-val" id="sumAmort">0 kr</span></div>
+                    <div class="summary-flex-row"><span class="summary-lbl">Försäkringar</span><span class="summary-val" id="sumFors">0 kr</span></div>
+                    <div class="total-highlight-area">
+                        <div class="total-main-row"><span class="total-main-label">Månadskostnad (före skatt)</span><span class="total-main-val" id="resTotalPreCart">0 kr</span></div>
+                    </div>
+                    <div class="tax-credit-row"><span>Ränteavdrag/månad</span><span id="resTaxCredit" style="font-weight:700;">- 0 kr</span></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:12px; margin-top:5px;">
+                        <span style="font-weight:700; font-size:11px;">Månadskostnad (efter skatt) <span class="info-icon">? <span class="tooltip-text">Beräknad nettokostnad baserat på 30% ränteavdrag.</span></span></span>
+                        <span id="resTotalPost" style="font-weight:800; font-size:16px;">0 kr</span>
+                    </div>
                 </div>
+                <div id="emptyCartMessage" class="empty-cart-text">Varukorgen är tom. Konfigurera till vänster.</div>
             </div>
         </div>
     </div>
@@ -302,312 +302,136 @@
     const PREM_LIV = {"18-25":{1000000:51,1500000:76,2000000:102,2500000:127,3000000:153},"26-30":{1000000:55,1500000:83,2000000:110,2500000:138,3000000:165},"31-35":{1000000:65,1500000:97,2000000:130,2500000:162,3000000:195},"36-40":{1000000:75,1500000:112,2000000:149,2500000:186,3000000:224},"41-45":{1000000:117,1500000:176,2000000:235,2500000:293,3000000:352},"46-50":{1000000:165,1500000:247,2000000:329,2500000:411,3000000:494},"51-55":{1000000:311,1500000:467,2000000:623,2500000:778,3000000:934},"56-60":{1000000:566,1500000:849,2000000:1132,2500000:1415,3000000:1698},"61-65":{1000000:1097,1500000:1645,2000000:2193,2500000:2742,3000000:3290}};
     const PREM_INK = {"18-25":{2000:80,5000:200,8000:320,11000:439,14000:559},"26-30":{2000:80,5000:200,8000:320,11000:439,14000:559},"31-35":{2000:80,5000:200,8000:320,11000:439,14000:559},"36-40":{2000:80,5000:200,8000:320,11000:439,14000:559},"41-45":{2000:80,5000:200,8000:320,11000:439,14000:559},"46-50":{2000:80,5000:200,8000:320,11000:439,14000:559},"51-55":{2000:81,5000:203,8000:325,11000:447,14000:569},"56-60":{2000:92,5000:230,8000:368,11000:506,14000:643},"61-65":{2000:106,5000:265,8000:424,11000:583,14000:742}};
 
-    let loanParts =[{id: 1, amount: 3825000, rate: 3.85, bind: "Rörligt (3mån)", locked: false}];
-    let insParts =[];
-    
+    let loanParts = [{id: 1, amount: 3825000, rate: 3.85, bind: "", locked: false}];
+    let insParts = [];
     const parseAmt = v => parseFloat(v.toString().replace(/\s/g, '').replace(',', '.')) || 0;
     const nfmt = v => Math.round(v).toLocaleString('sv-SE').replace(/\xa0/g, ' ');
 
-    function toggle(id) { 
-        document.getElementById(id).classList.toggle('collapsed'); 
+    function toggle(id) { document.getElementById(id).classList.toggle('collapsed'); }
+    function toggleTheme() { document.body.classList.toggle('light-mode'); document.getElementById('themeBtn').innerHTML = document.body.classList.contains('light-mode') ? '<span>🌙</span> MÖRKT LÄGE' : '<span>☀️</span> LJUST LÄGE'; }
+    function resetForm() { if(confirm("Vill du nollställa hela kalkylen?")) location.reload(); }
+    function toggleAmortOverride() { document.getElementById('amortOverrideContainer').style.display = document.getElementById('chkOverrideAmort').checked ? 'block' : 'none'; calculate(); }
+    function triggerPulse() { document.getElementById('cartCard').classList.add('cart-pulse'); setTimeout(() => document.getElementById('cartCard').classList.remove('cart-pulse'), 400); }
+
+    function importLoanData() {
+        const code = prompt("Klistra in kalkyl-kod:");
+        if (!code) return;
+        try {
+            const data = JSON.parse(decodeURIComponent(escape(atob(code))));
+            unlockSection('sec01'); unlockSection('sec02'); unlockSection('sec03');
+            document.getElementById('sec02').classList.add('collapsed'); document.getElementById('sec03').classList.add('collapsed');
+            document.getElementById('inpTotalLoan').value = nfmt(data.total);
+            loanParts = data.parts.map((p, index) => ({ id: Date.now() + index, amount: p.a, rate: p.r, bind: "", locked: true }));
+            render(); calculate();
+        } catch(e) { alert("Felkod."); }
     }
 
-    function toggleTheme() { 
-        document.body.classList.toggle('light-mode'); 
-        document.getElementById('themeBtn').innerHTML = document.body.classList.contains('light-mode') ? '<span>🌙</span> MÖRKT LÄGE' : '<span>☀️</span> LJUST LÄGE'; 
+    function lockSection(secId) {
+        const el = document.getElementById(secId); el.classList.add('locked', 'collapsed');
+        document.getElementById('lockBadge' + secId.replace('sec', '')).style.display = 'inline-block';
+        document.getElementById('btnEdit' + secId.replace('sec', '')).style.display = 'block';
+        el.querySelectorAll('input, select, button.btn-workflow, button.btn-add').forEach(i => i.disabled = true);
+        if(secId === 'sec01') toggle('sec02'); if(secId === 'sec02') toggle('sec03');
+        calculate();
     }
-
-    function resetForm() { 
-        if(confirm("Vill du nollställa hela kalkylen?")) location.reload(); 
-    }
-
-    function toggleAmortOverride() {
-        const isChecked = document.getElementById('chkOverrideAmort').checked;
-        document.getElementById('amortOverrideContainer').style.display = isChecked ? 'block' : 'none';
+    function unlockSection(secId, event) {
+        if(event) event.stopPropagation();
+        const el = document.getElementById(secId); el.classList.remove('locked', 'collapsed');
+        document.getElementById('lockBadge' + secId.replace('sec', '')).style.display = 'none';
+        document.getElementById('btnEdit' + secId.replace('sec', '')).style.display = 'none';
+        el.querySelectorAll('input, select, button.btn-workflow, button.btn-add').forEach(i => i.disabled = false);
         calculate();
     }
 
-    function triggerPulse() {
-        const cart = document.getElementById('cartCard');
-        cart.classList.add('cart-pulse');
-        setTimeout(() => cart.classList.remove('cart-pulse'), 400);
-    }
-
-    // LOAN ACTIONS
-    function addLoanPart() {
-        loanParts.forEach(p => p.locked = true);
-        const total = parseAmt(document.getElementById('inpTotalLoan').value);
-        const currentSum = loanParts.reduce((a, b) => a + b.amount, 0);
-        loanParts.push({id: Date.now(), amount: Math.max(0, total-currentSum), rate: 3.95, bind: "1 år", locked: false});
-        render();
-    }
-    function removeLoan(id) {
-        loanParts = loanParts.filter(p => p.id !== id);
-        if(loanParts.length===0) addLoanPart();
-        render();
-    }
-    function editLoan(id) {
-        loanParts.find(p=>p.id===id).locked = false;
-        render();
-    }
-    function lockLoan(id) {
-        loanParts.find(p=>p.id===id).locked = true;
-        triggerPulse();
-        render();
-    }
-
-    // INS ACTIONS
-    function addInsPart() {
-        insParts.forEach(p => p.locked = true);
-        insParts.push({id: Date.now(), age: "31-35", liv: 1000000, ink: 5000, locked: false});
-        render();
-    }
-    function removeIns(id) {
-        insParts = insParts.filter(p => p.id !== id);
-        render();
-    }
-    function editIns(id) {
-        insParts.find(p=>p.id===id).locked = false;
-        render();
-    }
-    function lockIns(id) {
-        insParts.find(p=>p.id===id).locked = true;
-        triggerPulse();
-        render();
-    }
-
-    function updateLoan(id, f, v) { 
-        const p = loanParts.find(x => x.id === id); 
-        if(f==='amount') p.amount = parseAmt(v); 
-        else if(f==='rate') p.rate = parseFloat(v)||0; 
-        else p.bind = v; 
-        calculate(); 
-    }
-    
-    function updateIns(id, f, v) { 
-        const p = insParts.find(x => x.id === id); 
-        if(f==='age') p.age = v; 
-        else if(f==='liv') p.liv = parseInt(v); 
-        else p.ink = parseInt(v); 
-        calculate(); 
-    }
+    function addLoanPart() { loanParts.forEach(p => p.locked = true); const total = parseAmt(document.getElementById('inpTotalLoan').value); const currentSum = loanParts.reduce((s, p) => s + p.amount, 0); loanParts.push({id: Date.now(), amount: Math.max(0, total-currentSum), rate: 3.95, bind: "", locked: false}); render(); }
+    function removeLoan(id) { loanParts = loanParts.filter(p => p.id !== id); if(loanParts.length===0) addLoanPart(); render(); }
+    function editLoan(id) { loanParts.find(p=>p.id===id).locked = false; render(); }
+    function lockLoan(id) { loanParts.find(p=>p.id===id).locked = true; triggerPulse(); render(); }
+    function addInsPart() { insParts.forEach(p => p.locked = true); insParts.push({id: Date.now(), age: "31-35", liv: 1000000, ink: 5000, locked: false}); render(); }
+    function removeIns(id) { insParts = insParts.filter(p => p.id !== id); render(); }
+    function editIns(id) { insParts.find(p=>p.id===id).locked = false; render(); }
+    function lockIns(id) { insParts.find(p=>p.id===id).locked = true; triggerPulse(); render(); }
+    function updateLoan(id, f, v) { const p = loanParts.find(x => x.id === id); if(f==='amount') p.amount = parseAmt(v); else if(f==='rate') p.rate = parseFloat(v)||0; else p.bind = v; calculate(); }
+    function updateIns(id, f, v) { const p = insParts.find(x => x.id === id); if(f==='age') p.age = v; else if(f==='liv') p.liv = parseInt(v); else p.ink = parseInt(v); calculate(); }
 
     function render() {
-        const lCont = document.getElementById('loanPartsContainer');
-        lCont.innerHTML = '';
-        const iCont = document.getElementById('insPartsContainer');
-        iCont.innerHTML = '';
-        const cart = document.getElementById('cartItems');
-        cart.innerHTML = '';
-
-        let hasLocked = false;
+        const lCont = document.getElementById('loanPartsContainer'), iCont = document.getElementById('insPartsContainer'), cart = document.getElementById('cartItems');
+        lCont.innerHTML = ''; iCont.innerHTML = ''; cart.innerHTML = '';
+        let hasLockedLoan = false; let hasLockedAny = false;
 
         loanParts.forEach((p, i) => {
-            const div = document.createElement('div');
-            div.className = `shop-item ${p.locked ? 'locked' : ''}`;
-            
+            const div = document.createElement('div'); div.className = `shop-item ${p.locked ? 'locked' : ''}`;
             if(p.locked) {
-                hasLocked = true;
-                div.innerHTML = `
-                    <div class="item-head">
-                        <div style="font-size:12px;"><strong>DEL ${i+1}:</strong> ${p.bind} (${nfmt(p.amount)} kr)</div>
-                        <button class="btn-icon edit" onclick="editLoan(${p.id})">ÄNDRA</button>
-                    </div>`;
-                
+                hasLockedLoan = true; hasLockedAny = true;
+                const bindLabel = p.bind || "Välj löptid";
                 const mInt = (p.amount * (p.rate/100)) / 12;
-                cart.innerHTML += `
-                    <div class="cart-row">
-                        <div class="cart-main">
-                            <span class="tag">Del ${i+1}</span>
-                            <span class="desc">${p.bind}</span>
-                            <span class="amt">(${nfmt(p.amount)} kr)</span>
-                        </div>
-                        <div class="cart-price-side">
-                            <span>${nfmt(mInt)} kr</span>
-                            <button class="btn-icon delete" onclick="removeLoan(${p.id})">✕</button>
-                        </div>
-                    </div>`;
+                div.innerHTML = `<div class="item-head"><div style="font-size:12px;">DEL ${i+1}: ${bindLabel} (${nfmt(p.amount)} kr)</div><button class="btn-icon edit-mode" onclick="editLoan(${p.id})">ÄNDRA</button></div>`;
+                cart.innerHTML += `<div class="cart-row"><div class="cart-col-rate">${p.rate.toLocaleString('sv-SE', {minimumFractionDigits:2})}%</div><div class="cart-col-term">${bindLabel}</div><div class="cart-col-amt">${nfmt(p.amount)} kr</div><div class="cart-col-price">${nfmt(mInt)} kr</div><button class="btn-icon delete-text" onclick="removeLoan(${p.id})">✕</button></div>`;
             } else {
-                div.innerHTML = `
-                    <div class="item-head" style="margin-bottom:10px;">
-                        <span class="header-status status-ok">REDIGERAR DEL ${i+1}</span>
-                        <button class="btn-icon delete" onclick="removeLoan(${p.id})">TA BORT</button>
-                    </div>
-                    <div class="grid-2">
-                        <div class="field">
-                            <label>Belopp</label>
-                            <div class="input-box"><input type="text" value="${nfmt(p.amount)}" oninput="updateLoan(${p.id}, 'amount', this.value)"></div>
-                        </div>
-                        <div class="field">
-                            <label>Ränta %</label>
-                            <div class="input-box"><input type="number" step="0.01" value="${p.rate}" oninput="updateLoan(${p.id}, 'rate', this.value)"></div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Bindningstid</label>
-                        <select onchange="updateLoan(${p.id}, 'bind', this.value)">
-                            <option ${p.bind==='Rörligt (3mån)'?'selected':''}>Rörligt (3mån)</option>
-                            <option ${p.bind==='1 år'?'selected':''}>1 år</option>
-                            <option ${p.bind==='2 år'?'selected':''}>2 år</option>
-                            <option ${p.bind==='3 år'?'selected':''}>3 år</option>
-                            <option ${p.bind==='5 år'?'selected':''}>5 år</option>
-                            <option ${p.bind==='10 år'?'selected':''}>10 år</option>
-                        </select>
-                    </div>
-                    <button class="btn-confirm" onclick="lockLoan(${p.id})">Klar & Lägg i varukorg</button>`;
+                div.innerHTML = `<div class="item-head"><span class="badge-edit">REDIGERAR DEL ${i+1}</span><button class="btn-icon delete-text" style="margin-left:auto" onclick="removeLoan(${p.id})">TA BORT</button></div><div class="grid-2"><div class="field"><label>Belopp</label><div class="input-box"><input type="text" value="${nfmt(p.amount)}" oninput="updateLoan(${p.id}, 'amount', this.value)"></div></div><div class="field"><label>Ränta %</label><div class="input-box"><input type="number" step="0.01" value="${p.rate}" oninput="updateLoan(${p.id}, 'rate', this.value)"></div></div></div><div class="field"><label>Löptid/Produkt</label><select onchange="updateLoan(${p.id}, 'bind', this.value)"><option value="" ${p.bind===''?'selected':''} disabled>Välj bindningstid</option><option value="Rörligt (3mån)" ${p.bind==='Rörligt (3mån)'?'selected':''}>Rörligt (3mån)</option><option value="1 år" ${p.bind==='1 år'?'selected':''}>1 år</option><option value="2 år" ${p.bind==='2 år'?'selected':''}>2 år</option><option value="3 år" ${p.bind==='3 år'?'selected':''}>3 år</option><option value="5 år" ${p.bind==='5 år'?'selected':''}>5 år</option><option value="10 år" ${p.bind==='10 år'?'selected':''}>10 år</option></select></div><button class="btn-confirm" onclick="lockLoan(${p.id})">Klar & Lägg i varukorg</button>`;
             }
             lCont.appendChild(div);
         });
 
         insParts.forEach((p, i) => {
-            const div = document.createElement('div');
-            div.className = `shop-item ${p.locked ? 'locked' : ''}`;
-            
+            const div = document.createElement('div'); div.className = `shop-item ${p.locked ? 'locked' : ''}`;
             if(p.locked) {
-                hasLocked = true;
-                div.innerHTML = `
-                    <div class="item-head">
-                        <div style="font-size:12px;"><strong>LÅNTAGARE ${i+1}:</strong> ${p.age} år (Trygghetspaket)</div>
-                        <button class="btn-icon edit" onclick="editIns(${p.id})">ÄNDRA</button>
-                    </div>`;
-                
-                const cLiv = p.liv > 0 ? PREM_LIV[p.age][p.liv] : 0;
-                const cInk = p.ink > 0 ? PREM_INK[p.age][p.ink] : 0;
-                const livDisplay = p.liv > 0 ? (p.liv/1000000).toLocaleString('sv-SE', {minimumFractionDigits:0, maximumFractionDigits:1}).replace('.', ',') : '0';
-                const livText = p.liv > 0 ? `Liv - ${livDisplay} mkr` : '';
-                const inkText = p.ink > 0 ? `Inkomst ${nfmt(p.ink/1000)} tkr` : '';
-                
-                if(cLiv + cInk > 0) {
+                hasLockedAny = true;
+                const cLiv = p.liv > 0 ? PREM_LIV[p.age][p.liv] : 0, cInk = p.ink > 0 ? PREM_INK[p.age][p.ink] : 0, livDisplay = p.liv > 0 ? (p.liv/1000000).toLocaleString('sv-SE', {minimumFractionDigits:0, maximumFractionDigits:1}).replace('.', ',') : '0';
+                div.innerHTML = `<div class="item-head"><div style="font-size:12px;">LÅNTAGARE ${i+1}: ${p.age} år</div><button class="btn-icon edit-mode" onclick="editIns(${p.id})">ÄNDRA</button></div>`;
+                if(cLiv+cInk > 0) {
                     cart.innerHTML += `
-                        <div class="cart-row">
-                            <div class="cart-main">
-                                <span class="tag">L${i+1}</span>
-                                <span class="desc">Trygghet</span>
-                                <span class="amt">(${livText} ${p.liv>0&&p.ink>0?'+ ':''}${inkText})</span>
-                            </div>
-                            <div class="cart-price-side">
-                                <span>${nfmt(cLiv+cInk)} kr</span>
-                                <button class="btn-icon delete" onclick="removeIns(${p.id})">✕</button>
-                            </div>
-                        </div>`;
+                    <div class="cart-row">
+                        <div class="cart-col-rate">L${i+1}</div>
+                        <div class="cart-col-term"><div>Livskydd</div><div style="margin-top:2px">Inkomst</div></div>
+                        <div class="cart-col-amt"><div>${p.liv > 0 ? (p.liv/1000000).toLocaleString('sv-SE') + (p.liv===1000000 ? ' miljon' : ' miljoner') : '-'}</div><div style="margin-top:2px">${p.ink > 0 ? nfmt(p.ink) + ' kr' : '-'}</div></div>
+                        <div class="cart-col-price">${nfmt(cLiv+cInk)} kr</div>
+                        <button class="btn-icon delete-text" onclick="removeIns(${p.id})">✕</button>
+                    </div>`;
                 }
             } else {
-                div.innerHTML = `
-                    <div class="item-head" style="margin-bottom:10px;">
-                        <span class="header-status status-ok" style="background:var(--accent); color:#000;">REDIGERAR LÅNTAGARE ${i+1}</span>
-                        <button class="btn-icon delete" onclick="removeIns(${p.id})">TA BORT</button>
-                    </div>
-                    <div class="grid-2">
-                        <div class="field">
-                            <label>Ålder</label>
-                            <select onchange="updateIns(${p.id}, 'age', this.value)">
-                                ${Object.keys(PREM_LIV).map(a=>`<option value="${a}" ${a===p.age?'selected':''}>${a} år</option>`).join('')}
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label>Livskydd</label>
-                            <select onchange="updateIns(${p.id}, 'liv', this.value)">
-                                <option value="0">Inget</option>
-                                ${Object.keys(PREM_LIV["18-25"]).sort((a,b)=>a-b).map(v=>`<option value="${v}" ${parseInt(v)===p.liv?'selected':''}>${(parseInt(v)/1000000).toLocaleString('sv-SE', {minimumFractionDigits:0, maximumFractionDigits:1}).replace('.', ',')} mkr</option>`).join('')}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Inkomstskydd</label>
-                        <select onchange="updateIns(${p.id}, 'ink', this.value)">
-                            <option value="0">Inget</option>
-                            ${Object.keys(PREM_INK["18-25"]).sort((a,b)=>a-b).map(v=>`<option value="${v}" ${parseInt(v)===p.ink?'selected':''}>${(parseInt(v)/1000).toLocaleString('sv-SE')} tkr</option>`).join('')}
-                        </select>
-                    </div>
-                    <button class="btn-confirm" onclick="lockIns(${p.id})">Klar & Lägg i varukorg</button>`;
+                div.innerHTML = `<div class="item-head"><span class="badge-edit">REDIGERAR L${i+1}</span><button class="btn-icon delete-text" style="margin-left:auto" onclick="removeIns(${p.id})">TA BORT</button></div><div class="grid-2"><div class="field"><label>Ålder</label><select onchange="updateIns(${p.id}, 'age', this.value)">${Object.keys(PREM_LIV).map(a=>`<option value="${a}" ${a===p.age?'selected':''}>${a} år</option>`).join('')}</select></div><div class="field"><label>Livskydd</label><select onchange="updateIns(${p.id}, 'liv', this.value)"><option value="0">Inget</option>${Object.keys(PREM_LIV["18-25"]).sort((a,b)=>a-b).map(v=>`<option value="${v}" ${parseInt(v)===p.liv?'selected':''}>${(parseInt(v)/1000000).toLocaleString('sv-SE', {minimumFractionDigits:0, maximumFractionDigits:1}).replace('.', ',')} mkr</option>`).join('')}</select></div></div><div class="field"><label>Inkomstskydd</label><select onchange="updateIns(${p.id}, 'ink', this.value)"><option value="0">Inget</option>${Object.keys(PREM_INK["18-25"]).sort((a,b)=>a-b).map(v=>`<option value="${v}" ${parseInt(v)===p.ink?'selected':''}>${parseInt(v)/1000} tkr</option>`).join('')}</select></div><button class="btn-confirm" onclick="lockIns(${p.id})">Klar & Lägg i varukorg</button>`;
             }
             iCont.appendChild(div);
         });
 
-        document.getElementById('emptyCartMessage').style.display = hasLocked ? 'none' : 'block';
-        document.getElementById('cartSummaryContainer').style.display = hasLocked ? 'block' : 'none';
-
+        document.getElementById('cartHeader').style.display = (hasLockedLoan || hasLockedAny) ? 'grid' : 'none';
+        document.getElementById('emptyCartMessage').style.display = hasLockedAny ? 'none' : 'block';
+        document.getElementById('cartSummaryContainer').style.display = hasLockedAny ? 'block' : 'none';
         calculate();
     }
 
     function calculate() {
-        const totalLoanTarget = parseAmt(document.getElementById('inpTotalLoan').value);
-        const currentLoanSum = loanParts.reduce((a, b) => a + b.amount, 0);
-        const price = parseAmt(document.getElementById('inpPrice').value);
-        
-        const hStat = document.getElementById('loanStatusHeader');
-        if(Math.abs(currentLoanSum - totalLoanTarget) < 1) {
-            hStat.textContent = "MATCH";
-            hStat.className = "header-status status-ok";
-        } else {
-            hStat.textContent = `DIFF: ${nfmt(totalLoanTarget - currentLoanSum)} KR`;
-            hStat.className = "header-status status-err";
-        }
-
-        const ltv = (totalLoanTarget / price) * 100;
-        document.getElementById('ltvLabel').textContent = `Belåningsgrad: ${ltv.toFixed(1)}%`;
-
-        let mAmort = 0;
-        if(document.getElementById('chkOverrideAmort').checked) {
-            mAmort = parseAmt(document.getElementById('inpAmortOverride').value);
-        } else {
-            let aRate = 0;
-            if(ltv > 70) aRate = 2;
-            else if(ltv >= 50) aRate = 1;
-            
-            if(document.getElementById('chkExtraAmort').checked) aRate += 1;
-            mAmort = (totalLoanTarget * (aRate/100)) / 12;
-        }
-
-        let totalInt = 0; 
-        loanParts.filter(p => p.locked).forEach(p => totalInt += (p.amount * (p.rate/100)) / 12);
-        
-        let tFors = 0, sLiv = 0, sInk = 0;
-        insParts.filter(p => p.locked).forEach(p => {
-            tFors += (p.liv > 0 ? PREM_LIV[p.age][p.liv] : 0) + (p.ink > 0 ? PREM_INK[p.age][p.ink] : 0);
-            sLiv += p.liv;
-            sInk += p.ink;
-        });
-
-        const fee = parseAmt(document.getElementById('inpFee').value);
-        const drift = parseAmt(document.getElementById('inpDrift').value);
-
-        const totalPre = totalInt + mAmort + tFors + fee + drift;
-        const taxCredit = totalInt * 0.3;
-        const totalPost = totalPre - taxCredit;
-
-        // Uppdatera Hero Boxar
+        const totalLoanTarget = parseAmt(document.getElementById('inpTotalLoan').value), currentLoanSum = loanParts.reduce((s, p) => s + p.amount, 0), price = parseAmt(document.getElementById('inpPrice').value);
+        const match = Math.abs(currentLoanSum - totalLoanTarget) < 1;
+        const hStat = document.getElementById('loanStatusHeader'); hStat.textContent = match ? "MATCH" : `DIFF: ${nfmt(totalLoanTarget - currentLoanSum)} KR`;
+        hStat.className = match ? "header-status status-ok" : "header-status status-err";
+        document.getElementById('btnLock02').style.display = (match && !document.getElementById('sec02').classList.contains('locked')) ? 'block' : 'none';
+        document.getElementById('btnAddLoan').style.display = (match || document.getElementById('sec02').classList.contains('locked')) ? 'none' : 'block';
+        const ltv = price > 0 ? (totalLoanTarget / price) * 100 : 0;
+        const lBadge = document.getElementById('ltvLabel'); lBadge.textContent = `Belåningsgrad: ${ltv.toFixed(1)}%`;
+        lBadge.style.backgroundColor = ltv > 90 ? 'var(--danger)' : 'var(--primary)'; lBadge.style.color = ltv > 90 ? '#fff' : '#000';
+        let baseAmort = ltv > 70 ? 2 : ltv > 50 ? 1 : 0;
+        let totalAmortRate = baseAmort + (document.getElementById('chkExtraAmort').checked ? 1 : 0);
+        let mAmort = document.getElementById('chkOverrideAmort').checked ? parseAmt(document.getElementById('inpAmortOverride').value) : (totalLoanTarget * (totalAmortRate / 100)) / 12;
+        document.getElementById('amortRateLabel').textContent = `Amortering: ${totalAmortRate}%`;
+        let totalInt = 0; loanParts.filter(p => p.locked).forEach(p => totalInt += (p.amount * (p.rate/100)) / 12);
+        let tFors = 0, sLiv = 0, sInk = 0; insParts.filter(p => p.locked).forEach(p => { tFors += (p.liv > 0 ? PREM_LIV[p.age][p.liv] : 0) + (p.ink > 0 ? PREM_INK[p.age][p.ink] : 0); sLiv += p.liv; sInk += p.ink; });
+        const totalPre = totalInt + mAmort + tFors + parseAmt(document.getElementById('inpFee').value) + parseAmt(document.getElementById('inpDrift').value), taxCredit = totalInt * 0.3;
         document.getElementById('resTotalPre').innerHTML = `${nfmt(totalPre)} <span>kr/mån</span>`;
-        document.getElementById('resRanta').textContent = nfmt(totalInt) + ' kr';
-        document.getElementById('resAmort').textContent = nfmt(mAmort) + ' kr';
-        document.getElementById('resBostad').textContent = nfmt(fee + drift) + ' kr';
+        document.getElementById('resRanta').textContent = nfmt(totalInt) + ' kr'; document.getElementById('resAmort').textContent = nfmt(mAmort) + ' kr';
+        document.getElementById('resBostad').textContent = nfmt(parseAmt(document.getElementById('inpFee').value) + parseAmt(document.getElementById('inpDrift').value)) + ' kr';
         document.getElementById('resFors').textContent = nfmt(tFors) + ' kr';
-        
         const livFormatted = (sLiv/1000000).toLocaleString('sv-SE', {minimumFractionDigits:0, maximumFractionDigits:1}).replace('.', ',');
-        document.getElementById('resSafeLiv').innerHTML = `${livFormatted} <span>mkr</span>`;
+        document.getElementById('resSafeLiv').innerHTML = `${livFormatted} mkr`;
         document.getElementById('resSafeInk').textContent = nfmt(sInk) + ' kr/mån';
-
-        // Uppdatera Varukorg
-        document.getElementById('sumIntPre').textContent = nfmt(totalInt) + ' kr';
-        document.getElementById('sumIntPost').textContent = nfmt(totalInt - taxCredit) + ' kr';
-        document.getElementById('sumAmort').textContent = nfmt(mAmort) + ' kr';
-        document.getElementById('sumFors').textContent = nfmt(tFors) + ' kr';
-        
-        document.getElementById('resTotalPreCart').textContent = nfmt(totalPre) + ' kr';
-        document.getElementById('resTaxCredit').textContent = `- ${nfmt(taxCredit)} kr`;
-        document.getElementById('resTotalPost').textContent = nfmt(totalPost) + ' kr';
+        document.getElementById('sumIntPre').textContent = nfmt(totalInt) + ' kr'; document.getElementById('sumIntPost').textContent = nfmt(totalInt - taxCredit) + ' kr';
+        document.getElementById('sumAmort').textContent = nfmt(mAmort) + ' kr'; document.getElementById('sumFors').textContent = nfmt(tFors) + ' kr';
+        document.getElementById('resTotalPreCart').textContent = nfmt(totalPre) + ' kr'; document.getElementById('resTaxCredit').textContent = `- ${nfmt(taxCredit)} kr`;
+        document.getElementById('resTotalPost').textContent = nfmt(totalPre - taxCredit) + ' kr';
     }
 
-    // Input formatering
-    document.querySelectorAll('.format-amt').forEach(el => el.addEventListener('input', e => {
-        const pos = e.target.selectionStart;
-        const oldLen = e.target.value.length;
-        e.target.value = nfmt(parseAmt(e.target.value));
-        const newLen = e.target.value.length;
-        e.target.setSelectionRange(pos + (newLen - oldLen), pos + (newLen - oldLen));
-        calculate();
-    }));
-
+    document.querySelectorAll('.format-amt').forEach(el => el.addEventListener('input', e => { const pos = e.target.selectionStart, oldLen = e.target.value.length; e.target.value = nfmt(parseAmt(e.target.value)); const newLen = e.target.value.length; e.target.setSelectionRange(pos + (newLen - oldLen), pos + (newLen - oldLen)); calculate(); }));
     render();
 </script>
 </body>
