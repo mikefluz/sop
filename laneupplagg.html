@@ -2,7 +2,7 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Låneuppläggsverktyg</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -36,13 +36,13 @@
         body.light-mode input { color: #111827; }
         body.light-mode .badge { background: rgba(0, 0, 0, 0.03); }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg);
             background-image: radial-gradient(circle at top right, #1e1b4b, transparent);
             color: var(--text-main);
-            padding: 40px 20px;
+            padding: 40px 20px 100px 20px; /* Extra padding botten för mobilknappar */
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -57,16 +57,14 @@
             gap: 24px;
         }
 
-        @media (max-width: 1000px) { .container { grid-template-columns: 1fr; } }
-
-        .panel { display: flex; flex-direction: column; gap: 20px; }
-
+        /* CARD SYSTEM */
         .card {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             overflow: visible;
             transition: all 0.2s ease;
+            height: fit-content;
         }
 
         .card-header {
@@ -86,9 +84,9 @@
         .toggle-icon { font-size: 10px; transition: transform 0.3s ease; color: var(--text-soft); }
         .collapsed .toggle-icon { transform: rotate(-90deg); }
 
+        /* FORM ELEMENTS */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-        
         .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
         .field label { font-size: 10px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; }
 
@@ -112,13 +110,13 @@
             outline: none;
         }
         input:read-only { opacity: 0.6; cursor: not-allowed; background: rgba(255,255,255,0.03); }
-
         .input-box.zero-warn { border: 1px solid var(--danger) !important; }
         .input-box.zero-warn input { color: var(--danger) !important; }
 
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cursor: pointer; }
         .unit { font-size: 10px; color: var(--text-soft); padding-right: 12px; font-weight: 600; }
 
+        /* KPI & RESULTS */
         .hero-value { text-align: center; padding: 10px 0; }
         .hero-label { font-size: 11px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; margin-bottom: 4px; }
         .hero-num { font-size: 38px; font-weight: 800; letter-spacing: -0.02em; }
@@ -147,6 +145,7 @@
         .part-head { display: flex; justify-content: space-between; margin-bottom: 12px; }
         .status-dot { font-size: 9px; font-weight: 800; background: var(--primary-glow); color: var(--primary); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--primary); }
 
+        /* BUTTONS - DESKTOP */
         .reset-fab {
             position: fixed; bottom: 30px; right: 30px; background: var(--danger); color: #fff; border: none;
             padding: 14px 24px; border-radius: 50px; font-weight: 800; cursor: pointer;
@@ -164,29 +163,59 @@
             border-radius: 4px; border: 1px solid var(--danger); text-transform: uppercase; font-weight: 800; margin-left: 4px;
         }
 
+        /* TOOLTIP LOGIC */
         .info-icon {
             display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px;
             background: var(--warning); color: #000; border-radius: 50%; font-size: 11px; cursor: help;
             margin-left: 6px; position: relative; font-weight: 900;
         }
         .info-icon.header-tip { margin-top: -2px; }
-        .info-icon:hover::after {
-            content: attr(data-tip);
+
+        /* Tooltip text box */
+        .tooltip-text {
+            display: none;
             position: absolute; top: 25px; left: 50%; transform: translateX(-50%);
             background: #1f2937; color: #fff; padding: 12px; border-radius: 8px; width: 280px;
-            font-size: 11px; line-height: 1.5; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.6); font-weight: 400; text-transform: none;
-            white-space: normal; text-align: left;
+            font-size: 11px; line-height: 1.5; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            font-weight: 400; text-transform: none; white-space: normal; text-align: left;
         }
-        .info-icon:hover::before {
+        /* Visa vid hovring (desktop) eller vid klassen 'active' (mobil) */
+        .info-icon:hover .tooltip-text, .info-icon.active .tooltip-text { display: block; }
+        .info-icon:hover::before, .info-icon.active::before {
             content: ""; position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
             border-width: 0 7px 7px 7px; border-style: solid; border-color: transparent transparent #1f2937 transparent;
             z-index: 1001;
         }
 
+        /* CONSOLE */
         .console-box { margin-top: 40px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid var(--border); }
-        .console-box textarea { width: 100%; height: 60px; background: #000; border: 1px solid var(--border); border-radius: 8px; color: var(--accent); font-family: monospace; font-size: 11px; padding: 10px; outline: none; resize: none; }
-        .console-btn { background: var(--card-hover); color: var(--text-main); border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: all 0.2s; }
+        .console-box textarea { width: 100%; height: 80px; background: #000; border: 1px solid var(--border); border-radius: 8px; color: var(--accent); font-family: monospace; font-size: 11px; padding: 10px; outline: none; resize: none; }
+        .console-btn { background: var(--card-hover); color: var(--text-main); border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: all 0.2s; flex: 1; text-align: center; }
         .console-btn:hover { background: var(--primary); color: #000; }
+
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 1000px) {
+            .container { grid-template-columns: 1fr; }
+            body { padding: 20px 15px 100px 15px; }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 22px !important; }
+            .hero-num { font-size: 32px; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 10px; }
+            .card-header h2 { font-size: 10px; }
+            
+            /* Flytta knappar till en Action Bar längst ner */
+            .reset-fab, .theme-toggle {
+                position: fixed; bottom: 15px; border-radius: 10px; padding: 12px; 
+                width: calc(50% - 20px); font-size: 11px; justify-content: center;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            }
+            .theme-toggle { left: 15px; right: auto; }
+            .reset-fab { right: 15px; }
+
+            .tooltip-text { width: 240px; left: -100px; transform: none; } /* Förhindra overflow på smala skärmar */
+        }
 
         @media print {
             .reset-fab, .theme-toggle, .toggle-icon, .card-header::after, .internal-only, .console-box, .info-icon { display: none !important; }
@@ -199,11 +228,11 @@
 <body>
 
 <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
-    <span>☀️</span> LIGHT MODE
+    <span>☀️</span> LJUST LÄGE
 </button>
 
 <button class="reset-fab" onclick="resetForm()">
-    <span>🔄</span> RENSA KALKYL
+    <span>🔄</span> RENSA ALLT
 </button>
 
 <div class="container">
@@ -213,6 +242,7 @@
             <p style="color: var(--text-soft); font-size: 13px;">Strategisk genomgång av bolån & försäkringsskydd.</p>
         </div>
 
+        <!-- 01. GRUNDDATA -->
         <div class="card" id="secGrund">
             <div class="card-header" onclick="toggle('secGrund')">
                 <h2>01. Låneuppgifter & Grunddata</h2>
@@ -231,6 +261,7 @@
             </div>
         </div>
 
+        <!-- 02. DELAR -->
         <div class="card" id="secDelar">
             <div class="card-header" onclick="toggle('secDelar')">
                 <h2>02. Konfigurera Lånedelar</h2>
@@ -239,17 +270,20 @@
             <div class="card-content">
                 <div class="grid-2">
                     <div class="field"><label>Antal Lånedelar</label><div class="input-box"><input type="number" id="numParts" value="1" min="1" max="5"><span class="unit">delar</span></div></div>
-                    <div class="field"><label>Status: Summa delar</label><div style="padding: 10px 0; font-weight: 800; font-size: 12px; text-transform: uppercase;" id="resDiff">LÅNEBELOPP OK</div></div>
+                    <div class="field"><label>Status</label><div style="padding: 10px 0; font-weight: 800; font-size: 12px; text-transform: uppercase;" id="resDiff">LÅNEBELOPP OK</div></div>
                 </div>
                 <div id="partsContainer"></div>
             </div>
         </div>
 
+        <!-- 03. HPL & ÖBL -->
         <div class="card" id="secBridgeIn">
             <div class="card-header" onclick="toggle('secBridgeIn')">
                 <div style="display:flex; align-items:center;">
                     <h2>03. Handpenning & Överbryggning</h2>
-                    <span class="info-icon header-tip" data-tip="Viktigt att alla datum läggs in för att uträkningen ska bli korrekt.">?</span>
+                    <span class="info-icon header-tip" onclick="toggleTooltip(event)">?
+                        <span class="tooltip-text">Viktigt att alla datum läggs in för att uträkningen ska bli korrekt.</span>
+                    </span>
                 </div>
                 <div class="toggle-icon">▼</div>
             </div>
@@ -259,7 +293,7 @@
                     <div class="field"><label>Ränta HPL (%)</label><div class="input-box"><input type="number" id="hpRate" step="0.01" value="5.50"><span class="unit">%</span></div></div>
                     <div class="field"><label>Utbetalningsdag HPL</label><div class="input-box"><input type="date" id="hpDate"></div></div>
                     <div class="field"><label>Tillträdesdag/lösendag HPL</label><div class="input-box"><input type="date" id="moveInDate"></div></div>
-                    <div style="grid-column: span 2; border-top: 1px dashed var(--border); margin: 10px 0;"></div>
+                    <div style="grid-column: span 1; border-top: 1px dashed var(--border); margin: 10px 0;" class="mobile-only"></div>
                     <div class="field"><label>Överbryggningslån (ÖBL)</label><div class="input-box"><input type="text" id="oblAmt" value="0" class="format-amt"><span class="unit">kr</span></div></div>
                     <div class="field"><label>Ränta ÖBL (%)</label><div class="input-box"><input type="number" id="oblRate" step="0.01" value="5.50"><span class="unit">%</span></div></div>
                     <div class="field"><label>Lösendag ÖBL</label><div class="input-box"><input type="date" id="moveOutDate"></div></div>
@@ -271,35 +305,95 @@
             </div>
         </div>
 
+        <!-- CONSOLE EXPORT/IMPORT -->
         <div class="console-box internal-only">
             <div style="display:flex; align-items:center; margin-bottom: 10px;">
-                <h2 style="font-size: 10px; color: var(--text-soft);">KALKYL-KOD (EXPORT/IMPORT)</h2>
-                <span class="info-icon header-tip" data-tip="Syftet med denna funktion är att du enkelt ska kunna spara ner låneupplägget för framtida bruk, eller dela det med kollegor och beslutsfattare vid behov.">?</span>
+                <h2 style="font-size: 10px; color: var(--text-soft); letter-spacing: 0.05em;">KALKYL-KOD (EXPORT/IMPORT)</h2>
+                <span class="info-icon header-tip" onclick="toggleTooltip(event)">?
+                    <span class="tooltip-text">Använd koden för att spara ner upplägget i ett CRM-system eller för att dela kalkylen med en kollega.</span>
+                </span>
             </div>
-            <textarea id="configCode" placeholder="Här visas koden för ditt case..."></textarea>
+            <textarea id="configCode" readonly onclick="this.select()" placeholder="Koden genereras automatiskt..."></textarea>
             <div style="display: flex; gap: 10px;">
-                <button class="console-btn" onclick="copyCode()">KOPIERA KOD</button>
-                <button class="console-btn" onclick="importCode()">IMPORTERA KOD</button>
+                <button class="console-btn" onclick="copyCode()">KOPIERA</button>
+                <button class="console-btn" onclick="importCode()">IMPORTERA</button>
             </div>
         </div>
     </div>
 
+    <!-- HÖGER PANEL (RESULTAT) -->
     <div class="panel">
         <div class="card"><div class="card-content"><div class="hero-value"><div class="hero-label">Månadskostnad före ränteavdrag</div><div class="hero-num" id="resFore">0 <span>kr/mån</span></div><div class="badge-row"><span class="badge" id="tagRFore">Ränta: 0 kr</span><span class="badge" id="tagAFore">Amortering: 0 kr</span><span class="badge" id="tagIFore">Försäkring: 0 kr</span></div></div></div></div>
-        <div class="card" style="border-color: var(--primary);"><div class="card-content"><div class="hero-value"><div class="hero-label">Månadskostnad efter ränteavdrag (30%) <span class="info-icon" data-tip="Ränteavdraget är 30% upp till 100 000 kr i räntekostnad per låntagare. På belopp överstigande 100 000 kr är avdraget 21%.">?</span></div><div class="hero-num" id="resEfter">0 <span>kr/mån</span></div><div class="badge-row"><span class="badge" id="tagREfter">Ränta efter skatt: 0 kr</span><span class="badge">Amortering: <span class="vAmort">0</span> kr</span><span class="badge">Försäkring: <span class="vIns">0</span> kr</span></div></div></div></div>
-        <div class="card highlight-card" id="secDetail"><div class="card-header" onclick="toggle('secDetail')"><h2>Detaljerad Uppdelning</h2><div class="toggle-icon">▼</div></div><div class="card-content"><div class="grid-2"><div><div class="row"><span class="lbl">Viktad ränta:</span><span class="val" id="detWRate" style="color: var(--primary);">0,00 %</span></div><div class="row"><span class="lbl">Räntebärande belopp:</span><span class="val" id="detBase">0 kr</span></div></div><div><div class="row"><span class="lbl">Räntekostnad:</span><span class="val" id="detInt">0 kr</span></div><div class="row"><span class="lbl">Amortering:</span><span class="val" id="detAm">0 kr</span></div></div></div><div style="margin: 15px 0; border-top: 1px dashed var(--border);"></div><div class="row"><span class="lbl">Total bolånekostnad före skatt:</span><span class="val" id="detTotalPre">0 kr/mån</span></div><div class="row"><span class="lbl" style="font-weight:700;">Total bolånekostnad efter skatt:</span><span class="val" id="detTotalPost" style="color: var(--accent); font-size: 15px;">0 kr/mån</span></div></div></div>
+        
+        <div class="card" style="border-color: var(--primary);"><div class="card-content"><div class="hero-value"><div class="hero-label">Månadskostnad efter ränteavdrag (30%) 
+            <span class="info-icon" onclick="toggleTooltip(event)">?
+                <span class="tooltip-text">Ränteavdraget är 30% upp till 100 000 kr i räntekostnad per låntagare. På belopp överstigande 100 000 kr är avdraget 21%.</span>
+            </span></div>
+            <div class="hero-num" id="resEfter">0 <span>kr/mån</span></div><div class="badge-row"><span class="badge" id="tagREfter">Ränta efter skatt: 0 kr</span><span class="badge">Amortering: <span class="vAmort">0</span> kr</span><span class="badge">Försäkring: <span class="vIns">0</span> kr</span></div></div></div></div>
 
-        <div class="card" id="secComp" style="display:none;"><div class="card-header" onclick="toggle('secComp')"><h2>Jämförelse med Konkurrent</h2><div class="toggle-icon">▼</div></div><div class="card-content"><table class="comp-table"><thead><tr><th>POST</th><th>DITT UPPLÄGG</th><th>KONKURRENT</th></tr></thead><tbody><tr><td>Viktad ränta</td><td id="cYourRate">0%</td><td id="cCompRate">0%</td></tr><tr><td>Räntekostnad / mån</td><td id="cYourInt">0 kr</td><td id="cCompInt">0 kr</td></tr><tr><td>Räntekostnad / mån (efter skatt)</td><td id="cYourPostMonth">0 kr</td><td id="cCompPostMonth">0 kr</td></tr></tbody></table><div style="margin-top: 20px;">
-            <div class="row"><span class="lbl">Skillnad före skatt / mån:</span><span class="diff-tag" id="diffPreTag">0 kr</span></div>
-            <div class="row"><span class="lbl">Skillnad efter skatt / mån:</span><span class="diff-tag" id="diffPostTag">0 kr</span></div>
-            <div style="margin: 15px 0; border-top: 1px dashed var(--border); opacity: 0.3;"></div>
-            <div class="row" style="border:none;"><span class="lbl" style="font-weight:800;">BESPARING PER MÅNAD (FÖRE SKATT):</span><span class="val" style="font-size: 18px;" id="diffMonthPre">0 kr</span></div></div><div id="winnerPill" class="winner-pill"></div></div></div>
+        <div class="card highlight-card" id="secDetail">
+            <div class="card-header" onclick="toggle('secDetail')"><h2>Detaljerad Uppdelning</h2><div class="toggle-icon">▼</div></div>
+            <div class="card-content">
+                <div class="grid-2">
+                    <div>
+                        <div class="row"><span class="lbl">Viktad ränta:</span><span class="val" id="detWRate" style="color: var(--primary);">0,00 %</span></div>
+                        <div class="row"><span class="lbl">Räntebärande belopp:</span><span class="val" id="detBase">0 kr</span></div>
+                    </div>
+                    <div>
+                        <div class="row"><span class="lbl">Räntekostnad:</span><span class="val" id="detInt">0 kr</span></div>
+                        <div class="row"><span class="lbl">Amortering:</span><span class="val" id="detAm">0 kr</span></div>
+                    </div>
+                </div>
+                <div style="margin: 15px 0; border-top: 1px dashed var(--border);"></div>
+                <div class="row"><span class="lbl">Total bolånekostnad före skatt:</span><span class="val" id="detTotalPre">0 kr/mån</span></div>
+                <div class="row"><span class="lbl" style="font-weight:700;">Total bolånekostnad efter skatt:</span><span class="val" id="detTotalPost" style="color: var(--accent); font-size: 15px;">0 kr/mån</span></div>
+            </div>
+        </div>
 
-        <div class="card" id="secBridgeRes" style="border-left: 4px solid var(--primary);"><div class="card-header" onclick="toggle('secBridgeRes')"><h2>Kostnad: HPL & Överbryggning</h2><div class="toggle-icon">▼</div></div><div class="card-content"><div class="row"><span class="lbl" id="lblHpDays">HPL ränta:</span><span class="val" id="outHpInt">0 kr</span></div><div class="row"><span class="lbl" id="lblOblDays">ÖBL ränta:</span><span class="val" id="outOblInt">0 kr</span></div><div class="row" style="margin-top: 10px;"><span class="lbl" style="font-weight:800;">TOTAL RÄNTEKOSTNAD:</span><span class="val" style="font-size: 18px; color: var(--primary);" id="outBridgeTotal">0 kr</span></div></div></div>
+        <div class="card" id="secComp" style="display:none;">
+            <div class="card-header" onclick="toggle('secComp')"><h2>Jämförelse med Konkurrent</h2><div class="toggle-icon">▼</div></div>
+            <div class="card-content">
+                <table class="comp-table">
+                    <thead><tr><th>POST</th><th>DITT UPPLÄGG</th><th>KONKURRENT</th></tr></thead>
+                    <tbody>
+                        <tr><td>Viktad ränta</td><td id="cYourRate">0%</td><td id="cCompRate">0%</td></tr>
+                        <tr><td>Räntekostnad / mån</td><td id="cYourInt">0 kr</td><td id="cCompInt">0 kr</td></tr>
+                        <tr><td>Räntekostnad / mån (efter skatt)</td><td id="cYourPostMonth">0 kr</td><td id="cCompPostMonth">0 kr</td></tr>
+                    </tbody>
+                </table>
+                <div style="margin-top: 20px;">
+                    <div class="row"><span class="lbl">Skillnad före skatt / mån:</span><span class="diff-tag" id="diffPreTag">0 kr</span></div>
+                    <div class="row"><span class="lbl">Skillnad efter skatt / mån:</span><span class="diff-tag" id="diffPostTag">0 kr</span></div>
+                    <div style="margin: 15px 0; border-top: 1px dashed var(--border); opacity: 0.3;"></div>
+                    <div class="row" style="border:none;"><span class="lbl" style="font-weight:800;">BESPARING PER MÅNAD (FÖRE SKATT):</span><span class="val" style="font-size: 18px;" id="diffMonthPre">0 kr</span></div>
+                </div>
+                <div id="winnerPill" class="winner-pill"></div>
+            </div>
+        </div>
 
-        <div class="card internal-only" id="secMarginal" style="border: 1px solid var(--danger);"><div class="card-header" onclick="toggle('secMarginal')" style="background: rgba(239, 68, 68, 0.05);"><h2>Marginal & Lönsamhet <span class="internal-badge">Internt</span></h2><div class="toggle-icon">▼</div></div><div class="card-content"><div class="row"><span class="lbl">Marginal Bolån (BPS):</span><span class="val" id="margBolanBPS">0,00 %</span></div><div class="row"><span class="lbl">Marginal Bolån (Mån):</span><span class="val" id="margLoanMon">0 kr</span></div><div class="row"><span class="lbl">Marginal Bolån (År):</span><span class="val" id="margLoanYear">0 kr</span></div><div style="margin: 10px 0; border-top: 1px dashed var(--border); opacity: 0.3;"></div><div class="row"><span class="lbl">Marginal HPL/ÖBL (BPS):</span><span class="val" id="margBridgeBPS">0,00 %</span></div><div class="row"><span class="lbl">Marginal HPL/ÖBL (Totalt):</span><span class="val" id="margBridge">0 kr</span></div><div class="row" style="margin-top: 15px;"><span class="lbl" style="font-weight:800; color: var(--text-main);">TOTAL INTÄKT (12 MÅN):</span><span class="val" style="font-size: 16px;" id="margTotal">0 kr</span></div></div></div>
+        <div class="card" id="secBridgeRes" style="border-left: 4px solid var(--primary);">
+            <div class="card-header" onclick="toggle('secBridgeRes')"><h2>Kostnad: HPL & Överbryggning</h2><div class="toggle-icon">▼</div></div>
+            <div class="card-content">
+                <div class="row"><span class="lbl" id="lblHpDays">HPL ränta:</span><span class="val" id="outHpInt">0 kr</span></div>
+                <div class="row"><span class="lbl" id="lblOblDays">ÖBL ränta:</span><span class="val" id="outOblInt">0 kr</span></div>
+                <div class="row" style="margin-top: 10px;"><span class="lbl" style="font-weight:800;">TOTAL RÄNTEKOSTNAD:</span><span class="val" style="font-size: 18px; color: var(--primary);" id="outBridgeTotal">0 kr</span></div>
+            </div>
+        </div>
 
-        <p class="obs" style="text-align: center; font-size: 10px; opacity: 0.6;">Obs! Förenklad kalkyl med rak ränta.</p>
+        <div class="card internal-only" id="secMarginal" style="border: 1px solid var(--danger);">
+            <div class="card-header" onclick="toggle('secMarginal')" style="background: rgba(239, 68, 68, 0.05);"><h2>Marginal & Lönsamhet <span class="internal-badge">Internt</span></h2><div class="toggle-icon">▼</div></div>
+            <div class="card-content">
+                <div class="row"><span class="lbl">Marginal Bolån (BPS):</span><span class="val" id="margBolanBPS">0,00 %</span></div>
+                <div class="row"><span class="lbl">Marginal Bolån (Mån):</span><span class="val" id="margLoanMon">0 kr</span></div>
+                <div class="row"><span class="lbl">Marginal Bolån (År):</span><span class="val" id="margLoanYear">0 kr</span></div>
+                <div style="margin: 10px 0; border-top: 1px dashed var(--border); opacity: 0.3;"></div>
+                <div class="row"><span class="lbl">Marginal HPL/ÖBL (BPS):</span><span class="val" id="margBridgeBPS">0,00 %</span></div>
+                <div class="row"><span class="lbl">Marginal HPL/ÖBL (Totalt):</span><span class="val" id="margBridge">0 kr</span></div>
+                <div class="row" style="margin-top: 15px;"><span class="lbl" style="font-weight:800; color: var(--text-main);">TOTAL INTÄKT (12 MÅN):</span><span class="val" style="font-size: 16px;" id="margTotal">0 kr</span></div>
+            </div>
+        </div>
+
+        <p class="obs" style="text-align: center; font-size: 10px; opacity: 0.6;">Obs! Förenklad kalkyl med rak ränta enligt 360-dagarsmetoden.</p>
     </div>
 </div>
 
@@ -310,6 +404,20 @@
     const parseFormatted = val => typeof val === 'string' ? parseFloat(val.replace(/\s/g, '').replace(',', '.')) || 0 : parseFloat(val) || 0;
 
     let isInternalSync = false;
+
+    // TOOLTIP TOGGLE FÖR MOBIL
+    function toggleTooltip(e) {
+        e.stopPropagation();
+        const icon = e.currentTarget;
+        const wasActive = icon.classList.contains('active');
+        document.querySelectorAll('.info-icon').forEach(i => i.classList.remove('active'));
+        if (!wasActive) icon.classList.add('active');
+    }
+
+    // Stäng tooltip när man klickar någon annanstans
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.info-icon').forEach(i => i.classList.remove('active'));
+    });
 
     function handleInputFormatting(e) {
         if (isInternalSync) return;
@@ -332,7 +440,10 @@
     }
 
     function toggle(id) { el(id).classList.toggle('collapsed'); }
-    function toggleTheme() { document.body.classList.toggle('light-mode'); el('themeBtn').innerHTML = document.body.classList.contains('light-mode') ? '<span>🌙</span> DARK MODE' : '<span>☀️</span> LIGHT MODE'; }
+    function toggleTheme() { 
+        document.body.classList.toggle('light-mode'); 
+        el('themeBtn').innerHTML = document.body.classList.contains('light-mode') ? '<span>🌙</span> MÖRKT LÄGE' : '<span>☀️</span> LJUST LÄGE'; 
+    }
 
     function diffDays(d1, d2) {
         if(!d1 || !d2) return 0;
@@ -411,9 +522,8 @@
             if (parseFormatted(input.value) === 0) { input.parentElement.classList.add('zero-warn'); anyZero = true; } 
             else input.parentElement.classList.remove('zero-warn');
         });
-        const statusField = el('resDiff');
-        if (anyZero && allPartInputs.length > 1) { statusField.textContent = "⚠️ Maxbelopp uppnått (Vissa delar är tomma)"; statusField.style.color = 'var(--danger)'; }
-        else { statusField.textContent = "LÅNEBELOPP OK"; statusField.style.color = 'var(--accent)'; }
+        el('resDiff').textContent = (anyZero && allPartInputs.length > 1) ? "⚠️ Maxbelopp uppnått" : "LÅNEBELOPP OK";
+        el('resDiff').style.color = (anyZero && allPartInputs.length > 1) ? 'var(--danger)' : 'var(--accent)';
 
         const amort = parseFloat(el('amort').value) || 0;
         const sIns = (parseFloat(el('ssLiv').value) || 0) + (parseFloat(el('ssInkomst').value) || 0);
@@ -494,11 +604,19 @@
         el('configCode').value = btoa(unescape(encodeURIComponent(JSON.stringify(config))));
     }
 
-    function copyCode() { el('configCode').select(); document.execCommand('copy'); }
+    function copyCode() { 
+        const area = el('configCode');
+        area.select(); area.setSelectionRange(0, 99999);
+        document.execCommand('copy'); 
+        alert("Koden kopierad till urklipp!");
+    }
+    
     function importCode() {
+        const code = prompt("Klistra in kalkyl-koden här:");
+        if (!code) return;
         try {
             isInternalSync = true;
-            const data = JSON.parse(decodeURIComponent(escape(atob(el('configCode').value))));
+            const data = JSON.parse(decodeURIComponent(escape(atob(code))));
             el('totalLan').value = data.total.toLocaleString('sv-SE').replace(/\xa0/g, ' ');
             el('ssInkomst').value = data.ink; el('ssLiv').value = data.liv; el('amort').value = data.amort;
             el('numParts').value = data.n; 
@@ -522,18 +640,16 @@
                 });
                 isInternalSync = false;
                 calculate();
-            }, 50);
+            }, 100);
         } catch(e) { isInternalSync = false; alert("Felaktig kalkyl-kod."); }
     }
 
     function attach() {
         document.querySelectorAll('input:not(.format-amt)').forEach(i => {
-            i.removeEventListener('input', calculate);
-            i.addEventListener('input', calculate);
+            i.removeEventListener('input', calculate); i.addEventListener('input', calculate);
         });
         document.querySelectorAll('.format-amt').forEach(i => {
-            i.removeEventListener('input', handleInputFormatting);
-            i.addEventListener('input', handleInputFormatting);
+            i.removeEventListener('input', handleInputFormatting); i.addEventListener('input', handleInputFormatting);
         });
     }
 
