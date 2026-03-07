@@ -50,7 +50,6 @@
         
         .container { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 500px; gap: 24px; }
 
-        /* CARDS & SECTIONS */
         .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 20px; position: relative; transition: all 0.3s ease; }
         .card-header { padding: 16px 20px; background: var(--card-header-bg); display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-radius: 12px 12px 0 0; }
         .card-header h2 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-soft); display: flex; align-items: center; gap: 10px; }
@@ -59,14 +58,12 @@
         .toggle-icon { font-size: 10px; transition: transform 0.3s; color: var(--text-soft); }
         .collapsed .toggle-icon { transform: rotate(-90deg); }
 
-        /* BADGES */
         .header-status { font-size: 9px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 900; }
         .status-ok { background: var(--accent); color: var(--hero-text); }
         .status-err { background: var(--danger); color: #fff; }
         .status-locked { background: var(--danger); color: #fff; margin-left: 10px; }
         .badge-edit { background: var(--accent); color: var(--hero-text); font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
 
-        /* HERO BOXES */
         .hero-container { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 16px; }
         .hero-box { padding: 24px; border-radius: var(--radius); text-align: center; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .hero-box.cost { background: var(--primary); color: var(--hero-text); }
@@ -79,7 +76,6 @@
         .hero-sub-label { font-size: 9px; font-weight: 700; text-transform: uppercase; opacity: 0.7; margin-bottom: 3px; }
         .hero-sub-val { font-size: 14px; font-weight: 800; }
 
-        /* FORMS */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
         .field label { font-size: 10px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; }
@@ -90,7 +86,6 @@
         select option { background: var(--card); color: var(--text-main); }
         input:disabled, select:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* SHOP ITEMS */
         .shop-item { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; transition: all 0.3s ease; }
         .shop-item:not(.locked) { border: 1px solid var(--warning); box-shadow: 0 0 15px rgba(250, 204, 21, 0.15); background: rgba(250, 204, 21, 0.02); }
         .shop-item.locked { padding: 12px 16px; background: rgba(255,255,255,0.01); border-style: dashed; }
@@ -98,7 +93,6 @@
         .item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; width: 100%; }
         .locked .item-head { margin-bottom: 0; }
 
-        /* BUTTONS */
         .btn-icon { background: none; border: none; cursor: pointer; padding: 5px; display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--text-soft); }
         .btn-icon.delete-text { color: var(--danger) !important; font-weight: 800; font-size: 10px; text-transform: uppercase; padding: 0; margin-left: auto; }
         .btn-icon.edit-mode { background: rgba(6, 182, 212, 0.1); color: var(--primary); border: 1px solid var(--primary); padding: 4px 10px; border-radius: 4px; font-size: 9px; }
@@ -107,7 +101,6 @@
         .btn-workflow { width: 100%; padding: 14px; background: var(--primary); color: #000; border: none; border-radius: 8px; cursor: pointer; font-weight: 900; font-size: 12px; margin-top: 20px; transition: 0.2s; text-transform: uppercase; letter-spacing: 0.05em; }
         .btn-add { width: 100%; padding: 12px; background: transparent; border: 2px dashed var(--border); color: var(--text-soft); border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 12px; margin-top: 10px; }
 
-        /* VARUKORG TABLE DESIGN */
         .cart-table-wrapper { padding: 0 20px; }
         .cart-header-labels {
             display: grid;
@@ -133,7 +126,6 @@
         .cart-col-price { text-align: right; font-weight: 700; font-size: 13px; color: var(--text-main); padding-top: 2px; }
         .btn-del-cart { color: var(--danger) !important; background: none; border: none; cursor: pointer; font-weight: 800; font-size: 14px; text-align: right; padding-top: 1px; }
 
-        /* VARUKORG SUMMARY BOX */
         .cart-summary-box {
             margin: 20px;
             padding: 20px;
@@ -158,15 +150,16 @@
         .total-main-val { font-weight: 900; font-size: 24px; color: var(--accent); }
         .tax-credit-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; opacity: 0.7; font-size: 11px; }
 
-        /* FOOTER ACTIONS */
         .reset-fab { position: fixed; bottom: 30px; right: 30px; background: var(--danger); color: #fff; border: none; padding: 14px 24px; border-radius: 50px; font-weight: 800; cursor: pointer; z-index: 100; font-size: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
         .theme-toggle { position: fixed; bottom: 30px; right: 190px; background: var(--card); color: var(--text-main); border: 1px solid var(--border); padding: 14px 24px; border-radius: 50px; font-weight: 800; cursor: pointer; z-index: 100; font-size: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .import-btn { position: fixed; bottom: 30px; right: 360px; background: var(--accent); color: #000; border: none; padding: 14px 24px; border-radius: 50px; font-weight: 800; cursor: pointer; z-index: 100; font-size: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-        /* UTILS */
-        .badge-ltv { background: var(--primary); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; display: inline-block; margin-top: 5px; transition: all 0.3s; }
+        .badge-ltv { background: var(--accent); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; display: inline-block; margin-top: 5px; transition: all 0.3s; }
         .label-yellow { color: var(--warning) !important; }
+        .label-green { color: var(--accent) !important; }
         body.light-mode .label-yellow { color: #854d0e !important; }
+        body.light-mode .label-green { color: #059669 !important; }
+        
         .empty-cart-text { padding: 30px 10px; text-align: center; color: var(--text-soft); font-size: 12px; font-style: italic; }
 
         .info-icon { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; background: var(--warning); border-radius: 50%; font-size: 10px; cursor: help; margin-left: 5px; position: relative; color: #000; font-weight: 900; vertical-align: middle; z-index: 10; }
@@ -203,25 +196,44 @@
                     <div class="field">
                         <label>Bostadens pris</label>
                         <div class="input-box"><input type="text" id="inpPrice" class="format-amt" value="4 500 000"><span class="unit">kr</span></div>
-                        <div id="ltvLabel" class="badge-ltv">Belåningsgrad: 85%</div>
+                        <div id="ltvLabel" class="badge-ltv">Belåningsgrad: 90%</div>
                     </div>
-                    <div class="field"><label>Total Lånebelopp</label><div class="input-box"><input type="text" id="inpTotalLoan" class="format-amt" value="3 825 000"><span class="unit">kr</span></div><div id="amortRateLabel" class="badge-ltv" style="background-color: var(--accent); color: #000;">Amortering: 0%</div></div>
+                    <div class="field">
+                        <label>Total Lånebelopp</label>
+                        <div class="input-box"><input type="text" id="inpTotalLoan" class="format-amt" value="4 050 000"><span class="unit">kr</span></div>
+                        <div id="amortRateLabel" class="badge-ltv" style="background-color: var(--warning); color: #000;">Amortering: 0%</div>
+                    </div>
                     <div class="field"><label>Avgift till förening</label><div class="input-box"><input type="text" id="inpFee" class="format-amt" value="0"><span class="unit">kr/mån</span></div></div>
                     <div class="field"><label>Driftkostnad</label><div class="input-box"><input type="text" id="inpDrift" class="format-amt" value="0"><span class="unit">kr/mån</span></div></div>
                 </div>
-                <div style="margin-top:15px; background:rgba(128,128,128,0.05); padding:15px; border-radius:10px; border:1px solid var(--border);">
-                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-                        <input type="checkbox" id="chkExtraAmort" onchange="calculate()" style="width:18px; height:18px; cursor:pointer;">
-                        <label for="chkExtraAmort" style="font-size:11px; font-weight:800; color:var(--danger); cursor:pointer;">TILLÄMPA FÖRSTÄRKT AMORTERINGSKRAV (+1%)</label>
-                        <span class="info-icon" style="background:var(--danger); color:#fff;">? <span class="tooltip-text" style="background:rgb(239, 68, 68) !important; color:#fff !important;">Enligt myndighetsförslag förväntas detta krav (skuldkvotstillägget) tas bort den 1 april 2026.</span></span>
+                
+                <div style="margin-top:15px; background:rgba(128,128,128,0.05); padding:15px; border-radius:10px; border:1px solid var(--border); display: flex; flex-direction: column; gap: 12px;">
+                    
+                    <!-- OVERRIDE BELÅNINGSGRAD (GRÖN) -->
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <input type="checkbox" id="chkOverrideLTV" onchange="toggleLTVOverride()" style="width:18px; height:18px; cursor:pointer;">
+                        <label for="chkOverrideLTV" class="label-green" style="font-size:11px; font-weight:800; cursor:pointer;">OVERRIDE BELÅNINGSGRAD</label>
+                        <span class="info-icon" style="background:var(--accent); color:#000;">? <span class="tooltip-text">Låser lånebeloppet till en fast procent av priset (Max 90%).</span></span>
+                        <div id="ltvOverrideContainer" style="display:none; margin-left:auto;">
+                            <div class="input-box" style="width:140px; border-color:var(--accent);"><input type="number" step="0.1" id="inpLTVOverride" value="90" max="90" style="font-size:12px; padding:5px 0;" oninput="calculate()"><span class="unit">%</span></div>
+                        </div>
                     </div>
+
+                    <!-- OVERRIDE AMORTERING (GUL) -->
                     <div style="display:flex; align-items:center; gap:10px;">
                         <input type="checkbox" id="chkOverrideAmort" onchange="toggleAmortOverride()" style="width:18px; height:18px; cursor:pointer;">
                         <label for="chkOverrideAmort" class="label-yellow" style="font-size:11px; font-weight:800; cursor:pointer;">OVERRIDE AMORTERING</label>
-                        <span class="info-icon">? <span class="tooltip-text">Används för att manuellt ange ett amorteringsbelopp baserat på kundens amorteringsunderlag.</span></span>
+                        <span class="info-icon">? <span class="tooltip-text">Används för att manuellt ange ett amorteringsbelopp.</span></span>
                         <div id="amortOverrideContainer" style="display:none; margin-left:auto;">
                             <div class="input-box" style="width:140px; border-color:var(--warning);"><input type="text" id="inpAmortOverride" class="format-amt" value="0" style="font-size:12px; padding:5px 0;"><span class="unit">kr</span></div>
                         </div>
+                    </div>
+
+                    <!-- AMORTERINGSKRAV (+1%) -->
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <input type="checkbox" id="chkExtraAmort" onchange="calculate()" style="width:18px; height:18px; cursor:pointer;">
+                        <label for="chkExtraAmort" style="font-size:11px; font-weight:800; color:var(--danger); cursor:pointer;">TILLÄMPA FÖRSTÄRKT AMORTERINGSKRAV (+1%)</label>
+                        <span class="info-icon" style="background:var(--danger); color:#fff;">? <span class="tooltip-text" style="background:rgb(239, 68, 68) !important; color:#fff !important;">Enligt myndighetsförslag förväntas detta krav tas bort den 1 april 2026.</span></span>
                     </div>
                 </div>
                 <button class="btn-workflow" onclick="lockSection('sec01')">Klar & Gå vidare</button>
@@ -293,6 +305,7 @@
                 </div>
                 
                 <div id="cartSummaryContainer" class="cart-summary-box" style="display:none;">
+                    <div class="summary-flex-row"><span class="summary-lbl">Viktad ränta</span><span class="summary-val" id="sumWeightedRate">0,00%</span></div>
                     <div class="summary-flex-row"><span class="summary-lbl">Total räntekostnad (före skatt)</span><span class="summary-val" id="sumIntPre">0 kr</span></div>
                     <div class="summary-flex-row"><span class="summary-lbl">Total räntekostnad (efter skatt)</span><span class="summary-val" id="sumIntPost">0 kr</span></div>
                     <div class="summary-flex-row"><span class="summary-lbl">Amortering</span><span class="summary-val" id="sumAmort">0 kr</span></div>
@@ -302,7 +315,7 @@
                     </div>
                     <div class="tax-credit-row"><span>Ränteavdrag/månad</span><span id="resTaxCredit" style="font-weight:700;">- 0 kr</span></div>
                     <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:12px; margin-top:5px;">
-                        <span style="font-weight:700; font-size:11px; color: var(--text-main);">Månadskostnad (efter skatt) <span class="info-icon">? <span class="tooltip-text">Uträkningen är baserat på 30% avdrag. Denna kalkyl tar INTE hänsyn till att ränteavdraget sänks till 21% på räntekostnader över 100 000 kr per år och person.</span></span></span>
+                        <span style="font-weight:700; font-size:11px; color: var(--text-main);">Månadskostnad (efter skatt) <span class="info-icon">? <span class="tooltip-text">Uträkningen är baserat på 30% avdrag.</span></span></span>
                         <span id="resTotalPost" style="font-weight:800; font-size:16px;">0 kr</span>
                     </div>
                 </div>
@@ -316,15 +329,24 @@
     const PREM_LIV = {"18-25":{1000000:51,1500000:76,2000000:102,2500000:127,3000000:153},"26-30":{1000000:55,1500000:83,2000000:110,2500000:138,3000000:165},"31-35":{1000000:65,1500000:97,2000000:130,2500000:162,3000000:195},"36-40":{1000000:75,1500000:112,2000000:149,2500000:186,3000000:224},"41-45":{1000000:117,1500000:176,2000000:235,2500000:293,3000000:352},"46-50":{1000000:165,1500000:247,2000000:329,2500000:411,3000000:494},"51-55":{1000000:311,1500000:467,2000000:623,2500000:778,3000000:934},"56-60":{1000000:566,1500000:849,2000000:1132,2500000:1415,3000000:1698},"61-65":{1000000:1097,1500000:1645,2000000:2193,2500000:2742,3000000:3290}};
     const PREM_INK = {"18-25":{2000:80,5000:200,8000:320,11000:439,14000:559},"26-30":{2000:80,5000:200,8000:320,11000:439,14000:559},"31-35":{2000:80,5000:200,8000:320,11000:439,14000:559},"36-40":{2000:80,5000:200,8000:320,11000:439,14000:559},"41-45":{2000:80,5000:200,8000:320,11000:439,14000:559},"46-50":{2000:80,5000:200,8000:320,11000:439,14000:559},"51-55":{2000:81,5000:203,8000:325,11000:447,14000:569},"56-60":{2000:92,5000:230,8000:368,11000:506,14000:643},"61-65":{2000:106,5000:265,8000:424,11000:583,14000:742}};
 
-    let loanParts = [{id: 1, amount: 3825000, rate: 3.85, bind: "", locked: false}];
+    let loanParts = [{id: 1, amount: 4050000, rate: 3.85, bind: "", locked: false}];
     let insParts = [];
-    const parseAmt = v => parseFloat(v.toString().replace(/\s/g, '').replace(',', '.')) || 0;
+
     const nfmt = v => Math.round(v).toLocaleString('sv-SE').replace(/\xa0/g, ' ');
+    const parseAmt = v => parseFloat(v.toString().replace(/\s/g, '').replace(',', '.')) || 0;
 
     function toggle(id) { document.getElementById(id).classList.toggle('collapsed'); }
     function toggleTheme() { document.body.classList.toggle('light-mode'); document.getElementById('themeBtn').innerHTML = document.body.classList.contains('light-mode') ? '<span>🌙</span> MÖRKT LÄGE' : '<span>☀️</span> LJUST LÄGE'; }
     function resetForm() { if(confirm("Vill du nollställa hela kalkylen?")) location.reload(); }
+    
     function toggleAmortOverride() { document.getElementById('amortOverrideContainer').style.display = document.getElementById('chkOverrideAmort').checked ? 'block' : 'none'; calculate(); }
+    function toggleLTVOverride() { 
+        const active = document.getElementById('chkOverrideLTV').checked;
+        document.getElementById('ltvOverrideContainer').style.display = active ? 'block' : 'none'; 
+        document.getElementById('inpTotalLoan').disabled = active;
+        calculate(); 
+    }
+    
     function triggerPulse() { document.getElementById('cartCard').classList.add('cart-pulse'); setTimeout(() => document.getElementById('cartCard').classList.remove('cart-pulse'), 400); }
 
     function importLoanData() {
@@ -333,7 +355,6 @@
         try {
             const data = JSON.parse(decodeURIComponent(escape(atob(code))));
             unlockSection('sec01'); unlockSection('sec02'); unlockSection('sec03');
-            document.getElementById('sec02').classList.add('collapsed'); document.getElementById('sec03').classList.add('collapsed');
             document.getElementById('inpTotalLoan').value = nfmt(data.total);
             loanParts = data.parts.map((p, index) => ({ id: Date.now() + index, amount: p.a, rate: p.r, bind: "", locked: true }));
             render(); calculate();
@@ -341,19 +362,34 @@
     }
 
     function lockSection(secId) {
+        if (secId === 'sec01') {
+            const targetLoan = parseAmt(document.getElementById('inpTotalLoan').value);
+            if (!document.getElementById('sec02').classList.contains('locked')) {
+                loanParts = [{id: Date.now(), amount: targetLoan, rate: 3.85, bind: "", locked: false}];
+                render();
+            }
+        }
+        if (secId === 'sec02') {
+            const actualTotal = loanParts.reduce((s, p) => s + p.amount, 0);
+            document.getElementById('inpTotalLoan').value = nfmt(actualTotal);
+        }
         const el = document.getElementById(secId); el.classList.add('locked', 'collapsed');
         document.getElementById('lockBadge' + secId.replace('sec', '')).style.display = 'inline-block';
         document.getElementById('btnEdit' + secId.replace('sec', '')).style.display = 'block';
-        el.querySelectorAll('input, select, button.btn-workflow, button.btn-add').forEach(i => i.disabled = true);
+        el.querySelectorAll('input, select, button.btn-workflow, button.btn-add').forEach(i => { if(i.id !== 'inpTotalLoan') i.disabled = true; });
         if(secId === 'sec01') toggle('sec02'); if(secId === 'sec02') toggle('sec03');
         calculate();
     }
+    
     function unlockSection(secId, event) {
         if(event) event.stopPropagation();
         const el = document.getElementById(secId); el.classList.remove('locked', 'collapsed');
         document.getElementById('lockBadge' + secId.replace('sec', '')).style.display = 'none';
         document.getElementById('btnEdit' + secId.replace('sec', '')).style.display = 'none';
-        el.querySelectorAll('input, select, button.btn-workflow, button.btn-add').forEach(i => i.disabled = false);
+        el.querySelectorAll('input, select, button.btn-workflow, button.btn-add').forEach(i => {
+            if(i.id === 'inpTotalLoan' && document.getElementById('chkOverrideLTV').checked) i.disabled = true;
+            else i.disabled = false;
+        });
         calculate();
     }
 
@@ -396,14 +432,7 @@
                 div.innerHTML = `<div class="item-head"><div style="font-size:12px;">LÅNTAGARE ${i+1}: ${p.age} år</div><button class="btn-icon edit-mode" onclick="editIns(${p.id})">ÄNDRA</button></div>`;
                 if(cLiv+cInk > 0) {
                     const livStr = p.liv > 0 ? (p.liv / 1000000).toLocaleString('sv-SE') + (p.liv === 1000000 ? ' miljon' : ' miljoner') : '-';
-                    cart.innerHTML += `
-                    <div class="cart-row">
-                        <div class="cart-col-rate">L${i+1}</div>
-                        <div class="cart-col-term"><div>Livskydd</div><div style="margin-top:2px">Inkomst</div></div>
-                        <div class="cart-col-amt"><div>${livStr}</div><div style="margin-top:2px">${p.ink > 0 ? nfmt(p.ink) + ' kr' : '-'}</div></div>
-                        <div class="cart-col-price">${nfmt(cLiv+cInk)} kr</div>
-                        <button class="btn-icon delete-text" onclick="removeIns(${p.id})">✕</button>
-                    </div>`;
+                    cart.innerHTML += `<div class="cart-row"><div class="cart-col-rate">L${i+1}</div><div class="cart-col-term"><div>Livskydd</div><div style="margin-top:2px">Inkomst</div></div><div class="cart-col-amt"><div>${livStr}</div><div style="margin-top:2px">${p.ink > 0 ? nfmt(p.ink) + ' kr' : '-'}</div></div><div class="cart-col-price">${nfmt(cLiv+cInk)} kr</div><button class="btn-icon delete-text" onclick="removeIns(${p.id})">✕</button></div>`;
                 }
             } else {
                 div.innerHTML = `<div class="item-head"><span class="badge-edit">REDIGERAR L${i+1}</span><button class="btn-icon delete-text" style="margin-left:auto" onclick="removeIns(${p.id})">TA BORT</button></div><div class="grid-2"><div class="field"><label>Ålder</label><select onchange="updateIns(${p.id}, 'age', this.value)">${Object.keys(PREM_LIV).map(a=>`<option value="${a}" ${a===p.age?'selected':''}>${a} år</option>`).join('')}</select></div><div class="field"><label>Livskydd</label><select onchange="updateIns(${p.id}, 'liv', this.value)"><option value="0">Inget</option>${Object.keys(PREM_LIV["18-25"]).sort((a,b)=>a-b).map(v=>`<option value="${v}" ${parseInt(v)===p.liv?'selected':''}>${(parseInt(v)/1000000).toLocaleString('sv-SE', {minimumFractionDigits:0, maximumFractionDigits:1}).replace('.', ',')} mkr</option>`).join('')}</select></div></div><div class="field"><label>Inkomstskydd</label><select onchange="updateIns(${p.id}, 'ink', this.value)"><option value="0">Inget</option>${Object.keys(PREM_INK["18-25"]).sort((a,b)=>a-b).map(v=>`<option value="${v}" ${parseInt(v)===p.ink?'selected':''}>${parseInt(v)/1000} tkr</option>`).join('')}</select></div><button class="btn-confirm" onclick="lockIns(${p.id})">Klar & Lägg i varukorg</button>`;
@@ -418,22 +447,64 @@
     }
 
     function calculate() {
-        const totalLoanTarget = parseAmt(document.getElementById('inpTotalLoan').value), currentLoanSum = loanParts.reduce((s, p) => s + p.amount, 0), price = parseAmt(document.getElementById('inpPrice').value);
-        const match = Math.abs(currentLoanSum - totalLoanTarget) < 1;
-        const hStat = document.getElementById('loanStatusHeader'); hStat.textContent = match ? "MATCH" : `DIFF: ${nfmt(totalLoanTarget - currentLoanSum)} KR`;
+        const price = parseAmt(document.getElementById('inpPrice').value);
+        let loanVal = parseAmt(document.getElementById('inpTotalLoan').value);
+        const ltvOverrideChecked = document.getElementById('chkOverrideLTV').checked;
+
+        // Auto-syk till 90% vid prisändring om inte låst
+        if (document.activeElement.id === 'inpPrice' && !ltvOverrideChecked) {
+            loanVal = price * 0.9;
+            document.getElementById('inpTotalLoan').value = nfmt(loanVal);
+        }
+
+        // LTV Override logik (Max 90%)
+        if (ltvOverrideChecked) {
+            let ltvPerc = parseFloat(document.getElementById('inpLTVOverride').value) || 0;
+            if (ltvPerc > 90) {
+                ltvPerc = 90;
+                document.getElementById('inpLTVOverride').value = 90;
+            }
+            loanVal = price * (ltvPerc / 100);
+            document.getElementById('inpTotalLoan').value = nfmt(loanVal);
+        }
+
+        const currentLoanSum = loanParts.reduce((s, p) => s + p.amount, 0);
+        const match = Math.abs(currentLoanSum - loanVal) < 1;
+        
+        const hStat = document.getElementById('loanStatusHeader'); hStat.textContent = match ? "MATCH" : `DIFF: ${nfmt(loanVal - currentLoanSum)} KR`;
         hStat.className = match ? "header-status status-ok" : "header-status status-err";
+        
         document.getElementById('btnLock02').style.display = (match && !document.getElementById('sec02').classList.contains('locked')) ? 'block' : 'none';
         document.getElementById('btnAddLoan').style.display = (match || document.getElementById('sec02').classList.contains('locked')) ? 'none' : 'block';
-        const ltv = price > 0 ? (totalLoanTarget / price) * 100 : 0;
+        
+        const ltv = price > 0 ? (loanVal / price) * 100 : 0;
         const lBadge = document.getElementById('ltvLabel'); lBadge.textContent = `Belåningsgrad: ${ltv.toFixed(1)}%`;
-        lBadge.style.backgroundColor = ltv > 90 ? 'var(--danger)' : 'var(--primary)'; lBadge.style.color = ltv > 90 ? '#fff' : '#000';
+        lBadge.style.backgroundColor = ltv > 90.1 ? 'var(--danger)' : 'var(--accent)'; 
+        lBadge.style.color = ltv > 90.1 ? '#fff' : '#000';
         
         let baseAmort = ltv > 70 ? 2 : ltv > 50 ? 1 : 0;
         let totalAmortRate = baseAmort + (document.getElementById('chkExtraAmort').checked ? 1 : 0);
-        let mAmort = document.getElementById('chkOverrideAmort').checked ? parseAmt(document.getElementById('inpAmortOverride').value) : (totalLoanTarget * (totalAmortRate / 100)) / 12;
-        document.getElementById('amortRateLabel').textContent = `Amortering: ${totalAmortRate}%`;
+        
+        let mAmort = 0;
+        if (document.getElementById('chkOverrideAmort').checked) {
+            mAmort = parseAmt(document.getElementById('inpAmortOverride').value);
+            let calculatedAmortRate = loanVal > 0 ? (mAmort * 12 / loanVal) * 100 : 0;
+            document.getElementById('amortRateLabel').textContent = `Amortering: ${calculatedAmortRate.toLocaleString('sv-SE', {minimumFractionDigits: 1, maximumFractionDigits: 2})}%`;
+        } else {
+            mAmort = (loanVal * (totalAmortRate / 100)) / 12;
+            document.getElementById('amortRateLabel').textContent = `Amortering: ${totalAmortRate}%`;
+        }
 
-        let totalInt = 0; loanParts.filter(p => p.locked).forEach(p => totalInt += (p.amount * (p.rate/100)) / 12);
+        let totalInt = 0, weightedSum = 0, lockedLoanTotal = 0;
+        loanParts.filter(p => p.locked).forEach(p => {
+            totalInt += (p.amount * (p.rate/100)) / 12;
+            weightedSum += (p.amount * p.rate);
+            lockedLoanTotal += p.amount;
+        });
+
+        let weightedRate = lockedLoanTotal > 0 ? (weightedSum / lockedLoanTotal) : 0;
+        document.getElementById('sumWeightedRate').textContent = weightedRate.toLocaleString('sv-SE', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '%';
+
         let tFors = 0, sLiv = 0, sInk = 0; insParts.filter(p => p.locked).forEach(p => { tFors += (p.liv > 0 ? PREM_LIV[p.age][p.liv] : 0) + (p.ink > 0 ? PREM_INK[p.age][p.ink] : 0); sLiv += p.liv; sInk += p.ink; });
         const fee = parseAmt(document.getElementById('inpFee').value), drift = parseAmt(document.getElementById('inpDrift').value), totalPre = totalInt + mAmort + tFors + fee + drift, taxCredit = totalInt * 0.3;
         
@@ -450,7 +521,16 @@
         document.getElementById('resTotalPost').textContent = nfmt(totalPre - taxCredit) + ' kr';
     }
 
-    document.querySelectorAll('.format-amt').forEach(el => el.addEventListener('input', e => { const pos = e.target.selectionStart, oldLen = e.target.value.length; e.target.value = nfmt(parseAmt(e.target.value)); const newLen = e.target.value.length; e.target.setSelectionRange(pos + (newLen - oldLen), pos + (newLen - oldLen)); calculate(); }));
+    document.querySelectorAll('.format-amt').forEach(el => el.addEventListener('input', e => { 
+        if (e.target.disabled) return;
+        const pos = e.target.selectionStart, oldLen = e.target.value.length; 
+        const val = parseAmt(e.target.value);
+        e.target.value = nfmt(val); 
+        const newLen = e.target.value.length; 
+        e.target.setSelectionRange(pos + (newLen - oldLen), pos + (newLen - oldLen)); 
+        calculate(); 
+    }));
+    
     render();
 </script>
 </body>
