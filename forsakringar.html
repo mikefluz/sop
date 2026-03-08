@@ -110,7 +110,7 @@
         .seg-gap { background: repeating-linear-gradient(45deg, rgba(239,68,68,0.15), rgba(239,68,68,0.15) 10px, rgba(239,68,68,0.25) 10px, rgba(239,68,68,0.25) 20px); color: var(--danger); flex-grow: 1; border-left: 1px dashed var(--danger); }
 
         .cost-marker { position: absolute; top: -12px; bottom: -12px; width: 2px; background: #fff; z-index: 5; box-shadow: 0 0 15px #fff; transition: left 0.5s; }
-        .cost-marker::before { content: 'BOENDE'; position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 8px; font-weight: 900; color: #fff; letter-spacing: 1px; }
+        .cost-marker::before { content: 'BOENDE'; position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 8px; font-weight: 900; color: #fff; }
 
         .res-box { display: flex; flex-direction: column; padding: 15px 20px; border-radius: 8px; font-weight: 800; transition: 0.3s; }
         .res-box.pos { background: rgba(16, 185, 129, 0.08); border: 1px solid var(--accent); color: var(--accent); }
@@ -133,6 +133,7 @@
 
         .badge { font-size: 9px; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-weight: 900; margin-left: 8px; vertical-align: middle; display: inline-block; }
         .badge-danger { background: var(--danger) !important; color: #fff !important; }
+        .badge-primary { background: var(--primary); color: #000; }
 
         .qa-list { margin-top: 10px; padding-left: 18px; list-style-type: none; }
         .qa-list li { margin-bottom: 8px; position: relative; }
@@ -157,8 +158,8 @@
     <section class="usp-grid">
         <div class="usp-card"><h3>💰 Dubbel ersättning</h3><p>Vår ersättning betalas ut <b>utöver</b> det du får från A-kassan eller facket. Det är inte antingen eller – det är dubbel trygghet.</p></div>
         <div class="usp-card"><h3>🏠 Anpassat efter lånet</h3><p>Ersättningen är baserad på dina faktiska månadskostnader för lånet. Mellan 2 000 kr och 14 000 kr/mån.</p></div>
-        <div class="usp-card"><h3>🕊️ Säkra familjens framtid</h3><p>Ett engångsbelopp vid dödsfall som sänker lånet direkt, så att familjen kan bo kvar och ställa om i lugn och ro.</p></div>
-        <div class="usp-card"><h3>🛡️ Livslång flexibilitet</h3><p>Försäkringen är fristående och följer dig även om du byter bank eller amorterar lånet i framtiden.</p></div>
+        <div class="usp-card"><h3>🕊️ Säkra familjen</h3><p>Ett engångsbelopp vid dödsfall som sänker lånet direkt, så att familjen kan bo kvar och ställa om i lugn och ro.</p></div>
+        <div class="usp-card"><h3>🛡️ Livslång flexibilitet</h3><p>Försäkringen är fristående och följer dig även om du byter bank eller betalar av lånet i framtiden.</p></div>
     </section>
 
     <!-- SIMULATOR CARD -->
@@ -214,23 +215,24 @@
                         </div>
                     </div>
 
+                    <!-- SPEC LIST -->
                     <div class="spec-container">
                         <h5>Specifikation: Utbetalning Netto (Räkneexempel)</h5>
                         <div class="spec-phase">
-                            <div class="spec-item">Fas 1 (Dag 1 – 100): <b>80%</b></div>
+                            <div class="spec-item">Fas 1 (Dag 1 – 100): <b>Max 80% ersättning</b></div>
                             <div class="spec-item">Inkomst (A-kassa + Fack): <b id="specP1Inc">0 kr</b></div>
                             <div class="spec-item spec-ss-row">Sitt Säkert: <b id="specP1Safe">0 kr</b></div>
                             <div class="spec-item spec-total">Totalt netto: <b id="specP1Tot">0 kr</b></div>
                         </div>
                         <div class="spec-phase">
-                            <div class="spec-item">Fas 2 (Dag 101 – 200): <b id="specP2Perc">70%</b></div>
+                            <div class="spec-item">Fas 2 (Dag 101 – 200): <b id="specP2Perc">Max 70% ersättning</b></div>
                             <div id="specP2Breakdown" class="spec-sub-info"></div>
                             <div class="spec-item">Snittinkomst i perioden: <b id="specP2Inc">0 kr</b></div>
                             <div class="spec-item spec-ss-row">Sitt Säkert: <b id="specP2Safe">0 kr</b></div>
                             <div class="spec-item spec-total">Totalt netto: <b id="specP2Tot">0 kr</b></div>
                         </div>
                         <div class="spec-phase">
-                            <div class="spec-item">Fas 3 (Dag 201 – 300): <b style="color:var(--danger)">65%</b></div>
+                            <div class="spec-item">Fas 3 (Dag 201 – 300): <b style="color:var(--danger)">Max 65% ersättning</b></div>
                             <div class="spec-item">Inkomst (A-kassa): <b id="specP3Inc">0 kr</b></div>
                             <div class="spec-item spec-ss-row">Sitt Säkert: <b id="specP3Safe">0 kr</b></div>
                             <div class="spec-item spec-total">Totalt netto: <b id="specP3Tot">0 kr</b></div>
@@ -241,6 +243,7 @@
                 <main class="sim-viz">
                     <p style="font-size: 10px; font-weight: 800; color: var(--text-soft); text-transform: uppercase; margin-bottom: 25px; text-align: center;">Peka på staplarna för att se belopp per del</p>
                     
+                    <!-- FAS 1 -->
                     <div class="period-card">
                         <div class="period-header"><h4>Fas 1: Start (Dag 1-100 / 80%)</h4><span id="p1Total" style="font-size: 10px; font-weight: 900; color: var(--primary);">0 kr</span></div>
                         <div class="bar-container">
@@ -257,6 +260,7 @@
                         <div id="gapDesc1" class="gap-desc"></div>
                     </div>
 
+                    <!-- FAS 2 -->
                     <div class="period-card">
                         <div class="period-header"><h4>Fas 2: Dag 101-200 (Viktat snitt)</h4><span id="p2TotalViz" style="font-size: 10px; font-weight: 900; color: var(--primary);">0 kr</span></div>
                         <div class="bar-container">
@@ -273,6 +277,7 @@
                         <div id="gapDesc2" class="gap-desc"></div>
                     </div>
 
+                    <!-- FAS 3 -->
                     <div class="period-card">
                         <div class="period-header"><h4>Fas 3: Dag 201-300 (65%)</h4><span id="p3Total" style="font-size: 10px; font-weight: 900; color: var(--primary);">0 kr</span></div>
                         <div class="bar-container">
@@ -295,13 +300,17 @@
 
     <!-- CALC BASE -->
     <div class="card" id="secGrund">
-        <div class="card-header" onclick="toggleSec('secGrund')"><h2>Viktig information om beräkningsgrund</h2><div class="toggle-icon">▼</div></div>
+        <div class="card-header" onclick="toggleSec('secGrund')">
+            <h2 style="color: var(--primary);">Viktig information om beräkningsgrund <span class="badge badge-primary">VIKTIG</span></h2>
+            <div class="toggle-icon">▼</div>
+        </div>
         <div class="card-content">
             <ul class="calc-base-list">
                 <li><b>Lagstadgad inkomsttrappa (okt 2025):</b> Simulatorn är ett representativt räkneexempel som utgår från medlemskap i 12 månader. Enligt lag får inkomstförsäkringar max täcka 80% (dag 1–100), 70% (dag 101–200) och därefter 65%.</li>
                 <li><b>Facklig begränsning:</b> Simulatorn antar att fackets försäkring lyfter ersättningen till lagens maxgräns. Dagarna varierar kraftigt mellan förbund (t.ex. Unionen 100 dgr, Ledarna 150 dgr). Det åligger kunden att kontrollera sitt avtal.</li>
-                <li><b>A-kassans tak:</b> Utan facklig försäkring begränsas inkomsten dessutom av A-kassans inkomsttak på 34 000 kr brutto (ca 16 800 kr netto efter schablonskatt).</li>
+                <li><b>A-kassans tak:</b> Utan facklig försäkring begränsas inkomsten dessutom av A-kassans inkomsttak på 34 000 kr brutto (ca 16 800 kr netto efter schablonskatt). Notera att vi inte vet vilken månadslön (brutto) som just din fackliga inkomstförsäkring täcker, då detta varierar mellan olika förbund och beror på om du gjort egna tillval för att höja ditt inkomsttak.</li>
                 <li><b>Sitt Säkert Inkomst:</b> Ger en <b>konstant skattefri utbetalning</b> i 12 månader (360 dagar), oavsett lagstadgad nedtrappning. Utbetalningen i simulatorn visar månadsersättning efter karenstiden.</li>
+                <li><b>Skattesats:</b> Kalkylen baseras på en schablonskatt om 30%.</li>
             </ul>
         </div>
     </div>
@@ -316,7 +325,7 @@
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
                 <div><h4>Ingen hälsoprövning upp till 1M</h4><p style="font-size:13px; color:var(--text-soft)">Det räcker att du är fullt arbetsför. Vid högre belopp görs en enkel <b>digital</b> riskbedömning.</p></div>
-                <div><h4>Skattefri utbetalning</h4><p style="font-size:13px; color:var(--text-soft)">Hela summan betalas ut skattefritt till förmånstagarna direkt till kontot.</p></div>
+                <div><h4>Skattefri utbetalning</h4><p style="font-size:13px; color:var(--text-soft)">Hela summan betalas ut skattefritt till förmånstagarna direkt till kontot (netto).</p></div>
             </div>
         </div>
     </div>
@@ -352,7 +361,7 @@
                         <li>Sitt Säkert kan lämna ersättning så fort du är sjukskriven till minst 50%.</li>
                         <li>Utbetalningen sker i proportion till din arbetsoförmåga (t.ex. får du 50% av försäkringsbeloppet vid 50% sjukskrivning).</li>
                         <li>När perioden varat i mer än 30 dagar lämnas ersättning <b>retroaktivt från första dagen</b>.</li>
-                        <li>Detta är ett viktigt komplement till Sjukpenningen som har ett inkomsttak som ofta lämnar ett stort gap för bolåntagare.</li>
+                        <li>Detta är ett viktigt komplement till Sjukpenningen från Försäkringskassan som har ett inkomsttak som ofta lämnar ett stort gap för bolåntagare.</li>
                     </ul>
                 </div>
             </div>
@@ -371,7 +380,7 @@
                 <div class="qa-content">
                     <ul class="qa-list">
                         <li>Försäkringen är fristående och följer dig personligen fram till 66 års ålder.</li>
-                        <li>Skyddet gäller även om du flyttar ditt lån till en annan bank eller amorterar lånet helt.</li>
+                        <li>Skyddet gäller även om du byter bank eller amorterar lånet helt.</li>
                     </ul>
                 </div>
             </div>
@@ -416,7 +425,7 @@
         
         let fackDaysInP2 = st.fack ? Math.max(0, Math.min(100, st.fackD - 100)) : 0;
         let akDaysInP2 = 100 - fackDaysInP2;
-        let incWithFackP2 = netto * 0.7; 
+        let incWithFackP2 = netto * 0.7;
         let incWithAkOnlyP2 = Math.min(netto * 0.7, tak70);
         let i2 = ((incWithFackP2 * fackDaysInP2) + (incWithAkOnlyP2 * akDaysInP2)) / 100;
         
@@ -475,12 +484,11 @@
         document.getElementById(lI).style.left = (cost / max * 100) + "%";
     }
 
-    function setRes(vI, pI, cI, dI, tI, c, m) {
-        const diff = tI - c, gap = m - tI;
+    function setRes(vI, pI, cI, tI, c, m) {
+        const diff = tI - c;
         document.getElementById(pI).className = "res-box " + (diff < 0 ? "neg" : "pos");
         document.getElementById(vI).innerText = (diff < 0 ? "MINUS " : "") + Math.abs(Math.round(diff)).toLocaleString() + " kr" + (diff >= 0 ? " kvar" : "");
         document.getElementById(cI).innerText = `(${Math.round(tI).toLocaleString()} kr in - ${Math.round(c).toLocaleString()} kr boende)`;
-        document.getElementById(dI).innerText = gap > 10 ? `Här saknas ${Math.round(gap).toLocaleString()} kr för att nå 100% av din lön.` : "Trygghet nådd.";
     }
 
     function tQA(el) { el.parentElement.classList.toggle('active'); }
