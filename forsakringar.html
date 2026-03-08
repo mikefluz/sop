@@ -417,27 +417,33 @@
         const cost = parseFloat(document.getElementById('inpCost').value) || 0;
         const ss = state.hasSs ? state.ssAmt : 0;
         
-        // Bliwa/A-kassa Netto Tak 2025
-        const tak80 = 19852; 
-        const tak70 = 17574;
-        const tak65 = 16395;
+        // A-kassa Netto Tak baserat på 34 000 kr Brutto och 30% skatt
+        // 80% av 34k = 27 200. Netto (x0.7) = 19 040
+        // 70% av 34k = 23 800. Netto (x0.7) = 16 660
+        // 65% av 34k = 22 100. Netto (x0.7) = 15 470
+        const tak80 = 19040; 
+        const tak70 = 16660;
+        const tak65 = 15470;
 
-        // FAS 1 (1-100)
-        let inc1Total = state.hasFack ? nettoInput * 0.8 : Math.min(nettoInput * 0.8, tak80);
-        let ak1Net = Math.min(inc1Total, tak80);
-        let fack1Net = Math.max(0, inc1Total - ak1Net);
+        // FAS 1 (1-100) - 80% nivå
+        let target1 = nettoInput * 0.8;
+        let inc1Total = state.hasFack ? target1 : Math.min(target1, tak80);
+        let ak1Net = Math.min(target1, tak80);
+        let fack1Net = state.hasFack ? Math.max(0, target1 - ak1Net) : 0;
         
-        // FAS 2 (101-200) - Viktat snitt
+        // FAS 2 (101-200) - 70% nivå
+        let target2 = nettoInput * 0.7;
         let fackDaysInP2 = state.hasFack ? Math.max(0, Math.min(100, state.fackD - 100)) : 0;
-        let incWithFackP2 = nettoInput * 0.7; // Lagstadgat max 70%
-        let incWithAkOnlyP2 = Math.min(nettoInput * 0.7, tak70);
-        let ak2Net = Math.min(incWithAkOnlyP2, tak70);
+        let incWithAkOnlyP2 = Math.min(target2, tak70);
+        let ak2Net = incWithAkOnlyP2;
         
-        let i2BaseAvg = ((incWithFackP2 * fackDaysInP2) + (incWithAkOnlyP2 * (100 - fackDaysInP2))) / 100;
+        // Beräkna genomsnitt för månaden i Fas 2 (vissa dagar kan ha fack-tillägg, andra bara tak)
+        let i2BaseAvg = ((target2 * fackDaysInP2) + (incWithAkOnlyP2 * (100 - fackDaysInP2))) / 100;
         let fack2NetAvg = Math.max(0, i2BaseAvg - ak2Net);
         
-        // FAS 3 (201-300)
-        let i3Avg = Math.min(nettoInput * 0.65, tak65);
+        // FAS 3 (201-300) - 65% nivå
+        let target3 = nettoInput * 0.65;
+        let i3Avg = Math.min(target3, tak65);
 
         // Update Spec
         document.getElementById('specP1Ak').innerText = Math.round(ak1Net).toLocaleString() + " kr";
