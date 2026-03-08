@@ -67,7 +67,7 @@
         .input-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; padding: 2px 12px; display: flex; align-items: center; }
         input { width: 100%; background: transparent; border: none; padding: 10px 0; color: #fff; font-size: 16px; outline: none; font-weight: 600; }
 
-        /* TOGGLES */
+        /* BUTTONS */
         .btn-group { display: flex; gap: 8px; margin-top: 5px; }
         .btn-toggle { flex: 1; padding: 12px; border-radius: 6px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); color: var(--text-soft); cursor: pointer; font-size: 10px; font-weight: 800; transition: 0.2s; }
         .btn-toggle.active-green { background: var(--accent); color: #000; border-color: var(--accent); }
@@ -123,8 +123,9 @@
 
         /* Q&A STYLES */
         .qa-item { border-bottom: 1px solid var(--border); }
+        .qa-item:last-child { border-bottom: none; }
         .qa-trigger { padding: 20px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .qa-trigger h4 { font-size: 14px; font-weight: 600; }
+        .qa-trigger h4 { font-size: 14px; font-weight: 600; color: var(--text-main); }
         .qa-icon { color: var(--primary); transition: 0.3s; font-size: 18px; }
         .qa-content { padding-bottom: 25px; font-size: 13px; color: var(--text-soft); display: none; line-height: 1.7; }
         .qa-item.active .qa-content { display: block; }
@@ -217,21 +218,23 @@
                     <div class="spec-container">
                         <h5>Specifikation: Utbetalning Netto (Räkneexempel)</h5>
                         <div class="spec-phase">
-                            <div class="spec-item">Fas 1 (Dag 1 – 100): <b>80%</b></div>
-                            <div class="spec-item">Inkomst (A-kassa + Fack): <b id="specP1Inc">0 kr</b></div>
+                            <div class="spec-item">Fas 1 (Dag 1 – 100): <b>80% ersättning</b></div>
+                            <div class="spec-item">A-kassa (max schablon): <b id="specP1Ak">0 kr</b></div>
+                            <div id="specP1FackBox" class="spec-item">Fackets tillägg: <b id="specP1Fack">0 kr</b></div>
                             <div class="spec-item spec-ss-row">Sitt Säkert: <b id="specP1Safe">0 kr</b></div>
                             <div class="spec-item spec-total">Totalt netto: <b id="specP1Tot">0 kr</b></div>
                         </div>
                         <div class="spec-phase">
-                            <div class="spec-item">Fas 2 (Dag 101 – 200): <b id="specP2Perc">70%</b></div>
+                            <div class="spec-item">Fas 2 (Dag 101 – 200): <b id="specP2Perc">70% ersättning</b></div>
                             <div id="specP2Breakdown" class="spec-sub-info"></div>
-                            <div class="spec-item">Snittinkomst i perioden: <b id="specP2Inc">0 kr</b></div>
+                            <div class="spec-item">A-kassa (70%): <b id="specP2Ak">0 kr</b></div>
+                            <div id="specP2FackBox" class="spec-item">Fackets tillägg (snitt): <b id="specP2Fack">0 kr</b></div>
                             <div class="spec-item spec-ss-row">Sitt Säkert: <b id="specP2Safe">0 kr</b></div>
                             <div class="spec-item spec-total">Totalt netto: <b id="specP2Tot">0 kr</b></div>
                         </div>
                         <div class="spec-phase">
-                            <div class="spec-item">Fas 3 (Dag 201 – 300): <b style="color:var(--danger)">65%</b></div>
-                            <div class="spec-item">Inkomst (A-kassa): <b id="specP3Inc">0 kr</b></div>
+                            <div class="spec-item">Fas 3 (Dag 201 – 300): <b style="color:var(--danger)">65% ersättning</b></div>
+                            <div class="spec-item">A-kassa (65%): <b id="specP3Inc">0 kr</b></div>
                             <div class="spec-item spec-ss-row">Sitt Säkert: <b id="specP3Safe">0 kr</b></div>
                             <div class="spec-item spec-total">Totalt netto: <b id="specP3Tot">0 kr</b></div>
                         </div>
@@ -258,7 +261,7 @@
                     </div>
 
                     <div class="period-card">
-                        <div class="period-header"><h4>Fas 2: Dag 101-200 (Viktat snitt)</h4><span id="p2TotalViz" style="font-size: 10px; font-weight: 900; color: var(--primary);">0 kr</span></div>
+                        <div class="period-header"><h4>Fas 2: Mitt (Dag 101-200 / 70%)</h4><span id="p2TotalViz" style="font-size: 10px; font-weight: 900; color: var(--primary);">0 kr</span></div>
                         <div class="bar-container">
                             <div id="p2Akassa" class="segment seg-akassa">AK</div>
                             <div id="p2Fack" class="segment seg-fack">FACK</div>
@@ -274,7 +277,7 @@
                     </div>
 
                     <div class="period-card">
-                        <div class="period-header"><h4>Fas 3: Dag 201-300 (65%)</h4><span id="p3Total" style="font-size: 10px; font-weight: 900; color: var(--primary);">0 kr</span></div>
+                        <div class="period-header"><h4>Fas 3: Slut (Dag 201-300 / 65%)</h4><span id="p3Total" style="font-size: 10px; font-weight: 900; color: var(--primary);">0 kr</span></div>
                         <div class="bar-container">
                             <div id="p3Akassa" class="segment seg-akassa">AK</div>
                             <div id="p3Fack" class="segment seg-fack" style="display:none">FACK</div>
@@ -303,9 +306,9 @@
             <ul class="calc-base-list">
                 <li><b>Lagstadgad inkomsttrappa (okt 2025):</b> Simulatorn är ett representativt räkneexempel som utgår från medlemskap i 12 månader. Enligt lag får inkomstförsäkringar max täcka 80% (dag 1–100), 70% (dag 101–200) och därefter 65%.</li>
                 <li><b>Facklig begränsning:</b> Simulatorn antar att fackets försäkring lyfter ersättningen till lagens maxgräns. Dagarna varierar kraftigt mellan förbund (t.ex. Unionen 100 dgr, Ledarna 150 dgr). Det åligger kunden att kontrollera sitt avtal.</li>
-                <li><b>A-kassans tak:</b> Utan facklig försäkring begränsas inkomsten dessutom av A-kassans inkomsttak på 34 000 kr brutto (ca 27 200 kr netto efter schablonskatt). Notera att vi inte vet vilken månadslön (brutto) som just din fackliga inkomstförsäkring täcker, då detta varierar mellan förbund och beror på om du gjort egna tillval.</li>
+                <li><b>A-kassans tak:</b> Utan facklig försäkring begränsas inkomsten dessutom av A-kassans inkomsttak på 34 000 kr brutto (Fas 1 max: 19 852 kr netto, Fas 2 max: 17 574 kr netto, Fas 3 max: 16 395 kr netto). Notera att vi inte vet vilken månadslön (brutto) som just din fackliga inkomstförsäkring täcker, då detta varierar mellan förbund och beror på om du gjort egna tillval för att höja ditt inkomsttak.</li>
                 <li><b>Sitt Säkert Inkomst:</b> Ger en <b>konstant skattefri utbetalning</b> i 12 månader (360 dagar), oavsett lagstadgad nedtrappning. Utbetalningen i simulatorn visar månadsersättning efter karenstiden.</li>
-                <li><b>Skattesats:</b> Kalkylen baseras på en schablonskatt om 30%.</li>
+                <li><b>Skattesats:</b> Kalkylen baseras på en schablonskatt om 30%. Ersättningen är ett exempel och påverkas av din ersättning från a-kassan, omställningsavtal, vilken skattetabell du tillhör och antalet ersättningsdagar per månad.</li>
             </ul>
         </div>
     </div>
@@ -354,9 +357,9 @@
                 <div class="qa-content">
                     <ul class="qa-list">
                         <li>Sitt Säkert kan lämna ersättning så fort du är sjukskriven till minst 50%.</li>
-                        <li>Utbetalningen sker i proportion till din arbetsoförmåga (t.ex. får du 50% av beloppet vid 50% sjukskrivning).</li>
+                        <li>Utbetalningen sker i proportion till din arbetsoförmåga (t.ex. får du 50% av försäkringsbeloppet vid 50% sjukskrivning).</li>
                         <li>När perioden varat i mer än 30 dagar lämnas ersättning <b>retroaktivt från första dagen</b>.</li>
-                        <li>Detta är ett viktigt komplement till Sjukpenningen som har ett tak som ofta lämnar ett stort gap.</li>
+                        <li>Detta är ett viktigt komplement till Sjukpenningen som har ett inkomsttak som ofta lämnar ett stort gap.</li>
                     </ul>
                 </div>
             </div>
@@ -384,97 +387,115 @@
 </div>
 
 <script>
-    let st = { fack: true, fackD: 150, ss: true, ssA: 8000 };
+    let state = { hasFack: true, fackD: 150, hasSs: true, ssAmt: 8000 };
 
     function toggleSec(id) { document.getElementById(id).classList.toggle('collapsed'); }
-    function setAk(v) { st.fack = v; updateUI(); calculate(); }
-    function setFackDays(d) { st.fackD = d; updateUI(); calculate(); }
-    function setSs(v) { st.ss = v; updateUI(); calculate(); }
-    function setAmt(v) { st.ssA = v; updateUI(); calculate(); }
+    function setAk(v) { state.hasFack = v; updateUI(); calculate(); }
+    function setFackDays(d) { state.fackD = d; updateUI(); calculate(); }
+    function setSs(v) { state.hasSs = v; updateUI(); calculate(); }
+    function setAmt(v) { state.ssAmt = v; updateUI(); calculate(); }
 
     function updateUI() {
-        document.getElementById('btnAkYes').className = st.fack ? 'btn-toggle active-green' : 'btn-toggle';
-        document.getElementById('btnAkNo').className = !st.fack ? 'btn-toggle active-green' : 'btn-toggle';
-        document.getElementById('fackDaysBox').style.display = st.fack ? 'block' : 'none';
-        document.querySelectorAll('.btn-sel').forEach(b => b.classList.toggle('active-fack', parseInt(b.innerText) === st.fackD));
+        document.getElementById('btnAkYes').className = state.hasFack ? 'btn-toggle active-green' : 'btn-toggle';
+        document.getElementById('btnAkNo').className = !state.hasFack ? 'btn-toggle active-green' : 'btn-toggle';
+        document.getElementById('fackDaysBox').style.display = state.hasFack ? 'block' : 'none';
+        document.querySelectorAll('.btn-sel').forEach(b => b.classList.toggle('active-fack', parseInt(b.innerText) === state.fackD));
         
-        document.getElementById('btnSsYes').className = st.ss ? 'btn-toggle active-blue' : 'btn-toggle';
-        document.getElementById('btnSsNo').className = !st.ss ? 'btn-toggle active-danger' : 'btn-toggle';
-        document.getElementById('ssSelector').style.opacity = st.ss ? "1" : "0.3";
-        document.getElementById('ssSelector').style.pointerEvents = st.ss ? "auto" : "none";
+        document.getElementById('btnSsYes').className = state.hasSs ? 'btn-toggle active-blue' : 'btn-toggle';
+        document.getElementById('btnSsNo').className = !state.hasSs ? 'btn-toggle active-danger' : 'btn-toggle';
+        document.getElementById('ssSelector').style.opacity = state.hasSs ? "1" : "0.3";
+        document.getElementById('ssSelector').style.pointerEvents = state.hasSs ? "auto" : "none";
         
-        document.querySelectorAll('.btn-amt').forEach(b => b.classList.toggle('active', parseInt(b.innerText)*1000 === st.ssA));
-        document.getElementById('bruttoLabel').innerText = st.ss ? `Valt belopp motsvarar ca. ${Math.round(st.ssA/0.7).toLocaleString()} kr i bruttolön` : "";
+        document.querySelectorAll('.btn-amt').forEach(b => b.classList.toggle('active', parseInt(b.innerText)*1000 === state.ssAmt));
+        document.getElementById('bruttoLabel').innerText = state.hasSs ? `Valt belopp motsvarar ca. ${Math.round(state.ssAmt/0.7).toLocaleString()} kr i bruttolön` : "";
         
-        document.querySelectorAll('.spec-ss-row').forEach(r => r.style.display = st.ss ? 'flex' : 'none');
+        document.querySelectorAll('.spec-ss-row').forEach(r => r.style.display = state.hasSs ? 'flex' : 'none');
     }
 
     function calculate() {
-        const netto = parseFloat(document.getElementById('inpNetto').value) || 1;
+        const nettoInput = parseFloat(document.getElementById('inpNetto').value) || 1;
         const cost = parseFloat(document.getElementById('inpCost').value) || 0;
-        const ss = st.ss ? st.ssA : 0;
+        const ss = state.hasSs ? state.ssAmt : 0;
         
-        const tak80 = 16800, tak70 = 14700, tak65 = 13650;
+        // Bliwa/A-kassa Netto Tak 2025
+        const tak80 = 19852; 
+        const tak70 = 17574;
+        const tak65 = 16395;
 
-        let i1 = st.fack ? netto * 0.8 : Math.min(netto * 0.8, tak80);
+        // FAS 1 (1-100)
+        let inc1Total = state.hasFack ? nettoInput * 0.8 : Math.min(nettoInput * 0.8, tak80);
+        let ak1Net = Math.min(inc1Total, tak80);
+        let fack1Net = Math.max(0, inc1Total - ak1Net);
         
-        let fackDaysInP2 = st.fack ? Math.max(0, Math.min(100, st.fackD - 100)) : 0;
-        let akDaysInP2 = 100 - fackDaysInP2;
-        let incWithFackP2 = netto * 0.7; 
-        let incWithAkOnlyP2 = Math.min(netto * 0.7, tak70);
-        let i2 = ((incWithFackP2 * fackDaysInP2) + (incWithAkOnlyP2 * akDaysInP2)) / 100;
+        // FAS 2 (101-200) - Viktat snitt
+        let fackDaysInP2 = state.hasFack ? Math.max(0, Math.min(100, state.fackD - 100)) : 0;
+        let incWithFackP2 = nettoInput * 0.7; // Lagstadgat max 70%
+        let incWithAkOnlyP2 = Math.min(nettoInput * 0.7, tak70);
+        let ak2Net = Math.min(incWithAkOnlyP2, tak70);
         
-        let i3 = Math.min(netto * 0.65, tak65);
+        let i2BaseAvg = ((incWithFackP2 * fackDaysInP2) + (incWithAkOnlyP2 * (100 - fackDaysInP2))) / 100;
+        let fack2NetAvg = Math.max(0, i2BaseAvg - ak2Net);
+        
+        // FAS 3 (201-300)
+        let i3Avg = Math.min(nettoInput * 0.65, tak65);
 
-        let p2Text = st.fack ? (fackDaysInP2 === 100 ? "Facket täcker hela perioden (70% av verklig lön)." : (fackDaysInP2 > 0 ? `Dag 101–${100 + fackDaysInP2}: Facket täcker 70%. Därefter A-kassans tak.` : "Facket har löpt ut. Enbart A-kassans tak (70%).")) : "Bara A-kassa (begränsas av taket).";
-        document.getElementById('specP2Breakdown').innerText = p2Text;
-
-        document.getElementById('specP1Inc').innerText = Math.round(i1).toLocaleString() + " kr";
+        // Update Spec
+        document.getElementById('specP1Ak').innerText = Math.round(ak1Net).toLocaleString() + " kr";
+        document.getElementById('specP1Fack').innerText = Math.round(fack1Net).toLocaleString() + " kr";
         document.getElementById('specP1Safe').innerText = ss.toLocaleString() + " kr";
-        document.getElementById('specP1Tot').innerText = Math.round(i1 + ss).toLocaleString() + " kr";
-        document.getElementById('specP2Inc').innerText = Math.round(i2).toLocaleString() + " kr";
+        document.getElementById('specP1Tot').innerText = Math.round(inc1Total + ss).toLocaleString() + " kr";
+        document.getElementById('specP1FackBox').style.display = fack1Net > 0 ? "flex" : "none";
+
+        document.getElementById('specP2Ak').innerText = Math.round(ak2Net).toLocaleString() + " kr";
+        document.getElementById('specP2Fack').innerText = Math.round(fack2NetAvg).toLocaleString() + " kr";
+        document.getElementById('specP2FackBox').style.display = (state.hasFack && fackDaysInP2 > 0) ? "flex" : "none";
         document.getElementById('specP2Safe').innerText = ss.toLocaleString() + " kr";
-        document.getElementById('specP2Tot').innerText = Math.round(i2 + ss).toLocaleString() + " kr";
-        document.getElementById('specP3Inc').innerText = Math.round(i3).toLocaleString() + " kr";
+        document.getElementById('specP2Tot').innerText = Math.round(i2BaseAvg + ss).toLocaleString() + " kr";
+        document.getElementById('specP2Breakdown').innerText = state.hasFack ? (fackDaysInP2 > 0 ? `Dag 101–${100+fackDaysInP2}: Facket täcker 70%. Därefter A-kassans tak.` : "Facket har löpt ut.") : "";
+
+        document.getElementById('specP3Inc').innerText = Math.round(i3Avg).toLocaleString() + " kr";
         document.getElementById('specP3Safe').innerText = ss.toLocaleString() + " kr";
-        document.getElementById('specP3Tot').innerText = Math.round(i3 + ss).toLocaleString() + " kr";
+        document.getElementById('specP3Tot').innerText = Math.round(i3Avg + ss).toLocaleString() + " kr";
 
-        renderBar('p1Akassa', 'p1Fack', 'p1Safe', 'p1Gap', 'line1', i1, ss, netto, cost, tak80);
-        renderBar('p2Akassa', 'p2Fack', 'p2Safe', 'p2Gap', 'line2', i2, ss, netto, cost, tak70);
-        renderBar('p3Akassa', 'p3Fack', 'p3Safe', 'p3Gap', 'line3', i3, ss, netto, cost, tak65);
+        // Visualisering
+        renderBar('p1Akassa', 'p1Fack', 'p1Safe', 'p1Gap', 'line1', ak1Net, fack1Net, ss, nettoInput, cost);
+        renderBar('p2Akassa', 'p2Fack', 'p2Safe', 'p2Gap', 'line2', ak2Net, fack2NetAvg, ss, nettoInput, cost);
+        renderBar('p3Akassa', 'p3Fack', 'p3Safe', 'p3Gap', 'line3', i3Avg, 0, ss, nettoInput, cost);
 
-        document.getElementById('p1Total').innerText = Math.round(i1 + ss).toLocaleString() + " kr";
-        document.getElementById('p2TotalViz').innerText = Math.round(i2 + ss).toLocaleString() + " kr";
-        document.getElementById('p3Total').innerText = Math.round(i3 + ss).toLocaleString() + " kr";
+        document.getElementById('p1Total').innerText = Math.round(inc1Total + ss).toLocaleString() + " kr";
+        document.getElementById('p2TotalViz').innerText = Math.round(i2BaseAvg + ss).toLocaleString() + " kr";
+        document.getElementById('p3Total').innerText = Math.round(i3Avg + ss).toLocaleString() + " kr";
 
-        setRes('resP1', 'pill1', 'calc1', 'gapDesc1', i1 + ss, cost, netto);
-        setRes('resP2', 'pill2', 'calc2', 'gapDesc2', i2 + ss, cost, netto);
-        setRes('resP3', 'pill3', 'calc3', 'gapDesc3', i3 + ss, cost, netto);
+        setRes('resP1', 'pill1', 'calc1', 'gapDesc1', inc1Total + ss, cost, nettoInput);
+        setRes('resP2', 'pill2', 'calc2', 'gapDesc2', i2BaseAvg + ss, cost, nettoInput);
+        setRes('resP3', 'pill3', 'calc3', 'gapDesc3', i3Avg + ss, cost, nettoInput);
     }
 
-    function renderBar(akI, fI, sI, gI, lI, totalBase, sV, max, cost, tak) {
-        const akVal = Math.min(totalBase, tak);
-        const fackVal = Math.max(0, totalBase - tak);
-        const akP = (akVal / max) * 100, fP = (fackVal / max) * 100, sP = (sV / max) * 100;
+    function renderBar(akI, fI, sI, gI, lI, akVal, fackVal, safeVal, max, cost) {
+        const akP = (akVal / max) * 100, fP = (fackVal / max) * 100, sP = (safeVal / max) * 100;
+        const totalIn = akVal + fackVal + safeVal;
         const totalP = akP + fP + sP;
 
         const elAk = document.getElementById(akI);
         elAk.style.width = akP + "%";
         elAk.setAttribute('data-tooltip', `A-kassa: ${Math.round(akVal).toLocaleString()} kr`);
         elAk.innerText = akP > 15 ? "AK" : "";
+        
         const fEl = document.getElementById(fI);
         fEl.style.width = fP + "%";
         fEl.style.display = fackVal > 0 ? "flex" : "none";
         fEl.setAttribute('data-tooltip', `Facket: ${Math.round(fackVal).toLocaleString()} kr`);
         fEl.innerText = fP > 15 ? "FACK" : "";
+
         const sEl = document.getElementById(sI);
         sEl.style.width = sP + "%";
-        sEl.style.display = sV > 0 ? "flex" : "none";
-        sEl.setAttribute('data-tooltip', `Sitt Säkert: ${sV.toLocaleString()} kr`);
+        sEl.style.display = safeVal > 0 ? "flex" : "none";
+        sEl.setAttribute('data-tooltip', `Sitt Säkert: ${safeVal.toLocaleString()} kr`);
         sEl.innerText = sP > 10 ? "SS" : "";
+        
         const elGap = document.getElementById(gI);
         elGap.style.width = Math.max(0, 100 - totalP) + "%";
-        elGap.setAttribute('data-tooltip', `Inkomstgap: ${Math.round(max - (totalBase + sV)).toLocaleString()} kr`);
+        elGap.setAttribute('data-tooltip', `Inkomstgap: ${Math.round(max - totalIn).toLocaleString()} kr`);
         elGap.innerText = (100 - totalP > 8) ? "GAP" : "";
         document.getElementById(lI).style.left = (cost / max * 100) + "%";
     }
