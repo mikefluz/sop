@@ -163,7 +163,7 @@ table.fd td{padding:8px 0}
    <div class="blk"><h4>Köpeskilling &amp; finansiering</h4><table><tr><td>Köpeskilling</td><td id="okks"></td></tr><tr><td>Lånebelopp</td><td id="okm"></td></tr><tr class="sub"><td>Kontantinsats</td><td id="okki"></td></tr></table></div>
    <div class="blk"><h4>Datum</h4><table><tr><td id="dh"></td><td id="dhv"></td></tr><tr><td>Tillträdesdag</td><td id="oktr"></td></tr><tr class="sub"><td id="do"></td><td id="dov"></td></tr></table></div>
    <div class="blk"><h4>Belåningsgrad</h4><table><tr><td>LTV för ansökan · styr räntan</td><td id="lv1"></td></tr><tr><td>LTV i systemet (AMGV) · styr amortering</td><td id="lv2"></td></tr><tr class="sub"><td>Avvikelse</td><td id="lv3"></td></tr></table></div>
-   <div class="blk"><h4>Önskade lån</h4><table><tr><td>Önskat handpenningslån</td><td id="oh"></td></tr><tr><td>Önskat brygglån</td><td id="oo"></td></tr><tr class="sub"><td>Summa</td><td id="os"></td></tr></table></div>
+   <div class="blk"><h4>Önskade lån</h4><table><tr><td>Önskat handpenningslån</td><td id="oh"></td></tr><tr class="sub"><td>Önskat brygglån</td><td id="oo"></td></tr></table></div>
   </div>
  </div>
  <div class="tp bd">
@@ -291,7 +291,7 @@ table.fd td{padding:8px 0}
 
 <div class="modalbg" id="editModal" style="display:none">
  <div class="modal" role="dialog" aria-modal="true" aria-label="Redigera grunduppgifter">
-  <div class="mhd">Redigera grunduppgifter<button id="editClose" aria-label="Stäng">✕</button></div>
+  <div class="mhd">Redigera grunduppgifter</div>
   <div class="mbd">
    <label class="f"><span>Köpeskilling</span><div class="in"><input id="mKS" inputmode="numeric"><i>kr</i></div></label>
    <label class="f"><span>AMGV (amorteringsgrundande värde)</span><div class="in"><input id="mMV" inputmode="numeric"><i>kr</i></div></label>
@@ -318,7 +318,7 @@ const PR={
 '10 år':{mb:0,br:[{max:65,l:5.72,r:0.72},{max:75,l:5.72,r:0.65},{max:80,l:5.72,r:0.52},{max:90,l:5.72,r:0.40}]}};
 const BT=Object.keys(PR),ltvBr=ltv=>ltv<=65?0:ltv<=75?1:ltv<=80?2:3,
 prc=v=>{const q=PR[v],ltv=KS?M/KS*100:0,br=q.br[ltvBr(ltv)],floor=Math.round((br.l-br.r)*100)/100,p=Math.round((floor-STD)*100)/100;return{l:br.l,p,r:br.r,mb:q.mb,lo:Math.round((p-.3-q.mb/100)*100)/100,hi:br.l}},MAXD=5;
-const AP=[{n:'Stefan Danieli',ag:'41',inc:'40 000',sav:'250 000',si:'8000',sl:'2000000'}];
+const AP=[{n:'Ny låntagare',ag:'41',inc:'40 000',sav:'250 000',si:'8000',sl:'2000000',io:false,il:false}];
 const AGB=[[18,25],[26,30],[31,35],[36,40],[41,45],[46,50],[51,55],[56,60],[61,65]];
 const LIVP=[[51,76,102,127,153],[55,83,110,138,165],[65,97,130,162,195],[75,112,149,186,224],[117,176,235,293,352],[165,247,329,411,494],[311,467,623,778,934],[566,849,1132,1415,1698],[1097,1645,2193,2742,3290]];
 const LIVA=[1000000,1500000,2000000,2500000,3000000];
@@ -334,10 +334,10 @@ $('apwrap').innerHTML=AP.map((a,i)=>`<div class="del"><div class="top"><span cla
 <label class="f"><span>Månadsinkomst</span><div class="in"><input id="ai${i}" value="${a.inc}" inputmode="numeric"><i>kr</i></div></label>
 <label class="f"><span>Sparande</span><div class="in"><input id="as${i}" value="${a.sav}" inputmode="numeric"><i>kr</i></div></label></div>
 <div class="seclbl">Försäkringar</div>
-<div class="row"><div class="n"><input type="checkbox" id="ic${i}" ${a.io===false?'':'checked'}><div>Sitt Säkert Inkomst<small id="vi${i}"></small></div></div>
+<div class="row"><div class="n"><input type="checkbox" id="ic${i}" ${a.io?'checked':''}><div>Sitt Säkert Inkomst<small id="vi${i}"></small></div></div>
 <label class="in sel" style="width:210px"><select id="si${i}" aria-label="Ersättningsbelopp Sitt Säkert Inkomst"><option value="2000">Ersättning 2 000 kr/mån</option><option value="5000">Ersättning 5 000 kr/mån</option><option value="8000">Ersättning 8 000 kr/mån</option><option value="11000">Ersättning 11 000 kr/mån</option><option value="14000">Ersättning 14 000 kr/mån</option></select></label>
 <div class="p" style="min-width:90px"><b id="ci${i}"></b></div></div>
-<div class="row"><div class="n"><input type="checkbox" id="lc${i}" ${a.il===false?'':'checked'}><div>Sitt Säkert Liv<small id="vl${i}"></small></div></div>
+<div class="row"><div class="n"><input type="checkbox" id="lc${i}" ${a.il?'checked':''}><div>Sitt Säkert Liv<small id="vl${i}"></small></div></div>
 <label class="in sel" style="width:210px"><select id="sl${i}" aria-label="Ersättningsbelopp Sitt Säkert Liv"><option value="1000000">Ersättning 1 000 000 kr</option><option value="1500000">Ersättning 1 500 000 kr</option><option value="2000000">Ersättning 2 000 000 kr</option><option value="2500000">Ersättning 2 500 000 kr</option><option value="3000000">Ersättning 3 000 000 kr</option></select></label>
 <div class="p" style="min-width:90px"><b id="cl${i}"></b></div></div>
 </div></div>`).join('')+`<button class="cp" id="addap" ${AP.length>=6?'disabled':''} style="width:100%;margin-top:10px;padding:8px;border-style:dashed;border-radius:6px">+ Lägg till låntagare</button>`;
@@ -372,7 +372,7 @@ function calc(){
  const T=(a,b)=>{$(a).textContent=fmt(b)+' kr'};let f=0,hhi=0,hhs=0,totI=0,totL=0,insRev=0,totVI=0,totVL=0,ageOk=true;
  AP.forEach((a,k)=>{a.n=$('an'+k).value;a.ag=$('aa'+k).value;a.inc=$('ai'+k).value;a.sav=$('as'+k).value;a.si=$('si'+k).value;a.sl=$('sl'+k).value;
   $('av'+k).textContent=initials(a.n);$('nm'+k).textContent=a.n;
-  const oi=$('ic'+k).checked,ol=$('lc'+k).checked,ci=oi?priceLookup(INKP,INKA,num(a.ag),num(a.si)):0,cl=ol?priceLookup(LIVP,LIVA,num(a.ag),num(a.sl)):0,vi=oi?num(a.si)*1220/15000:0,vl=ol?num(a.sl)*270/1e6:0;a.io=oi;a.il=ol;if((oi||ol)&&(num(a.ag)<18||num(a.ag)>65))ageOk=false;
+  const oi=$('ic'+k).checked,ol=$('lc'+k).checked,ci=oi?priceLookup(INKP,INKA,num(a.ag),num(a.si)):0,cl=ol?priceLookup(LIVP,LIVA,num(a.ag),num(a.sl)):0,vi=oi?1220:0,vl=ol?270:0;a.io=oi;a.il=ol;if((oi||ol)&&(num(a.ag)<18||num(a.ag)>65))ageOk=false;
   $('ci'+k).textContent=fmt(ci)+' kr/mån';$('cl'+k).textContent=fmt(cl)+' kr/mån';
   $('vi'+k).textContent='Vår intäkt '+fmt(vi)+' kr år 1';$('vl'+k).textContent='Vår intäkt '+fmt(vl)+' kr år 1';
   f+=ci+cl;insRev+=vi+vl;totVI+=vi;totVL+=vl;totI+=ci;totL+=cl;hhi+=num(a.inc);hhs+=num(a.sav)});
@@ -407,7 +407,7 @@ dl.forEach((x,k)=>{const earn=x.a*x.m/100;T('fda'+k,x.a);if(document.activeEleme
  const BRYT=Date.UTC(new Date(TILL).getUTCFullYear(),new Date(TILL).getUTCMonth()+1,27),UTB=dt($('hu').value)||Date.UTC(2027,1,20),LOS=dt($('ou').value)||Date.UTC(2027,3,6),hd=Math.round((TILL-UTB)/DAY),od=Math.round((LOS-TILL)/DAY),hc=$('hc').checked,oc=$('oc').checked,hb=num($('hb').value),ob=num($('ob').value),hv=hc?hb:0,ov=oc?ob:0,hrb=num($('hr').value),
  hI=hv*(LP-hrb)/100*hd/360,hR=hv*(LP-hrb-num($('hp').value))/100*hd/360,oR=ov*(LP-num($('or').value)-num($('op').value))/100*od/360;
  $('dh').textContent='Utbetalning HPL ('+hd+' dagar)';$('dhv').textContent=ymd(UTB);$('do').textContent='Lösendag ÖBL ('+od+' dagar)';$('dov').textContent=ymd(LOS);$('hdg').textContent=hd+' dagar';$('odg').textContent=od+' dagar';
- $('oh').textContent=hc?fmt(hb)+' kr':'–';$('oo').textContent=oc?fmt(ob)+' kr':'–';T('os',hv+ov);
+ $('oh').textContent=hc?fmt(hb)+' kr':'–';$('oo').textContent=oc?fmt(ob)+' kr':'–';
 T('fdah',hv);T('fdao',ov);T('fdeh',hR);T('fdeo',oR);
 if(document.activeElement!==$('frh'))$('frh').value=pc(LP-num($('hr').value));
 if(document.activeElement!==$('fro'))$('fro').value=pc(LP-num($('or').value));
@@ -440,9 +440,7 @@ let mvTouched=false,mmTouched=false;
 function openEdit(){$('mKS').value=fmt(KS);$('mMV').value=fmt(MV);mvTouched=false;mmTouched=false;$('mM').value=fmt(M);$('mKI').textContent=fmt(KS-M)+' kr';$('mHu').value=$('hu').value;$('mTill').value=ymd(TILL);$('mOu').value=$('ou').value;$('editModal').style.display='flex'}
 function closeEdit(){$('editModal').style.display='none'}
 $('editbtn').addEventListener('click',openEdit);
-$('editClose').addEventListener('click',closeEdit);
 $('editCancel').addEventListener('click',closeEdit);
-$('editModal').addEventListener('click',e=>{if(e.target.id=='editModal')closeEdit()});
 $('mKS').addEventListener('input',()=>{fmtInput($('mKS'));if(!mvTouched)$('mMV').value=$('mKS').value;if(!mmTouched)$('mM').value=fmt(Math.round(num($('mKS').value)*.9));$('mKI').textContent=fmt(num($('mKS').value)-num($('mM').value))+' kr'});
 $('mMV').addEventListener('input',()=>{mvTouched=true});
 $('mM').addEventListener('input',()=>{mmTouched=true;$('mKI').textContent=fmt(num($('mKS').value)-num($('mM').value))+' kr'});
@@ -478,7 +476,7 @@ if(rm&&D.length>1){sync();const ri=+rm.dataset.rm,rem=num(D[ri].a);D.splice(ri,1
 if(e.target.closest('#addb')&&D.length<MAXD){sync();const rest=Math.max(0,M-D.reduce((x,d)=>x+num(d.a),0)),r=PR['3 mån'].p+STD;D.push({a:fmt(rest),b:'3 mån',r:pc(r),c:pc(r+.25)});render();calc();return}
 const arm=e.target.closest('[data-arm]');
 if(arm&&AP.length>1){AP.splice(+arm.dataset.arm,1);renderAP();calc();return}
-if(e.target.closest('#addap')&&AP.length<6){AP.push({n:'Ny låntagare',ag:'',inc:'0',sav:'0',si:'2000',sl:'1000000'});renderAP();calc()}});
+if(e.target.closest('#addap')&&AP.length<6){AP.push({n:'Ny låntagare',ag:'',inc:'0',sav:'0',si:'2000',sl:'1000000',io:false,il:false});renderAP();calc()}});
 </script>
 </body>
 </html>
