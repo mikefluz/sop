@@ -167,12 +167,12 @@ table.fd td{padding:8px 0}
   </div>
  </div>
  <div class="tp bd">
-  <div class="blk" style="margin-top:0px"><h4><label style="display:flex;gap:8px;align-items:center"><input id="hc" type="checkbox" checked style="accent-color:var(--bl)">Handpenningslån (HPL)</label><span style="color:var(--mu);font-weight:400" id="hdg">31 dagar</span></h4>
+  <div class="blk" style="margin-top:0px"><h4><label style="display:flex;gap:8px;align-items:center"><input id="hc" type="checkbox" style="accent-color:var(--bl)">Handpenningslån (HPL)</label><span style="color:var(--mu);font-weight:400" id="hdg">31 dagar</span></h4>
    <div class="g g3"><label class="f"><span>Belopp</span><div class="in"><input id="hb" value="0" inputmode="numeric"><i>kr</i></div></label><label class="f"><span>Produktionspris</span><div class="in"><input id="hp" value="4,50" inputmode="decimal"><i>%</i></div></label><label class="f"><span>Rabatt</span><div class="in"><input id="hr" value="0,00" inputmode="decimal"><i>%</i></div></label></div>
    <div class="g g3" style="margin-top:10px"><label class="f"><span>Utbetalningsdag</span><div class="in"><input id="hu" type="date" value="2027-02-20" max="2027-03-22"></div></label></div>
    <p class="note" style="margin-top:8px">Standard: 10 % av köpeskillingen.</p></div>
-  <div class="blk" style="margin-top:10px"><h4><label style="display:flex;gap:8px;align-items:center"><input id="oc" type="checkbox" checked style="accent-color:var(--bl)">Överbryggningslån (ÖBL)</label><span style="color:var(--mu);font-weight:400" id="odg">14 dagar</span></h4>
-   <div class="g g3"><label class="f"><span>Belopp</span><div class="in"><input id="ob" value="0" inputmode="numeric"><i>kr</i></div></label><label class="f"><span>Produktionspris</span><div class="in"><input id="op" value="4,50" inputmode="decimal"><i>%</i></div></label><label class="f"><span>Rabatt</span><div class="in"><input id="or" value="0,50" inputmode="decimal"><i>%</i></div></label></div>
+  <div class="blk" style="margin-top:10px"><h4><label style="display:flex;gap:8px;align-items:center"><input id="oc" type="checkbox" style="accent-color:var(--bl)">Överbryggningslån (ÖBL)</label><span style="color:var(--mu);font-weight:400" id="odg">14 dagar</span></h4>
+   <div class="g g3"><label class="f"><span>Belopp</span><div class="in"><input id="ob" value="0" inputmode="numeric"><i>kr</i></div></label><label class="f"><span>Produktionspris</span><div class="in"><input id="op" value="4,50" inputmode="decimal"><i>%</i></div></label><label class="f"><span>Rabatt</span><div class="in"><input id="or" value="0,00" inputmode="decimal"><i>%</i></div></label></div>
    <div class="g g3" style="margin-top:10px"><label class="f"><span>Lösendag</span><div class="in"><input id="ou" type="date" value="2027-04-06" min="2027-03-24"></div></label></div>
    <p class="note" style="margin-top:8px">Standard: hela kontantinsatsen (köpeskilling minus lånebelopp). Handpenningslånet bakas in i bryggan när det betalas ut.</p></div>
   <p class="note">Listpris 5,50 %. Kundens ränta är listpris minus rabatt. Utbetalningsdag och lösendag anges här och visas under Datum i Objekt &amp; ansökan. Tillträdesdag hämtas från Salesforce. Marginal beräknas enligt 360-dagarsmetoden.</p>
@@ -219,7 +219,7 @@ table.fd td{padding:8px 0}
   </div>
   <p class="note" id="amn" style="margin-top:6px"></p>
   <div class="seclbl">Jämförelse</div>
-  <table class="cmp" style="margin-top:0"><tr><th>Jämförelse</th><th>Vårt förslag</th><th>Konkurrent</th></tr><tr><td>Viktad ränta</td><td id="w1"></td><td id="w2"></td></tr><tr><td>Räntekostnad / mån</td><td id="x1"></td><td id="x2"></td></tr><tr><td>Amortering / mån</td><td id="am1"></td><td id="am2"></td></tr><tr><td>Sitt Säkert Inkomst / mån</td><td id="i1"></td><td id="i2"></td></tr><tr><td>Sitt Säkert Liv / mån</td><td id="l1"></td><td id="l2"></td></tr><tr class="sub"><td>Total månadskostnad före ränteavdrag</td><td id="t1"></td><td id="t2"></td></tr><tr><td>Ränteavdrag / mån</td><td id="ra1"></td><td id="ra2"></td></tr><tr class="sub"><td>Total månadskostnad efter ränteavdrag</td><td id="y1"></td><td id="y2"></td></tr></table>
+  <table class="cmp" style="margin-top:0"><tr><th>Jämförelse</th><th>Vårt förslag</th><th>Konkurrent</th></tr><tr><td>Viktad ränta</td><td id="w1"></td><td id="w2"></td></tr><tr><td>Räntekostnad / mån</td><td id="x1"></td><td id="x2"></td></tr><tr><td>Amortering / mån</td><td id="am1"></td><td id="am2"></td></tr><tr class="sub"><td>Total månadskostnad före ränteavdrag</td><td id="t1"></td><td id="t2"></td></tr><tr><td>Sitt Säkert</td><td id="sr1"></td><td id="sr2"></td></tr><tr class="sub"><td>Total månadskostnad före ränteavdrag (inkl. Sitt Säkert)</td><td id="ti1"></td><td id="ti2"></td></tr><tr><td>Ränteavdrag / mån</td><td id="ra1"></td><td id="ra2"></td></tr><tr class="sub"><td>Total månadskostnad efter ränteavdrag</td><td id="y1"></td><td id="y2"></td></tr><tr class="sub"><td>Total månadskostnad efter ränteavdrag (inkl. Sitt Säkert)</td><td id="yi1"></td><td id="yi2"></td></tr></table>
   <div class="tot" id="tt"><span id="dd"></span><span style="text-align:right"><b id="sv"></b><small id="sv2" style="display:block;font-size:11px;font-weight:500"></small></span></div>
   <p class="note">Ränteavdrag: 30 % på de första 100 000 kr ränta per år, 21 % därefter. Amortering och försäkringar antas lika hos konkurrenten. Konkurrentens ränta eller en exempelränta anges i fliken Ränta &amp; marginal.</p>
  </div>
@@ -256,7 +256,8 @@ table.fd td{padding:8px 0}
   <tbody id="fdrows"></tbody>
   <tr><td>Handpenningslån (HPL)</td><td id="fdah"></td><td><div class="in fdi"><input id="frh" value="" inputmode="decimal"><i>%</i></div></td><td id="fdeh"></td></tr>
   <tr><td>Överbryggningslån (ÖBL)</td><td id="fdao"></td><td><div class="in fdi"><input id="fro" value="" inputmode="decimal"><i>%</i></div></td><td id="fdeo"></td></tr>
-  <tr class="sub"><td colspan="3">Summa lån, första året</td><td id="fdtot"></td></tr></table>
+  <tr class="sub"><td colspan="3">Summa lån, första året</td><td id="fdtot"></td></tr>
+  <tr class="sub"><td colspan="3">Summa lån + försäkringar, första året</td><td id="fdtot2"></td></tr></table>
   <p class="note" id="fdins" style="margin-top:8px"></p>
  </div>
 </section>
@@ -400,7 +401,7 @@ dl.forEach((x,k)=>{const earn=x.a*x.m/100;T('fda'+k,x.a);if(document.activeEleme
  $('m1').textContent=fmt(im+am+f)+' kr/mån';$('m1d').textContent=`Ränta ${fmt(im)} · Amortering ${fmt(am)} · Försäkring ${fmt(f)}`;
  $('m2').textContent=fmt(ia+am+f)+' kr/mån';$('m2d').textContent=`Ränta efter skatt ${fmt(ia)} · Amortering ${fmt(am)} · Försäkring ${fmt(f)}`;
  $('w1').textContent=pc(I/A*100)+' %';$('w2').textContent=pc(C/A*100)+' %';
- T('x1',im);T('x2',cm);T('am1',am);T('am2',am);T('i1',totI);T('i2',totI);T('l1',totL);T('l2',totL);T('t1',im+am+f);T('t2',cm+am+f);T('ra1',ia-im);T('ra2',ca-cm);T('y1',ia+am+f);T('y2',ca+am+f);
+ T('x1',im);T('x2',cm);T('am1',am);T('am2',am);T('t1',im+am);T('t2',cm+am);T('sr1',f);T('ti1',im+am+f);T('ra1',ia-im);T('ra2',ca-cm);T('y1',ia+am);T('y2',ca+am);T('yi1',ia+am+f);['sr2','ti2','yi2'].forEach(k=>$(k).textContent='–');
  const d1=cm-im,d2=ca-ia,rd=Math.round(d1),good=rd>=0;
  $('dd').textContent=rd>0?'Vårt förslag är billigare per månad':rd<0?'Vårt förslag är dyrare per månad':'Lika kostnad per månad';$('tt').className='tot'+(good?'':' bad');['x1','t1','y1'].forEach(k=>$(k).style.color=good?'var(--tl)':'var(--rd)');
  $('sv').textContent=fmt(Math.abs(d1))+' kr/mån';$('sv2').textContent='Efter ränteavdrag: '+fmt(Math.abs(d2))+' kr/mån';
@@ -420,7 +421,7 @@ if(document.activeElement!==$('fro'))$('fro').value=pc(LP-num($('or').value));
  $('fp').textContent=ymd(TILL)+' – '+ymd(BRYT);$('fd').textContent=(BRYT-TILL)/DAY+' dagar · brytdatum den 27:e';$('f2l').textContent='Ränta handpenningslån ('+hd+' dagar)';
  T('f1',am);T('f2',hI);on?(T('f3',lt),T('f4',pt)):($('f3').textContent=$('f4').textContent='Ej aktuellt');T('f5',ft);T('ft',ft);
  const ib=dl.map(x=>x.a*x.m/100),IB=ib.reduce((x,y)=>x+y,0),IH=hR+oR,IF=insRev,IT=IB+IH+IF,sh=x=>IT?((x/IT*100).toFixed(1).replace('.',',')+' %'):'0,0 %';
- T('fdtot',IB+IH);$('fdins').textContent='Försäkringsintäkten ('+fmt(IF)+' kr) ingår inte här eftersom den inte styrs via räntan. Total intjäning första året inklusive försäkringar: '+fmt(IT)+' kr (se Sammanställning).';
+ T('fdtot',IB+IH);T('fdtot2',IT);$('fdins').textContent='Försäkringsintäkten ('+fmt(IF)+' kr) styrs inte via räntan och ingår därför inte i "Summa lån".';
  dl.forEach((x,k)=>{$('rl'+k).textContent='Del '+(k+1)+' · '+fmt(x.a)+' kr';T('rb'+k,ib[k])});
  T('rbs',IB);$('rhl').textContent='HPL · '+hd+' dagar';$('rol').textContent='ÖBL · '+od+' dagar';T('rh',hR);T('ro',oR);T('rhs',IH);T('rvi',totVI);T('rvl',totVL);T('rvs',IF);
  T('ps1',IB);T('ps2',IH);T('ps3',IF);$('pa1').textContent=sh(IB);$('pa2').textContent=sh(IH);$('pa3').textContent=sh(IF);T('it',IT);T('sT',IT);
